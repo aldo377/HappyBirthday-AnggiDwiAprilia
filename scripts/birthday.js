@@ -1,75 +1,65 @@
 window.addEventListener("load", () => {
   Swal.fire({
-    title: "Putar musik pengiringnya?",
-    icon: "question",
+    title: "Nyalain musiknya ya sayang?",
+    icon: "heart",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Boleh banget!",
-    cancelButtonText: "Nggak usah",
+    confirmButtonText: "Iya, mau!",
+    cancelButtonText: "Gak usah",
   }).then((result) => {
-    if (result.isConfirmed) {
-      document.querySelector(".song").play();
-      animationTimeline();
-    } else {
-      animationTimeline();
-    }
+    if (result.isConfirmed) document.querySelector(".song").play();
+    startAnimation();
   });
 });
 
-const animationTimeline = () => {
-  const textBoxChars = document.getElementsByClassName("hbd-chatbox")[0];
-  const hbd = document.getElementsByClassName("wish-hbd")[0];
+function startAnimation() {
+  const tl = gsap.timeline();
 
-  textBoxChars.innerHTML = `<span>${textBoxChars.innerHTML.split("").join("</span><span>")}</span>`;
-  hbd.innerHTML = `<span>${hbd.innerHTML.split("").join("</span><span>")}</span>`;
+  tl.to(".container", { visibility: "visible" })
+    .from(".one", { opacity: 0, y: 20, duration: 1 })
+    .to(".one", { opacity: 0, y: -20, delay: 3 })
+    
+    // Scene Kado
+    .to(".gift-story", { display: "block" })
+    .from(".gift-story p", { opacity: 0, y: 20, stagger: 2 })
+    .to(".gift-story", { opacity: 0, delay: 2 })
 
-  const ideaTextTrans = { opacity: 0, y: -20, rotationX: 5, skewX: "15deg" };
-  const ideaTextTransLeave = { opacity: 0, y: 20, rotationY: 5, skewY: "-15deg" };
+    // Scene Portal SNBP (Biru)
+    .to("#portal", { display: "flex", backgroundColor: "#003366" })
+    .to("#portal-title", { text: "SELAMAT! ANDA DINYATAKAN LOLOS..." })
+    .to("#portal-msg", { text: "Lolos jadi yang tercantik di hati aku selamanya." })
+    .to("#portal", { opacity: 0, delay: 3, display: "none" })
 
-  const tl = new TimelineMax();
+    // Scene Portal UTBK (Merah)
+    .to("#portal", { display: "flex", backgroundColor: "#b30000", opacity: 1 })
+    .to("#portal-title", { text: "SEMANGAT UTBK 2026!" })
+    .to("#portal-msg", { text: "Mau merah atau biru, Allah pasti kasih yang terbaik buat kamu." })
+    .to("#portal", { opacity: 0, delay: 3, display: "none" })
 
-  tl.to(".container", 0.6, { visibility: "visible" })
-    .from(".one", 0.7, { opacity: 0, y: 10 })
-    .from(".two", 0.4, { opacity: 0, y: 10 })
-    .to(".one", 0.7, { opacity: 0, y: 10 }, "+=3.5")
-    .to(".two", 0.7, { opacity: 0, y: 10 }, "-=1")
-    .from(".three", 0.7, { opacity: 0, y: 10 })
-    .to(".three", 0.7, { opacity: 0, y: 10 }, "+=3")
-    .from(".four", 0.7, { scale: 0.2, opacity: 0 })
-    .from(".fake-btn", 0.3, { scale: 0.2, opacity: 0 })
-    .staggerTo(".hbd-chatbox span", 1.5, { visibility: "visible" }, 0.05)
-    .to(".fake-btn", 0.1, { backgroundColor: "rgb(127, 206, 248)" }, "+=4")
-    .to(".four", 0.5, { scale: 0.2, opacity: 0, y: -150 }, "+=1")
-    .from(".idea-1", 0.7, ideaTextTrans)
-    .to(".idea-1", 0.7, ideaTextTransLeave, "+=2.5")
-    .from(".idea-2", 0.7, ideaTextTrans)
-    .to(".idea-2", 0.7, ideaTextTransLeave, "+=2.5")
-    .from(".idea-3", 0.7, ideaTextTrans)
-    .to(".idea-3 strong", 0.5, { scale: 1.1, x: 10, backgroundColor: "rgb(21, 161, 237)", color: "#fff" })
-    .to(".idea-3", 0.7, ideaTextTransLeave, "+=2.5")
-    .from(".idea-4", 0.7, ideaTextTrans)
-    .to(".idea-4", 0.7, ideaTextTransLeave, "+=2.5")
-    .from(".idea-5", 0.7, { rotationX: 15, rotationZ: -10, skewY: "-5deg", y: 50, z: 10, opacity: 0 }, "+=1.5")
-    .to(".idea-5 span", 0.7, { rotation: 90, x: 8 }, "+=1.4")
-    .to(".idea-5", 0.7, { scale: 0.2, opacity: 0 }, "+=2")
+    // Full Screen Scroll Foto
+    .to(".full-screen-scroll", { display: "block", opacity: 1 })
+    .to(".scroll-track", { y: "-900vh", duration: 15, ease: "none" })
+    .to(".full-screen-scroll", { opacity: 0, display: "none" })
 
-    // ANIMASI GULIR 10 FOTO (FILM STRIP)
-    .to(".film-strip-box", 1, { opacity: 1, ease: Expo.easeInOut })
-    .to(".film-strip-box", 12, { opacity: 1 }) 
-    .to(".film-strip-box", 1, { opacity: 0, scale: 0.5, ease: Expo.easeInOut })
+    // Final Wish
+    .from(".six", { opacity: 0, scale: 0.8 })
+    .to(".six", { opacity: 0, delay: 5, display: "none" })
 
-    // BALON & PROFIL AKHIR
-    .staggerFromTo(".ballons img", 2.5, { opacity: 0.9, y: 1400 }, { opacity: 1, y: -1000 }, 0.2)
-    .from(".profile-picture", 0.5, { scale: 3.5, opacity: 0, x: 25, y: -25, rotationZ: -45 }, "-=2")
-    .from(".hat", 0.5, { x: -100, y: 350, rotation: -180, opacity: 0 })
-    .staggerFrom(".wish-hbd span", 0.7, { opacity: 0, y: -50, rotation: 150, skewX: "30deg", ease: Elastic.easeOut.config(1, 0.5) }, 0.1)
-    .staggerFromTo(".wish-hbd span", 0.7, { scale: 1.4, rotationY: 150 }, { scale: 1, rotationY: 0, color: "#ff69b4", ease: Expo.easeOut }, 0.1, "party")
-    .from(".wish-text", 0.5, { opacity: 0, y: 10, skewX: "-15deg" }, "party")
-    .staggerTo(".eight svg", 1.5, { visibility: "visible", opacity: 0, scale: 80, repeat: 3, repeatDelay: 1.4 }, 0.3)
-    .to(".six", 0.5, { opacity: 0, y: 30, zIndex: "-1" })
-    .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
-    .to(".last-smile", 0.5, { rotation: 90 }, "+=1");
+    // Animasi Maafan (Data Aldo & Gigiek)
+    .to(".stats-container", { display: "block", opacity: 1 })
+    .to({}, { 
+      duration: 2, 
+      onUpdate: function() {
+        const progress = this.progress();
+        const aldoVal = Math.floor(progress * 212);
+        const gigiekVal = Math.floor(progress * 93);
+        document.getElementById("count-aldo").innerText = aldoVal + "+";
+        document.getElementById("count-gigiek").innerText = "~" + gigiekVal;
+        document.getElementById("bar-aldo").style.width = (progress * 100) + "%";
+        document.getElementById("bar-gigiek").style.width = (progress * 44) + "%"; // Skala relatif
+      }
+    })
 
-  document.getElementById("replay").addEventListener("click", () => { tl.restart(); });
-};
+    .from(".nine", { opacity: 0, y: 20 });
+
+  document.getElementById("replay").addEventListener("click", () => tl.restart());
+}
