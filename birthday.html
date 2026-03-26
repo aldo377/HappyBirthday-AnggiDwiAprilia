@@ -1,128 +1,104 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;1,400&display=swap" rel="stylesheet">
+  <title>Spesial Buat Anggie Sayang</title>
   <link rel="stylesheet" href="./styles/style.css">
-  <title>Met Ultah, Anggie Sayang!!! :)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    body { background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }
-    .film-strip-box {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 250px; height: 350px; overflow: hidden; border: 8px solid white;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2); opacity: 0; z-index: 10; background: #000;
+    /* Background Animasi */
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      font-family: 'Poppins', sans-serif;
     }
-    .film-track { display: flex; flex-direction: column; animation: scrollPhotos 12s linear infinite; }
-    .film-track img { width: 100%; height: 350px; object-fit: cover; border-bottom: 4px solid #000; }
-    @keyframes scrollPhotos { 0% { transform: translateY(0); } 100% { transform: translateY(-3500px); } }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .full-screen-scroll {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      display: none; z-index: 100; background: #000;
+    }
+    .scroll-track img { width: 100%; height: 100vh; object-fit: cover; }
+    
+    /* Style Tabel Maafan */
+    .stats-container { display: none; text-align: center; padding: 20px; color: white; }
+    .stat-bar { background: rgba(255,255,255,0.2); border-radius: 10px; margin: 10px 0; overflow: hidden; }
+    .bar-fill { height: 20px; background: #ff69b4; width: 0%; }
+    
+    /* Mockup Portal */
+    .portal-scene {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #003366; color: white; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 200; text-align: center; padding: 20px;
+    }
+    .portal-blue { background: #003366; } /* SNBP Style */
+    .portal-red { background: #b30000; }  /* UTBK Style */
   </style>
 </head>
-
 <body>
-  <audio class="song" loop autoplay>
-    <source src="./music/hbd.mp3"></source>
-  </audio>
+  <audio class="song" loop><source src="./music/hbd.mp3"></audio>
 
   <div class="container">
     <div class="one">
       <h1 class="one">Hai 👋 <span id="name">Anggie</span></h1>
-      <p class="two" id="greetingText">Aku suka banget nama kamu, secantik orangnya!</p>
+      <p class="two">Aku suka banget nama kamu, secantik orangnya!</p>
     </div>
 
-    <div class="three">
-      <p>Hari ini hari spesial kamu lho!! 🎂</p>
+    <div class="gift-story" style="display:none;">
+      <p class="idea-1">Aku kepikiran ngasih kamu Cardigan...</p>
+      <p class="idea-2">Biar kamu ngerasa aku peluk terus, dan punya aku bisa kamu bawa kemana-mana.</p>
+      <p class="idea-3">TWS itu juga buat kamu...</p>
+      <p class="idea-4">Biar kamu bisa dengerin lagu favorit pas lagi pusing belajar, nemenin kamu kapanpun kamu butuh.</p>
     </div>
 
-    <div class="four">
-      <div class="text-box">
-        <p class="hbd-chatbox">
-          Semoga harimu seru banget ya hari ini, dan setahun ke depan penuh sama hal-hal baik. Semua doa dan cita-citamu dikabulin Tuhan!
-        </p>
-        <p class="fake-btn">Kirim Doa Kamu ke Aku 💖</p>
-      </div>
+    <div id="portal" class="portal-scene">
+      <h2 id="portal-title">PENGUMUMAN SELEKSI</h2>
+      <p id="portal-msg">Memproses masa depan kita...</p>
     </div>
 
-    <div class="five">
-      <p class="idea-1">Tadinya aku bingung mau kasih apa.</p>
-      <p class="idea-2">Terus aku mikir, <br /> "Kenapa nggak bikin sesuatu yang beda aja?"</p>
-      <p class="idea-3">Aku pengen bikin sesuatu yang bisa bikin kamu senyum. <br />
-        <strong>Sesuatu yang bikin kamu ngerasa spesial banget.</strong>
-      </p>
-      <p class="idea-4">Soalnya...</p>
-      <p class="idea-5">Kamu itu berharga banget buat aku. <span>💖</span></p>
-      
-      <div class="film-strip-box">
-        <div class="film-track">
-          <img src="img/slide1.jpg" alt="Memori 1">
-          <img src="img/slide2.jpg" alt="Memori 2">
-          <img src="img/slide3.jpg" alt="Memori 3">
-          <img src="img/slide4.jpg" alt="Memori 4">
-          <img src="img/slide5.jpg" alt="Memori 5">
-          <img src="img/slide6.jpg" alt="Memori 6">
-          <img src="img/slide7.jpg" alt="Memori 7">
-          <img src="img/slide8.jpg" alt="Memori 8">
-          <img src="img/slide9.jpg" alt="Memori 9">
-          <img src="img/slide10.jpg" alt="Memori 10">
-        </div>
+    <div class="full-screen-scroll">
+      <div class="scroll-track">
+        <img src="img/slide1.jpg"><img src="img/slide2.jpg"><img src="img/slide3.jpg">
+        <img src="img/slide4.jpg"><img src="img/slide5.jpg"><img src="img/slide6.jpg">
+        <img src="img/slide7.jpg"><img src="img/slide8.jpg"><img src="img/slide9.jpg">
+        <img src="img/slide10.jpg">
       </div>
     </div>
 
     <div class="six">
-      <img src="./img/ayang.jpg" alt="Ayanggg" class="profile-picture" id="imagePath" />
-      <img src="img/hat.svg" alt="Hat" class="hat" />
+      <img src="./img/ayang.jpg" alt="Ayanggg" class="profile-picture" />
       <div class="wish">
         <h3 class="wish-hbd">Selamat Ulang Tahun!</h3>
         <h5 class="wish-text">
-          "Apapun warnanya nanti, mau Biru (SNBP) atau Merah (UTBK), semoga kita tetap bareng ya. Walaupun nanti LDR, tetep jaga hati dan jaga jarak sama lawan jenis. I love you!"
+          "Semoga hadiah ini kamu terima dengan senang hati ya. Aku cuma mau kamu tau kalau aku bakal selalu support kamu, apa pun jalannya nanti. Tetap jadi Anggie yang aku kenal, semangat terus belajarnya!"
         </h5>
       </div>
     </div>
 
-    <div class="seven">
-      <div class="ballons">
-        <img src="img/ballon2.svg" alt="Ballon" /><img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" /><img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" /><img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" /><img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" /><img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" /><img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" /><img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" /><img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" /><img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" /><img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" /><img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" /><img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" /><img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" /><img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" /><img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" /><img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" /><img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" /><img src="img/ballon3.svg" alt="Ballon" />
-      </div>
-    </div>
-
-    <div class="eight">
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+    <div class="stats-container">
+      <h3>Statistik Kita (Jun 2025 - Mar 2026)</h3>
+      <p>Aldo Minta Maaf: <span id="count-aldo">0</span></p>
+      <div class="stat-bar"><div id="bar-aldo" class="bar-fill"></div></div>
+      <p>Gigiek Minta Maaf: <span id="count-gigiek">0</span></p>
+      <div class="stat-bar"><div id="bar-gigiek" class="bar-fill"></div></div>
+      <p><i>"Semoga kita terus saling memaafkan dan saling menguatkan ya."</i></p>
     </div>
 
     <div class="nine">
-      <p>Nah, sekarang kasih tau aku ya kalau kamu suka kadonya.</p>
-      <p id="replay">Klik di sini buat liat lagi.</p>
+      <p id="replay">Klik buat liat lagi kasih sayang aku.</p>
       <p class="last-smile">😊</p>
     </div>
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="./scripts/birthday.js"></script>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="application/javascript" src="./scripts/birthday.js"></script>
 </html>
