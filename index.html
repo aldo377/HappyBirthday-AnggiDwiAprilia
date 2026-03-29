@@ -5,194 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/style.css">
     <title>Kado Spesial Buat Anggie</title>
-    <style>
-        /* === CSS PRO (Jangan Dihapus) === */
-        body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; height: 100vh; overflow: hidden; }
-        .wrapper { display: flex; align-items: center; justify-content: center; height: 100%; position: relative; }
-        
-        /* Layar Utama: Menutupi Semua */
-        #game-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fab1a0; /* Warna soft */
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 1000; text-align: center;
-            opacity: 1; transition: opacity 0.5s;
-        }
-
-        /* Pesan Welcome */
-        #welcome-screen { padding: 30px; }
-        #welcome-screen h1 { font-size: 2.5em; color: white; margin-bottom: 10px; }
-        #welcome-screen p { color: #57606f; margin-bottom: 20px; }
-
-        /* Game Canvas */
-        canvas { 
-            border: 2px solid white; border-radius: 10px; 
-            background: #70c5ce; display: none; cursor: pointer;
-        }
-
-        /* Form Login (Tersembunyi Awal) */
-        #login-area { 
-            background: white; padding: 40px; border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;
-            display: none; z-index: 999;
-        }
-        #login-area h2 { color: #2c3e50; }
-        #pinInput { 
-            padding: 15px; width: 200px; font-size: 1.2em;
-            border: 2px solid #ddd; border-radius: 5px; text-align: center; margin: 15px 0;
-        }
-
-        /* Tombol Pro */
-        .btn-pro {
-            padding: 12px 30px; font-size: 1em; font-weight: bold;
-            color: white; border: none; border-radius: 25px; cursor: pointer;
-            transition: background 0.3s;
-        }
-        #startBtn { background: #ff7675; } #startBtn:hover { background: #ff5252; }
-        #loginBtn { background: #ff7675; } #loginBtn:hover { background: #ff5252; }
-    </style>
 </head>
 <body>
-
-    <div id="game-overlay">
-        <div id="welcome-screen">
-            <h1>Halo Sayang! ❤️</h1>
-            <p>Mau liat websitenya? Eits, nggak gampang dong... Selesaikan game simple ini dulu yah!</p>
-            <p>Dapetin <b>Skor 10</b> pake muka kamu sendiri!</p>
-            <button id="startBtn" class="btn-pro" onclick="startGame()">Mulai Game 🚀</button>
-        </div>
-
-        <canvas id="flappyCanvas" width="320" height="480"></canvas>
+    <div class="login_container">
+        <h2>Hi 👋 Anggie, masukin PIN dulu yuk</h2>
+        <form id="loginForm" class="login_form">
+            <input type="password" id="pinInput" placeholder="Masukkan 6 Digit PIN" required />
+            <button type="submit" id="loginBtn">Buka Kado 🎁</button>
+        </form>
+        <p class="login_description">
+            pssttt, PIN-nya berhubungan sama tanggal lahir kamu ya!
+        </p>
     </div>
 
-    <div class="wrapper">
-        <div id="login-area">
-            <h2>Hii 👋 Anggie, masukin PIN dulu yuk</h2>
-            <p>PIN-nya berhubungan sama tanggal lahir kamu ya!</p>
-            <form id="loginForm">
-                <input type="password" id="pinInput" placeholder="6 Digit PIN" maxlength="6" required />
-                <button type="submit" id="loginBtn" class="btn-pro">Buka Kado 🎁</button>
-            </form>
-        </div>
-    </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>	
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
-        // === LOGIKA GAME (Jauh Lebih Panjang & Pro) ===
-        const canvas = document.getElementById("flappyCanvas");
-        const ctx = canvas.getContext("2d");
-        const overlay = document.getElementById("game-overlay");
-        const welcomeScreen = document.getElementById("welcome-screen");
-        const loginArea = document.getElementById("login-area");
-
-        // --- KONFIGURASI GAME ---
-        let birdImg = new Image();
-        // === PASTIKAN KAMU SIMPAN FOTO MUKA ANGGIE DENGAN NAMA INI DI GitHub ===
-        birdImg.src = "./anggie_face.png"; 
-
-        let bird = { x: 50, y: 150, w: 45, h: 45, gravity: 0.25, jump: 4.6, velocity: 0, rotation: 0 };
-        let pipes = [];
-        let frames = 0;
-        let score = 0;
-        let gameRunning = false;
-
-        // --- FUNGSI UTAMA ---
-        function startGame() {
-            welcomeScreen.style.display = "none";
-            canvas.style.display = "block";
-            gameRunning = true;
-            pipes = []; score = 0; frames = 0; bird.y = 150; // Reset
-            loop();
-        }
-
-        function loop() {
-            if (!gameRunning) return;
-            // Draw Langit
-            ctx.fillStyle = "#70c5ce"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Bird Logic
-            bird.velocity += bird.gravity;
-            bird.y += bird.velocity;
-            
-            // Animasi Rotasi Muka
-            if (bird.velocity >= bird.jump) bird.rotation = 90 * Math.PI/180;
-            else bird.rotation = -25 * Math.PI/180;
-
-            ctx.save(); ctx.translate(bird.x, bird.y); ctx.rotate(bird.rotation);
-            ctx.drawImage(birdImg, -bird.w/2, -bird.h/2, bird.w, bird.h); ctx.restore();
-
-            // Pipe Logic
-            if (frames % 100 === 0) {
-                let h = Math.random() * (canvas.height / 2);
-                pipes.push({ x: canvas.width, top: h, bottom: h + 120 });
-            }
-
-            for(let i = pipes.length - 1; i >= 0; i--) {
-                let p = pipes[i]; p.x -= 2;
-                // Draw Pipa
-                ctx.fillStyle = "#2ecc71";
-                ctx.fillRect(p.x, 0, 50, p.top); ctx.fillRect(p.x, p.bottom, 50, canvas.height);
-
-                // Collision Detection
-                if (bird.y - bird.h/2 < 0 || bird.y + bird.h/2 > canvas.height || 
-                   (bird.x + bird.w/2 > p.x && bird.x - bird.w/2 < p.x + 50 && (bird.y - bird.h/2 < p.top || bird.y + bird.h/2 > p.bottom))) {
-                    resetGame();
-                }
-                
-                // Skor
-                if (p.x + 50 < bird.x && !p.scored) { score++; p.scored = true; checkWin(); }
-                if (p.x + 50 < 0) pipes.splice(i, 1);
-            }
-
-            // Draw Skor
-            ctx.fillStyle = "white"; ctx.strokeStyle = "black"; ctx.font = "35px Poppins"; ctx.textAlign = "center";
-            ctx.fillText(score, canvas.width/2, 50); ctx.strokeText(score, canvas.width/2, 50);
-
-            frames++;
-            requestAnimationFrame(loop);
-        }
-
-        // --- WIN LOGIC (Pindah ke Form PIN) ---
-        function checkWin() {
-            if (score >= 10) {
-                gameRunning = false;
-                Swal.fire({
-                    title: "MISI SELESAI! 🏆",
-                    text: "Skill kamu emang ngeri, sayang! Sekarang buka hadiahnya...",
-                    icon: "success",
-                    confirmButtonText: "Buka PIN 🎁"
-                }).then(() => {
-                    // Transisi halus
-                    overlay.style.opacity = "0";
-                    setTimeout(() => {
-                        overlay.style.display = "none";
-                        loginArea.style.display = "block";
-                        canvas.style.display = "none";
-                    }, 500);
-                });
-            }
-        }
-
-        function resetGame() {
-            Swal.fire({ title: "OUCH! Nabrak! ❌", text: "Tenang sayang, coba lagi ya!", icon: "error" }).then(() => { startGame(); });
-        }
-
-        // Kontrol Tap/Klik/Spasi
-        window.addEventListener("mousedown", () => { if (gameRunning) bird.velocity = -bird.jump; });
-        canvas.addEventListener("touchstart", (e) => { e.preventDefault(); if (gameRunning) bird.velocity = -bird.jump; }, {passive: false});
-
-        // === LOGIKA PIN RAHASIA (Gak Berubah) ===
+        // SCRIPT PIN LANGSUNG DI SINI (Gantiin index.js yang terhapus)
         document.getElementById("loginForm").addEventListener("submit", function (e) {
           e.preventDefault();
           var pinInput = document.getElementById("pinInput").value;
-          // PIN: 200408 (Tanggal Lahir)
+
           if (pinInput === "200408") {
-            Swal.fire({ icon: "success", title: "PIN Benar! 🎉", text: "Selamat ulang tahun sayang!", showConfirmButton: false, timer: 2000 })
-            .then(() => { window.location.href = "birthday.html"; });
+            Swal.fire({
+              icon: "success",
+              title: "PIN Benar! 🎉",
+              text: "Selamat ulang tahun sayang!",
+              showConfirmButton: false,
+              timer: 2000,
+            }).then(function () {
+              window.location.href = "birthday.html";
+            });
           } else {
-            Swal.fire({ icon: "error", title: "PIN Salah! ❌", text: "Coba inget tanggal lahir kamu...", confirmButtonText: "Coba lagi" });
+            Swal.fire({
+              icon: "error",
+              title: "PIN Salah! ❌",
+              text: "Coba inget tanggal lahir kamu...",
+              confirmButtonText: "Coba lagi",
+              confirmButtonColor: "#ff7675",
+            });
             document.getElementById("pinInput").value = "";
           }
         });
