@@ -1,67 +1,41 @@
-/* ROMBAK TOTAL BY ALDO GANTENG - RESPONSIVE MODE */
+/* ROMBAK TOTAL ANTI BUG TATA LETAK */
 @keyframes animLand { 0% { background-position: 0px 0px; } 100% { background-position: -335px 0px; } }
 @keyframes animSky { 0% { background-position: 0px 100%; } 100% { background-position: -275px 100%; } }
 @keyframes animBird { from { background-position: 0px 0px; } to { background-position: 0px -96px; } }
-@keyframes animPipe { 0% { left: 110%; } 100% { left: -100px; } }
+@keyframes animPipe { 0% { left: 900px; } 100% { left: -100px; } }
 
-* { box-sizing: border-box; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+*, *:before, *:after { box-sizing: border-box; user-select: none; -webkit-touch-callout: none; }
 
-html, body {
-   height: 100%; width: 100%; overflow: hidden;
-   margin: 0; padding: 0; background-color: #4ec0ca;
-}
+html, body { height: 100%; width: 100%; overflow: hidden; font-family: monospace; }
 
-#gamecontainer {
-   position: relative; width: 100vw; height: 100vh;
-   display: flex; justify-content: center; align-items: center;
-}
+/* Bikin layarnya responsif tapi mentok 500px biar di Tab gak aneh */
+#gamecontainer { position: relative; width: 100vw; height: 100vh; display: flex; justify-content: center; background: #4ec0ca; }
+#gamescreen { position: relative; width: 100%; max-width: 500px; height: 100%; overflow: hidden; }
 
-#gamescreen {
-   position: relative; width: 100%; height: 100%;
-   max-width: 500px; /* Biar di Tablet gak terlalu lebar banget */
-   background-color: #4ec0ca; overflow: hidden;
-}
-
-#sky {
-   position: absolute; top: 0; width: 100%; height: 100%;
-   background-image: url('../assets/sky.png'); background-repeat: repeat-x;
-   background-position: 0px 100%; animation: animSky 7s linear infinite;
-}
-
+#sky { position: absolute; top: 0; width: 100%; height: 80%; background: url('../assets/sky.png') repeat-x 0px 100%; background-color: #4ec0ca; animation: animSky 7s linear infinite; }
 #flyarea { position: absolute; bottom: 0; height: 100%; width: 100%; }
+#ceiling { position: absolute; top: -16px; height: 16px; width: 100%; background: url('../assets/ceiling.png') repeat-x; }
+#land { position: absolute; bottom: 0; width: 100%; height: 20%; background: url('../assets/land.png') repeat-x 0px 0px; background-color: #ded895; z-index: 20; animation: animLand 2516ms linear infinite; }
 
-#land {
-   position: absolute; bottom: 0; width: 100%; height: 20%;
-   background-image: url('../assets/land.png'); background-repeat: repeat-x;
-   z-index: 20; animation: animLand 2.5s linear infinite;
-}
+/* Tengahin UI */
+#bigscore { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; }
+#bigscore img { padding: 1px; }
 
-/* UI DI TENGAHIN SEMUA */
-#bigscore { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); z-index: 100; }
-#splash { 
-   position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
-   width: 188px; height: 170px; background: url('../assets/splash.png') no-repeat;
-}
-#scoreboard {
-   position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
-   width: 236px; height: 280px; background: url('../assets/scoreboard.png') no-repeat;
-   z-index: 1000; display: none;
-}
-#replay { 
-   position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); 
-   cursor: pointer; z-index: 1001; 
-}
+#splash { position: absolute; opacity: 0; top: 30%; left: 50%; transform: translateX(-50%); width: 188px; height: 170px; background: url('../assets/splash.png') no-repeat; }
+#scoreboard { position: absolute; display: none; opacity: 0; top: 20%; left: 50%; transform: translateX(-50%); width: 236px; height: 280px; background: url('../assets/scoreboard.png') no-repeat; z-index: 1000; }
+#medal { position: absolute; opacity: 0; top: 114px; left: 32px; width: 44px; height: 44px; }
+#currentscore { position: absolute; top: 105px; left: 107px; width: 104px; height: 14px; text-align: right; }
+#currentscore img { padding-left: 2px; }
+#highscore { position: absolute; top: 147px; left: 107px; width: 104px; height: 14px; text-align: right; }
+#highscore img { padding-left: 2px; }
+#replay { position: absolute; opacity: 0; top: 205px; left: 50%; transform: translateX(-50%); height: 115px; width: 70px; cursor: pointer; }
 
-.bird {
-   position: absolute; width: 34px; height: 24px;
-   background-image: url('../assets/bird.png');
-   animation: animBird 300ms steps(4) infinite;
-}
-
-.pipe { position: absolute; width: 52px; height: 100%; z-index: 10; animation: animPipe 5s linear; }
-.pipe_upper, .pipe_lower { position: absolute; width: 52px; background: url('../assets/pipe.png') repeat-y center; }
-.pipe_upper { top: 0; } .pipe_lower { bottom: 0; }
+/* Burung & Pipa */
+.bird { position: absolute; width: 34px; height: 24px; background: url('../assets/bird.png'); animation: animBird 300ms steps(4) infinite; z-index: 50; }
+.pipe { position: absolute; left: -100px; width: 52px; height: 100%; z-index: 10; animation: animPipe 7500ms linear; }
+.pipe_upper { position: absolute; top: 0; width: 52px; background: url('../assets/pipe.png') repeat-y center; }
 .pipe_upper:after { content: ""; position: absolute; bottom: 0; width: 52px; height: 26px; background: url('../assets/pipe-down.png'); }
+.pipe_lower { position: absolute; bottom: 0; width: 52px; background: url('../assets/pipe.png') repeat-y center; }
 .pipe_lower:after { content: ""; position: absolute; top: 0; width: 52px; height: 26px; background: url('../assets/pipe-up.png'); }
 
 #footer { display: none !important; }
