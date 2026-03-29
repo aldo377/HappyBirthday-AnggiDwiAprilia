@@ -1,174 +1,67 @@
-/* CSS MODIFIKASI BY ALDO GANTENG 
-   SUPPORT FULLSCREEN & AUTO-SCALE MOBILE
-*/
-
-@-webkit-keyframes animLand { 0% { background-position: 0px 0px; } 100% { background-position: -335px 0px; } }
+/* ROMBAK TOTAL BY ALDO GANTENG - RESPONSIVE MODE */
 @keyframes animLand { 0% { background-position: 0px 0px; } 100% { background-position: -335px 0px; } }
-
-@-webkit-keyframes animSky { 0% { background-position: 0px 100%; } 100% { background-position: -275px 100%; } }
 @keyframes animSky { 0% { background-position: 0px 100%; } 100% { background-position: -275px 100%; } }
-
-@-webkit-keyframes animBird { from { background-position: 0px 0px; } to { background-position: 0px -96px; } }
 @keyframes animBird { from { background-position: 0px 0px; } to { background-position: 0px -96px; } }
+@keyframes animPipe { 0% { left: 110%; } 100% { left: -100px; } }
 
-@-webkit-keyframes animPipe { 0% { left: 900px; } 100% { left: -100px; } }
-@keyframes animPipe { 0% { left: 900px; } 100% { left: -100px; } }
-
-*, *:before, *:after {
-   -moz-box-sizing: border-box;
-   -webkit-box-sizing: border-box;
-   box-sizing: border-box;
-   -webkit-user-select: none;
-   user-select: none;
-}
+* { box-sizing: border-box; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 
 html, body {
-   height: 100%;
-   width: 100%;
-   overflow: hidden;
-   background-color: #4ec0ca;
-   margin: 0; padding: 0;
+   height: 100%; width: 100%; overflow: hidden;
+   margin: 0; padding: 0; background-color: #4ec0ca;
 }
 
-/* CONTAINER UTAMA - DIBIKIN TENGAH & FULL */
 #gamecontainer {
-   position: relative;
-   width: 100vw;
-   height: 100vh;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+   position: relative; width: 100vw; height: 100vh;
+   display: flex; justify-content: center; align-items: center;
 }
 
-/* SCREEN GAME - DIBIKIN AUTO SCALE BIAR GEDE DI HP */
 #gamescreen {
-   position: relative;
-   width: 100%;
-   height: 100%;
-   max-width: 100%;
-   max-height: 100%;
-   overflow: hidden;
+   position: relative; width: 100%; height: 100%;
+   max-width: 500px; /* Biar di Tablet gak terlalu lebar banget */
+   background-color: #4ec0ca; overflow: hidden;
 }
 
 #sky {
-   position: absolute;
-   top: 0;
-   width: 100%;
-   height: 100%; /* Ditarik sampai bawah biar gak ada area putih */
-   background-image: url('../assets/sky.png');
-   background-repeat: repeat-x;
-   background-position: 0px 100%;
-   background-color: #4ec0ca;
-   -webkit-animation: animSky 7s linear infinite;
-   animation: animSky 7s linear infinite;
+   position: absolute; top: 0; width: 100%; height: 100%;
+   background-image: url('../assets/sky.png'); background-repeat: repeat-x;
+   background-position: 0px 100%; animation: animSky 7s linear infinite;
 }
 
-#flyarea {
-   position: absolute;
-   bottom: 20%; /* Kasih jarak buat tanah */
-   height: 420px;
-   width: 100%;
-}
+#flyarea { position: absolute; bottom: 0; height: 100%; width: 100%; }
 
 #land {
-   position: absolute;
-   bottom: 0;
-   width: 100%;
-   height: 20%;
-   background-image: url('../assets/land.png');
-   background-repeat: repeat-x;
-   background-color: #ded895;
-   z-index: 20;
-   -webkit-animation: animLand 2516ms linear infinite;
-   animation: animLand 2516ms linear infinite;
+   position: absolute; bottom: 0; width: 100%; height: 20%;
+   background-image: url('../assets/land.png'); background-repeat: repeat-x;
+   z-index: 20; animation: animLand 2.5s linear infinite;
 }
 
-/* POSISI ELEMEN TENGAH LAYAR */
-#bigscore {
-   position: absolute;
-   top: 10%;
-   left: 50%;
-   transform: translateX(-50%);
-   z-index: 100;
+/* UI DI TENGAHIN SEMUA */
+#bigscore { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); z-index: 100; }
+#splash { 
+   position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+   width: 188px; height: 170px; background: url('../assets/splash.png') no-repeat;
 }
-
-#splash {
-   position: absolute;
-   opacity: 0;
-   top: 20%;
-   left: 50%;
-   transform: translateX(-50%);
-   width: 188px;
-   height: 170px;
-   background-image: url('../assets/splash.png');
-   background-repeat: no-repeat;
-}
-
 #scoreboard {
-   position: absolute;
-   display: none;
-   opacity: 0;
-   top: 15%;
-   left: 50%;
-   transform: translateX(-50%);
-   width: 236px;
-   height: 280px;
-   background-image: url('../assets/scoreboard.png');
-   background-repeat: no-repeat;
-   z-index: 1000;
+   position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
+   width: 236px; height: 280px; background: url('../assets/scoreboard.png') no-repeat;
+   z-index: 1000; display: none;
+}
+#replay { 
+   position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); 
+   cursor: pointer; z-index: 1001; 
 }
 
-#replay {
-   position: absolute;
-   opacity: 0;
-   top: 205px;
-   left: 50%;
-   transform: translateX(-50%);
-   height: 115px;
-   width: 70px;
-   cursor: pointer;
-}
-
-/* BURUNG & PIPA */
 .bird {
-   position: absolute;
-   width: 34px;
-   height: 24px;
+   position: absolute; width: 34px; height: 24px;
    background-image: url('../assets/bird.png');
-   z-index: 50;
-   -webkit-animation: animBird 300ms steps(4) infinite;
    animation: animBird 300ms steps(4) infinite;
 }
 
-.pipe {
-   position: absolute;
-   width: 52px;
-   height: 100%;
-   z-index: 10;
-   -webkit-animation: animPipe 7500ms linear;
-   animation: animPipe 7500ms linear;
-}
+.pipe { position: absolute; width: 52px; height: 100%; z-index: 10; animation: animPipe 5s linear; }
+.pipe_upper, .pipe_lower { position: absolute; width: 52px; background: url('../assets/pipe.png') repeat-y center; }
+.pipe_upper { top: 0; } .pipe_lower { bottom: 0; }
+.pipe_upper:after { content: ""; position: absolute; bottom: 0; width: 52px; height: 26px; background: url('../assets/pipe-down.png'); }
+.pipe_lower:after { content: ""; position: absolute; top: 0; width: 52px; height: 26px; background: url('../assets/pipe-up.png'); }
 
-.pipe_upper, .pipe_lower {
-   position: absolute;
-   width: 52px;
-   background-image: url('../assets/pipe.png');
-   background-repeat: repeat-y;
-   background-position: center;
-}
-
-.pipe_upper { top: 0; }
-.pipe_lower { bottom: 0; }
-
-.pipe_upper:after {
-   content: ""; position: absolute; bottom: 0; width: 52px; height: 26px;
-   background-image: url('../assets/pipe-down.png');
-}
-
-.pipe_lower:after {
-   content: ""; position: absolute; top: 0; width: 52px; height: 26px;
-   background-image: url('../assets/pipe-up.png');
-}
-
-/* MATIIN FOOTER WATERMARK */
 #footer { display: none !important; }
