@@ -1,0 +1,355 @@
+/* =============================================
+   KEYFRAME ANIMATIONS
+   ============================================= */
+@-webkit-keyframes animLand {
+   0% { background-position: 0px 0px; }
+   100% { background-position: -335px 0px; }
+}
+@keyframes animLand {
+   0% { background-position: 0px 0px; }
+   100% { background-position: -335px 0px; }
+}
+
+@-webkit-keyframes animSky {
+   0% { background-position: 0px 100%; }
+   100% { background-position: -275px 100%; }
+}
+@keyframes animSky {
+   0% { background-position: 0px 100%; }
+   100% { background-position: -275px 100%; }
+}
+
+@-webkit-keyframes animBird {
+   from { background-position: 0px 0px; }
+   to { background-position: 0px -96px; }
+}
+@keyframes animBird {
+   from { background-position: 0px 0px; }
+   to { background-position: 0px -96px; }
+}
+
+/* Pipe sekarang start dari 400px (cukup untuk layar 320px) */
+@-webkit-keyframes animPipe {
+   0% { left: 400px; }
+   100% { left: -100px; }
+}
+@keyframes animPipe {
+   0% { left: 400px; }
+   100% { left: -100px; }
+}
+
+@-webkit-keyframes animCeiling {
+   0% { background-position: 0px 0px; }
+   100% { background-position: -63px 0px; }
+}
+@keyframes animCeiling {
+   0% { background-position: 0px 0px; }
+   100% { background-position: -63px 0px; }
+}
+
+
+/* =============================================
+   GLOBAL RESET & BASE
+   ============================================= */
+*,
+*:before,
+*:after {
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   box-sizing: border-box;
+   -webkit-touch-callout: none;
+   -webkit-user-select: none;
+   -khtml-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+html, body {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+   font-family: monospace;
+   font-size: 12px;
+   color: #fff;
+   background: #000; /* Hitam di area luar game */
+   /* Agar aman di iPhone dengan notch / home bar */
+   padding-top: env(safe-area-inset-top);
+   padding-bottom: env(safe-area-inset-bottom);
+   padding-left: env(safe-area-inset-left);
+   padding-right: env(safe-area-inset-right);
+}
+
+/* =============================================
+   GAME WRAPPER — fullscreen, centering game
+   ============================================= */
+#gameWrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   overflow: hidden;
+   background: #000;
+}
+
+/* =============================================
+   GAME CONTAINER — ukuran tetap 320×568
+   Scaling dilakukan oleh JS via transform
+   ============================================= */
+#gamecontainer {
+   position: relative;
+   width: 320px;
+   height: 568px;
+   overflow: hidden;
+   /* transform-origin tengah, supaya scaling terlihat rapi */
+   transform-origin: center center;
+}
+
+/* =============================================
+   GAME SCREEN
+   ============================================= */
+#gamescreen {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+}
+
+#sky {
+   position: absolute;
+   top: 0;
+   width: 100%;
+   height: 80%;           /* = 454px dari 568px */
+   background-image: url('../assets/sky.png');
+   background-repeat: repeat-x;
+   background-position: 0px 100%;
+   background-color: #4ec0ca;
+
+   -webkit-animation: animSky 7s linear infinite;
+   animation: animSky 7s linear infinite;
+}
+
+#flyarea {
+   position: absolute;
+   bottom: 0;
+   height: 420px;         /* Area terbang yang tetap */
+   width: 100%;
+}
+
+#ceiling {
+   position: absolute;
+   top: -16px;
+   height: 16px;
+   width: 100%;
+   background-image: url('../assets/ceiling.png');
+   background-repeat: repeat-x;
+
+   -webkit-animation: animCeiling 481ms linear infinite;
+   animation: animCeiling 481ms linear infinite;
+}
+
+#land {
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+   height: 20%;           /* = 113px dari 568px */
+   background-image: url('../assets/land.png');
+   background-repeat: repeat-x;
+   background-position: 0px 0px;
+   background-color: #ded895;
+
+   -webkit-animation: animLand 2516ms linear infinite;
+   animation: animLand 2516ms linear infinite;
+}
+
+/* =============================================
+   SCORE & UI
+   ============================================= */
+#bigscore {
+   position: absolute;
+   top: 20px;
+   left: 0;
+   right: 0;
+   text-align: center;
+   z-index: 100;
+}
+
+#bigscore img {
+   display: inline-block;
+   padding: 1px;
+}
+
+#splash {
+   position: absolute;
+   opacity: 0;
+   top: 75px;
+   left: 66px;
+   width: 188px;
+   height: 170px;
+   background-image: url('../assets/splash.png');
+   background-repeat: no-repeat;
+}
+
+#scoreboard {
+   position: absolute;
+   display: none;
+   opacity: 0;
+   top: 64px;
+   left: 42px;
+   width: 236px;
+   height: 280px;
+   background-image: url('../assets/scoreboard.png');
+   background-repeat: no-repeat;
+   z-index: 1000;
+}
+
+#medal {
+   position: absolute;
+   opacity: 0;
+   top: 114px;
+   left: 32px;
+   width: 44px;
+   height: 44px;
+}
+
+#currentscore {
+   position: absolute;
+   top: 105px;
+   left: 107px;
+   width: 104px;
+   height: 14px;
+   text-align: right;
+}
+
+#currentscore img {
+   padding-left: 2px;
+}
+
+#highscore {
+   position: absolute;
+   top: 147px;
+   left: 107px;
+   width: 104px;
+   height: 14px;
+   text-align: right;
+}
+
+#highscore img {
+   padding-left: 2px;
+}
+
+#replay {
+   position: absolute;
+   opacity: 0;
+   top: 205px;
+   left: 61px;
+   height: 115px;
+   width: 70px;
+   cursor: pointer;
+}
+
+/* =============================================
+   BIRD & PIPES
+   ============================================= */
+.boundingbox {
+   position: absolute;
+   display: none;
+   top: 0;
+   left: 0;
+   width: 0;
+   height: 0;
+   border: 1px solid red;
+}
+
+#player {
+   left: 60px;
+   top: 200px;
+}
+
+.bird {
+   position: absolute;
+   width: 34px;
+   height: 24px;
+   background-image: url('../assets/bird.png');
+
+   -webkit-animation: animBird 300ms steps(4) infinite;
+   animation: animBird 300ms steps(4) infinite;
+}
+
+.pipe {
+   position: absolute;
+   left: -100px;
+   width: 52px;
+   height: 100%;
+   z-index: 10;
+
+   /* Duration 4000ms disesuaikan dengan jarak 400px→-100px (500px)
+      agar kecepatan pipe terasa sama dengan versi asli di layar lebar */
+   -webkit-animation: animPipe 4000ms linear;
+   animation: animPipe 4000ms linear;
+}
+
+.pipe_upper {
+   position: absolute;
+   top: 0;
+   width: 52px;
+   background-image: url('../assets/pipe.png');
+   background-repeat: repeat-y;
+   background-position: center;
+}
+
+.pipe_upper:after {
+   content: "";
+   position: absolute;
+   bottom: 0;
+   width: 52px;
+   height: 26px;
+   background-image: url('../assets/pipe-down.png');
+}
+
+.pipe_lower {
+   position: absolute;
+   bottom: 0;
+   width: 52px;
+   background-image: url('../assets/pipe.png');
+   background-repeat: repeat-y;
+   background-position: center;
+}
+
+.pipe_lower:after {
+   content: "";
+   position: absolute;
+   top: 0;
+   width: 52px;
+   height: 26px;
+   background-image: url('../assets/pipe-up.png');
+}
+
+/* =============================================
+   FOOTER — di luar gameWrapper, tampil di atas
+   ============================================= */
+#footer {
+   position: fixed;
+   bottom: 3px;
+   left: 3px;
+   z-index: 9999;
+}
+
+#footer a,
+#footer a:link,
+#footer a:visited,
+#footer a:hover,
+#footer a:active {
+   display: block;
+   padding: 2px;
+   text-decoration: none;
+   color: rgba(255,255,255,0.6);
+   font-size: 10px;
+   font-family: monospace;
+   text-shadow: 1px 1px 2px #000;
+}
