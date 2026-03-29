@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+   <title>Halaman Rahasia ❤️</title>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+   <style>
+      * {
+         margin: 0; padding: 0;
+         box-sizing: border-box;
+         font-family: 'Poppins', sans-serif;
+      }
+
+      html, body {
+         height: 100%;
+         overflow: hidden;
+         background: #1a2e45;
+      }
+
+      /* =============================================
+         LAYOUT SPLIT: kiri dekorasi, kanan form
+         ============================================= */
+      .page-wrap {
+         display: flex;
+         height: 100vh;
+      }
+
+      /* ── PANEL KIRI ── */
+      .left-panel {
+         flex: 1;
+         background: linear-gradient(145deg, #2a5470 0%, #1e3c5a 60%, #162e47 100%);
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         padding: 40px 30px;
+         position: relative;
+         overflow: hidden;
+      }
+
+      /* Bintang-bintang dekorasi */
+      .left-panel::before {
+         content: '';
+         position: absolute;
+         top: 0; left: 0; right: 0; bottom: 0;
+         background-image:
+            radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px),
+            radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+         background-size: 70px 70px, 35px 35px;
+         background-position: 0 0, 17px 17px;
+         pointer-events: none;
+      }
+
+      /* Lingkaran dekorasi hijau (seperti Feb Mart) */
+      .deco-circle-big {
+         position: absolute;
+         width: 260px; height: 260px;
+         border-radius: 50%;
+         background: radial-gradient(circle at 40% 40%,
+            rgba(255, 130, 170, 0.18) 0%,
+            rgba(255, 80, 130, 0.08) 60%,
+            transparent 100%);
+         top: 50%; left: 50%;
+         transform: translate(-50%, -50%);
+      }
+
+      .deco-circle-sm {
+         position: absolute;
+         width: 130px; height: 130px;
+         border-radius: 50%;
+         background: rgba(255, 180, 200, 0.08);
+         top: 15%; right: -20px;
+      }
+
+      .left-logo {
+         position: relative;
+         z-index: 1;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         margin-bottom: 20px;
+      }
+
+      .left-logo .logo-emoji {
+         font-size: 3.5rem;
+         margin-bottom: 8px;
+      }
+
+      .left-logo h2 {
+         font-size: 1.2rem;
+         font-weight: 700;
+         color: #fff;
+         text-align: center;
+         letter-spacing: 1px;
+      }
+
+      .left-logo p {
+         font-size: 0.75rem;
+         color: rgba(255,255,255,0.5);
+         text-align: center;
+         margin-top: 4px;
+         letter-spacing: 2px;
+         text-transform: uppercase;
+      }
+
+      /* Ilustrasi hati */
+      .heart-illustration {
+         position: relative;
+         z-index: 1;
+         display: flex;
+         flex-wrap: wrap;
+         gap: 12px;
+         justify-content: center;
+         max-width: 200px;
+         margin: 10px auto;
+      }
+
+      .heart-illustration span {
+         font-size: 2rem;
+         animation: floatHeart 3s ease-in-out infinite;
+      }
+
+      .heart-illustration span:nth-child(2) { animation-delay: 0.4s; }
+      .heart-illustration span:nth-child(3) { animation-delay: 0.8s; }
+      .heart-illustration span:nth-child(4) { animation-delay: 1.2s; }
+      .heart-illustration span:nth-child(5) { animation-delay: 1.6s; }
+
+      @keyframes floatHeart {
+         0%, 100% { transform: translateY(0) scale(1); }
+         50%       { transform: translateY(-8px) scale(1.1); }
+      }
+
+      .left-tagline {
+         position: relative;
+         z-index: 1;
+         text-align: center;
+         margin-top: 20px;
+         color: rgba(255,255,255,0.6);
+         font-size: 0.82rem;
+         line-height: 1.7;
+      }
+
+      /* ── PANEL KANAN ── */
+      .right-panel {
+         flex: 1;
+         background: #12233a;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         padding: 40px 32px;
+      }
+
+      .form-title {
+         font-size: 1.7rem;
+         font-weight: 700;
+         color: #fff;
+         letter-spacing: 3px;
+         text-transform: uppercase;
+         margin-bottom: 36px;
+      }
+
+      .form-group {
+         width: 100%;
+         max-width: 280px;
+         margin-bottom: 20px;
+      }
+
+      .form-group label {
+         display: block;
+         font-size: 0.78rem;
+         color: rgba(255,255,255,0.55);
+         margin-bottom: 6px;
+         letter-spacing: 1px;
+         text-transform: uppercase;
+      }
+
+      .input-wrap {
+         position: relative;
+         display: flex;
+         align-items: center;
+         background: rgba(255,255,255,0.07);
+         border: 1px solid rgba(255,255,255,0.12);
+         border-radius: 10px;
+         overflow: hidden;
+         transition: border 0.25s;
+      }
+
+      .input-wrap:focus-within {
+         border-color: rgba(255, 130, 170, 0.6);
+         background: rgba(255,255,255,0.1);
+      }
+
+      .input-wrap .input-icon {
+         padding: 0 12px;
+         font-size: 1.1rem;
+         opacity: 0.6;
+      }
+
+      .input-wrap input {
+         flex: 1;
+         background: transparent;
+         border: none;
+         outline: none;
+         padding: 12px 12px 12px 0;
+         font-size: 0.9rem;
+         color: #fff;
+         font-family: 'Poppins', sans-serif;
+      }
+
+      .input-wrap input::placeholder {
+         color: rgba(255,255,255,0.25);
+      }
+
+      .btn-login {
+         width: 100%;
+         max-width: 280px;
+         padding: 13px;
+         background: linear-gradient(135deg, #e8507a, #c0254e);
+         border: none;
+         border-radius: 10px;
+         color: #fff;
+         font-size: 0.95rem;
+         font-weight: 700;
+         letter-spacing: 2px;
+         text-transform: uppercase;
+         cursor: pointer;
+         margin-top: 8px;
+         transition: opacity 0.2s, transform 0.15s;
+         box-shadow: 0 4px 20px rgba(200, 40, 80, 0.4);
+      }
+
+      .btn-login:active {
+         opacity: 0.85;
+         transform: scale(0.98);
+      }
+
+      .error-msg {
+         display: none;
+         color: #ff6b8a;
+         font-size: 0.78rem;
+         text-align: center;
+         margin-top: 12px;
+         max-width: 280px;
+      }
+
+      .form-footer {
+         margin-top: 30px;
+         text-align: center;
+         color: rgba(255,255,255,0.25);
+         font-size: 0.72rem;
+      }
+
+      /* =============================================
+         MOBILE — stack vertikal
+         ============================================= */
+      @media (max-width: 520px) {
+         .page-wrap {
+            flex-direction: column;
+            overflow-y: auto;
+         }
+
+         .left-panel {
+            flex: none;
+            padding: 32px 20px 24px;
+            min-height: 200px;
+         }
+
+         .deco-circle-big {
+            width: 180px; height: 180px;
+         }
+
+         .heart-illustration span { font-size: 1.6rem; }
+
+         .left-tagline { display: none; }
+
+         .right-panel {
+            flex: none;
+            padding: 28px 24px 40px;
+         }
+
+         .form-title { font-size: 1.3rem; margin-bottom: 24px; }
+      }
+   </style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+   <!-- ── PANEL KIRI ── -->
+   <div class="left-panel">
+      <div class="deco-circle-big"></div>
+      <div class="deco-circle-sm"></div>
+
+      <div class="left-logo">
+         <div class="logo-emoji">🎂</div>
+         <h2>Halaman Rahasia</h2>
+         <p>Khusus buat Anggie</p>
+      </div>
+
+      <div class="heart-illustration">
+         <span>💕</span>
+         <span>🎉</span>
+         <span>🎂</span>
+         <span>💝</span>
+         <span>✨</span>
+      </div>
+
+      <div class="left-tagline">
+         Selamat! Kamu berhasil melewati<br>tantangan dari aku. 😊<br><br>
+         Masukkan nama &amp; kode rahasiamu<br>untuk membuka hadiah spesial ini.
+      </div>
+   </div>
+
+   <!-- ── PANEL KANAN ── -->
+   <div class="right-panel">
+      <h1 class="form-title">Masuk</h1>
+
+      <div class="form-group">
+         <label>Nama</label>
+         <div class="input-wrap">
+            <span class="input-icon">👤</span>
+            <input type="text" id="inputUsername" placeholder="Nama kamu..." autocomplete="off" />
+         </div>
+      </div>
+
+      <div class="form-group">
+         <label>Kode Rahasia</label>
+         <div class="input-wrap">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="inputPassword" placeholder="••••••" autocomplete="off" />
+         </div>
+      </div>
+
+      <button class="btn-login" onclick="doLogin()">Buka ❤️</button>
+
+      <p class="error-msg" id="errorMsg">
+         Nama atau kode salah. Coba lagi ya 😅
+      </p>
+
+      <div class="form-footer">
+         Dibuat dengan ❤️ oleh Orang Ganteng
+      </div>
+   </div>
+
+</div>
+
+<script>
+   // Tekan Enter juga bisa login
+   document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doLogin();
+   });
+
+   function doLogin() {
+      var username = document.getElementById('inputUsername').value.trim();
+      var password = document.getElementById('inputPassword').value.trim();
+
+      // Kredensial — case-insensitive untuk nama
+      var validUser = "Anggi Dwi Aprilia";
+      var validPass = "200408";
+
+      if (username.toLowerCase() === validUser.toLowerCase() && password === validPass) {
+         // Sukses — redirect ke birthday
+         document.querySelector('.btn-login').textContent = '💕 Membuka...';
+         document.querySelector('.btn-login').style.opacity = '0.7';
+         setTimeout(function() {
+            window.location.href = 'birthday.html';
+         }, 800);
+      } else {
+         var errMsg = document.getElementById('errorMsg');
+         errMsg.style.display = 'block';
+         // Animasi shake
+         var inputWraps = document.querySelectorAll('.input-wrap');
+         inputWraps.forEach(function(el) {
+            el.style.border = '1px solid rgba(255, 80, 100, 0.7)';
+            el.style.animation = 'none';
+         });
+         setTimeout(function() {
+            inputWraps.forEach(function(el) {
+               el.style.border = '1px solid rgba(255,255,255,0.12)';
+            });
+         }, 1200);
+      }
+   }
+</script>
+
+</body>
+</html>
