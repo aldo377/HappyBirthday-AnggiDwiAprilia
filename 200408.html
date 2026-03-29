@@ -2,227 +2,357 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-  <title>2048 — Special Gift 🎮</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>2048 — Game Rahasia 🎮</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  
   <style>
-    /* ===================== GLOBAL STYLES ===================== */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ===================== 2048 CORE CSS (FULL VERSION) ===================== */
+    * { box-sizing: border-box; }
     body {
-      font-family: 'Poppins', sans-serif;
-      background: #faf8ef;
-      color: #776e65;
-      overflow-x: hidden;
+      margin: 0; padding: 0; background: #faf8ef;
+      font-family: 'Poppins', sans-serif; font-size: 18px; color: #776e65;
+      overflow: hidden; touch-action: none;
     }
-    .view { display: none; min-height: 100vh; width: 100%; }
-    .active { display: block; }
-
-    /* ===================== VIEW 1: GAME 2048 ===================== */
-    #gameView { background: #faf8ef; padding: 15px; }
-    .game-container-wrapper { width: 100%; max-width: 500px; margin: 0 auto; }
+    .container {
+      width: 100%; max-width: 500px; margin: 0 auto; padding: 15px; display: none;
+    }
     .heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-    .score-box { background: #bbada0; padding: 10px 20px; border-radius: 6px; color: #fff; text-align: center; }
-    .game-board { 
-      position: relative; background: #bbada0; border-radius: 8px; padding: 10px; 
-      width: 100%; aspect-ratio: 1/1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    .title { font-size: 3rem; font-weight: bold; margin: 0; color: #776e65; }
+    .scores-container { display: flex; gap: 10px; }
+    .score-container {
+      background: #bbada0; padding: 8px 15px; border-radius: 6px;
+      text-align: center; color: #fff; min-width: 70px; font-weight: bold;
     }
-    .grid-cell { background: rgba(238,228,218,0.35); border-radius: 4px; }
+    .score-container::before { content: "SCORE"; display: block; font-size: 0.7rem; opacity: 0.8; }
+
+    /* GAME BOARD */
+    .game-container {
+      position: relative; padding: 10px; cursor: default;
+      background: #bbada0; border-radius: 8px;
+      width: 100%; aspect-ratio: 1/1; max-width: 450px; margin: 0 auto;
+    }
+    .grid-container {
+      display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr);
+      gap: 10px; width: 100%; height: 100%;
+    }
+    .grid-cell { background: rgba(238,228,218,0.35); border-radius: 4px; width: 100%; height: 100%; }
+
+    /* TILE CONTAINER & TILES */
+    .tile-container {
+      position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; z-index: 2;
+    }
     .tile {
-      position: absolute; width: calc(25% - 12px); height: calc(25% - 12px);
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 4px; font-weight: bold; font-size: 2rem; transition: 150ms;
+      position: absolute; display: flex; align-items: center; justify-content: center;
+      border-radius: 4px; font-weight: bold; font-size: 2rem;
+      transition: 150ms ease-in-out; transition-property: transform, top, left;
+      width: calc(25% - 7.5px); height: calc(25% - 7.5px);
     }
-    .tile-2 { background: #eee4da; color: #776e65; }
-    .tile-4 { background: #ede0c8; color: #776e65; }
-    .tile-8 { background: #f2b179; color: #f9f6f2; }
-    /* ... warna tile lainnya ... */
     
-    #howToPlay {
-      position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column;
-      background: #12233a; color: white; text-align: center; justify-content: center; padding: 20px;
+    @media (max-width: 400px) { .tile { font-size: 1.5rem; } }
+
+    /* Tile colors */
+    .tile-2   { background: #eee4da; color: #776e65; }
+    .tile-4   { background: #ede0c8; color: #776e65; }
+    .tile-8   { background: #f2b179; color: #f9f6f2; }
+    .tile-16  { background: #f59563; color: #f9f6f2; }
+    .tile-32  { background: #f67c5f; color: #f9f6f2; }
+    .tile-64  { background: #f65e3b; color: #f9f6f2; }
+    .tile-128 { background: #edcf72; color: #f9f6f2; font-size: 1.6rem; }
+    .tile-256 { background: #edcc61; color: #f9f6f2; font-size: 1.6rem; }
+    .tile-512 { background: #edc850; color: #f9f6f2; font-size: 1.6rem; }
+    .tile-1024{ background: #edc53f; color: #f9f6f2; font-size: 1.2rem; }
+    .tile-2048{ background: #edc22e; color: #f9f6f2; font-size: 1.2rem; box-shadow: 0 0 30px 10px rgba(243,215,116,0.5); }
+
+    /* Animations */
+    .tile-new { animation: appear 0.2s ease-in-out; animation-fill-mode: backwards; }
+    @keyframes appear { 0%{opacity:0;transform:scale(0)} 100%{opacity:1;transform:scale(1)} }
+    .tile-merged { animation: pop 0.2s ease-in-out; animation-fill-mode: backwards; z-index: 20; }
+    @keyframes pop { 0%{transform:scale(0)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+
+    /* ===================== HOW-TO-PLAY OVERLAY ===================== */
+    #howToPlayOverlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999; display: flex;
     }
-    .btn-start { background: #e8507a; border: none; padding: 15px 30px; color: white; border-radius: 10px; cursor: pointer; margin-top: 20px; font-weight: bold; }
+    .htp-left {
+      flex: 1; background: linear-gradient(145deg, #2a5470 0%, #1e3c5a 60%, #162e47 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center;
+    }
+    .htp-logo { z-index: 1; color: white;}
+    .htp-logo .logo-emoji { font-size: 4rem; margin-bottom: 10px; display: block;}
+    .htp-logo h2 { font-size: 1.5rem; margin: 0; letter-spacing: 1px;}
+    .htp-right {
+      flex: 1; background: #12233a; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px;
+    }
+    .htp-step {
+      background: rgba(255,255,255,0.06); border-radius: 12px; padding: 15px; margin-bottom: 15px;
+      display: flex; gap: 15px; align-items: center; color: #fff; width: 100%; max-width: 300px;
+    }
+    .step-icon { font-size: 1.5rem; }
+    .step-text { font-size: 0.85rem; line-height: 1.5; }
+    .btn-mulai {
+      width: 100%; max-width: 300px; padding: 15px; background: linear-gradient(135deg, #e8507a, #c0254e);
+      border: none; border-radius: 10px; color: #fff; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px;
+    }
+    @media (max-width: 600px) {
+      #howToPlayOverlay { flex-direction: column; }
+      .htp-left { flex: none; padding: 30px; }
+      .htp-right { flex: 1; justify-content: flex-start; padding-top: 40px;}
+    }
 
-    /* ===================== VIEW 2: LOGIN (SANDI) ===================== */
-    #loginView { background: #1a2e45; color: white; display: flex; align-items: center; justify-content: center; }
-    .login-card { background: #12233a; padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-    .input-group { margin-bottom: 20px; text-align: left; }
-    .input-group label { display: block; font-size: 0.8rem; opacity: 0.6; margin-bottom: 5px; }
-    .input-group input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; outline: none; }
-    .btn-login { width: 100%; padding: 15px; background: #e8507a; border: none; border-radius: 10px; color: white; font-weight: bold; cursor: pointer; }
-
-    /* ===================== VIEW 3: BIRTHDAY ===================== */
-    #birthdayView { background: #1e2a4a; color: white; padding: 40px 20px; text-align: center; overflow-y: auto; }
-    .story-section { opacity: 0; transform: translateY(20px); transition: 1s; margin-bottom: 40px; display: none; }
-    .story-section.show { opacity: 1; transform: translateY(0); display: block; }
-    .profile-img { width: 150px; height: 150px; border-radius: 50%; border: 5px solid #ff69b4; object-fit: cover; margin-bottom: 20px; }
+    /* OVERLAY KEMENANGAN */
+    #winScreen {
+      display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(237,194,46,0.8); z-index: 100;
+      flex-direction: column; align-items: center; justify-content: center;
+      border-radius: 8px; color: white; text-align: center;
+    }
+    #winScreen h1 { font-size: 3rem; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    #winScreen p { font-size: 1.2rem; font-weight: bold; }
   </style>
 </head>
 <body>
 
-  <!-- VIEW 1: GAME 2048 -->
-  <div id="gameView" class="view active">
-    <div id="howToPlay">
-      <h1 style="font-size: 2.5rem; margin-bottom: 10px;">🎮 Level Terakhir</h1>
-      <p>Capai angka <strong>2048</strong> untuk membuka hadiahmu!</p>
-      <button class="btn-start" onclick="startGame()">Mulai Main! 🚀</button>
+  <div id="howToPlayOverlay">
+    <div class="htp-left">
+      <div class="htp-logo">
+        <span class="logo-emoji">🎮</span>
+        <h2>Level Terakhir</h2>
+        <p style="opacity: 0.7; font-size: 0.9rem;">Satu game lagi buat buka hadiahmu.</p>
+      </div>
     </div>
-
-    <div class="game-container-wrapper">
-      <div class="heading">
-        <h1 style="font-size: 3rem;">2048</h1>
-        <div class="score-box">
-          <small style="display:block; font-size: 0.6rem; opacity: 0.8;">SCORE</small>
-          <span id="score">0</span>
-        </div>
+    <div class="htp-right">
+      <div class="htp-step">
+        <span class="step-icon">👆</span>
+        <div class="step-text"><strong>Geser (swipe)</strong> layar untuk memindahkan semua kotak.</div>
       </div>
-      <div class="game-board" id="gameBoard">
-        <!-- Grid Cells -->
-        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-        <div id="tileContainer" style="position: absolute; inset: 10px;"></div>
+      <div class="htp-step">
+        <span class="step-icon">🔢</span>
+        <div class="step-text">Angka yang sama akan <strong>bergabung</strong> jadi satu (2+2=4).</div>
       </div>
-      <p style="text-align: center; margin-top: 20px; opacity: 0.5;">Gunakan Panah atau Swipe Layar</p>
+      <div class="htp-step">
+        <span class="step-icon">🏆</span>
+        <div class="step-text">Capai angka <strong>2048</strong> untuk membuka halaman rahasia!</div>
+      </div>
+      <button class="btn-mulai" onclick="mulaiGame()">Mulai Main! 🚀</button>
     </div>
   </div>
 
-  <!-- VIEW 2: LOGIN (SANDI) -->
-  <div id="loginView" class="view">
-    <div class="login-card">
-      <h2 style="margin-bottom: 30px; letter-spacing: 2px;">MASUK</h2>
-      <div class="input-group">
-        <label>Username</label>
-        <input type="text" id="username" placeholder="Nama kamu...">
+  <div class="container" id="gameContainer">
+    <div class="heading">
+      <h1 class="title">2048</h1>
+      <div class="scores-container">
+        <div class="score-container" id="scoreValue">0</div>
       </div>
-      <div class="input-group">
-        <label>Kode Rahasia</label>
-        <input type="password" id="password" placeholder="••••••">
+    </div>
+    <div class="game-container">
+      <div class="grid-container">
+        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
       </div>
-      <button class="btn-login" onclick="checkLogin()">Buka Hadiah ❤️</button>
-      <p id="loginError" style="color: #ff6b8a; font-size: 0.8rem; margin-top: 15px; display: none;">Data salah, coba lagi ya! 😅</p>
-    </div>
-  </div>
-
-  <!-- VIEW 3: BIRTHDAY -->
-  <div id="birthdayView" class="view">
-    <div class="story-section" id="s1">
-      <img src="img/ayang.jpg" class="profile-img" alt="Anggie">
-      <h1>Hi, Anggie! 👋</h1>
-      <p>Selamat ulang tahun yang ke-20!</p>
-    </div>
-    <div class="story-section" id="s2">
-      <p>Aku punya sesuatu yang spesial buat kamu...</p>
-      <p>Bukan cuma sekadar game, tapi pengingat kalau aku selalu ada buat kamu.</p>
-    </div>
-    <div class="story-section" id="s3">
-      <h2 style="color: #ffd700;">🧥 Cardigan & TWS 🎧</h2>
-      <p>Semoga suka sama hadiahnya ya! Biar kamu selalu ngerasa hangat dan bisa dengerin lagu favorit pas lagi capek belajar.</p>
-    </div>
-    <div class="story-section" id="s4">
-      <p>Tetap jadi Anggie yang kuat dan ceria ya. 💕</p>
-      <button class="btn-start" onclick="location.reload()">Main Lagi? 😊</button>
+      <div class="tile-container" id="tileContainer"></div>
+      
+      <div id="winScreen">
+        <h1>YEAY! 🎉</h1>
+        <p>Memuat hadiah Anggie...</p>
+      </div>
     </div>
   </div>
 
   <script>
-    // ===================== NAVIGATION LOGIC =====================
-    function showView(viewId) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.getElementById(viewId).classList.add('active');
-      window.scrollTo(0,0);
-    }
-
-    // ===================== GAME 2048 LOGIC (PRANK 589) =====================
+    // FULL ENGINE 2048 JAVASCRIPT
     let board = [];
     let score = 0;
+    let hasWon = false;
     const size = 4;
 
-    function startGame() {
-      document.getElementById('howToPlay').style.display = 'none';
-      initGame();
+    function mulaiGame() {
+      document.getElementById('howToPlayOverlay').style.display = 'none';
+      document.getElementById('gameContainer').style.display = 'block';
+      initBoard();
     }
 
-    function initGame() {
+    function initBoard() {
       board = Array(size).fill().map(() => Array(size).fill(0));
       score = 0;
-      addTile(); addTile();
-      render();
+      hasWon = false;
+      updateScore();
+      addRandomTile();
+      addRandomTile();
+      renderBoard();
     }
 
-    function addTile() {
-      let empty = [];
-      for(let r=0; r<size; r++) for(let c=0; c<size; c++) if(board[r][c]===0) empty.push({r,c});
-      if(empty.length) {
-        let {r,c} = empty[Math.floor(Math.random()*empty.length)];
-        board[r][c] = Math.random() < 0.9 ? 2 : 4;
+    function addRandomTile() {
+      let emptyCells = [];
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (board[r][c] === 0) emptyCells.push({r, c});
+        }
+      }
+      if (emptyCells.length > 0) {
+        let randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        board[randomCell.r][randomCell.c] = Math.random() < 0.9 ? 2 : 4;
+        // Penanda animasi spawn
+        board[randomCell.r][randomCell.c] = { value: board[randomCell.r][randomCell.c], isNew: true };
       }
     }
 
-    function render() {
+    function renderBoard() {
       const container = document.getElementById('tileContainer');
       container.innerHTML = '';
-      board.forEach((row, r) => {
-        row.forEach((val, c) => {
-          if(val) {
-            const tile = document.createElement('div');
-            tile.className = `tile tile-${val}`;
-            tile.style.top = (r * 25) + '%';
-            tile.style.left = (c * 25) + '%';
-            tile.textContent = val;
-            container.appendChild(tile);
-          }
-        });
-      });
-      document.getElementById('score').textContent = score;
       
-      // PRANK CHECK: Win at 589
-      if(score >= 589) {
-        setTimeout(() => {
-          alert("YEAY! 🎉 Skor 589 tercapai! Kamu menang!");
-          showView('loginView');
-        }, 500);
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          let cell = board[r][c];
+          if (cell !== 0) {
+            let val = typeof cell === 'object' ? cell.value : cell;
+            let tileDiv = document.createElement('div');
+            
+            // Logika Posisi Persen biar responsif
+            let topPos = (r * 25) + "%";
+            let leftPos = (c * 25) + "%";
+            // Koreksi margin gap (karena gap flex/grid susah di-absolute, kita pakai calc)
+            tileDiv.style.top = `calc(${topPos} + ${(r * 2.5)}px)`;
+            tileDiv.style.left = `calc(${leftPos} + ${(c * 2.5)}px)`;
+            
+            let classes = ['tile', `tile-${val}`];
+            if (typeof cell === 'object' && cell.isNew) classes.push('tile-new');
+            if (typeof cell === 'object' && cell.isMerged) classes.push('tile-merged');
+            
+            tileDiv.className = classes.join(' ');
+            tileDiv.textContent = val;
+            container.appendChild(tileDiv);
+
+            // Cek Kemenangan
+            if (val >= 2048 && !hasWon) {
+              triggerWin();
+            }
+
+            // Normalisasi data board setelah render animasi
+            board[r][c] = val; 
+          }
+        }
       }
     }
 
-    // Logic pergerakan (Sederhana)
-    function move(dir) {
-      // Implementasi geser board... (disingkat untuk efisiensi)
-      // Setelah geser, panggil score += nilai_gabung; addTile(); render();
-      // Untuk demo, kita asumsikan score naik setiap kali tombol ditekan
-      score += 50; 
-      addTile();
-      render();
+    function triggerWin() {
+      hasWon = true;
+      document.getElementById('winScreen').style.display = 'flex';
+      setTimeout(() => {
+        window.location.href = "sandi.html";
+      }, 2500);
     }
 
-    window.addEventListener('keydown', (e) => {
-      if(document.getElementById('gameView').classList.contains('active')) move();
+    function updateScore() {
+      document.getElementById('scoreValue').textContent = score;
+    }
+
+    function move(direction) {
+      if (hasWon) return;
+      let moved = false;
+
+      // Putar board biar logic gesernya cukup 1 arah (kiri)
+      let tempBoard = rotateBoard(board, direction);
+      
+      for (let r = 0; r < size; r++) {
+        let row = tempBoard[r];
+        let newRow = row.filter(val => val !== 0); // Buang angka 0
+        
+        // Merge
+        for (let i = 0; i < newRow.length - 1; i++) {
+          if (newRow[i] !== 0 && newRow[i] === newRow[i + 1]) {
+            newRow[i] = { value: newRow[i] * 2, isMerged: true };
+            score += newRow[i].value;
+            newRow[i + 1] = 0;
+            moved = true;
+          }
+        }
+        
+        // Buang 0 lagi setelah merge, lalu isi sisa array dengan 0
+        newRow = newRow.filter(val => val !== 0);
+        while (newRow.length < size) newRow.push(0);
+        
+        // Cek apa ada perubahan posisi
+        for (let c = 0; c < size; c++) {
+          let oldVal = typeof row[c] === 'object' ? row[c].value : row[c];
+          let newVal = typeof newRow[c] === 'object' ? newRow[c].value : newRow[c];
+          if (oldVal !== newVal) moved = true;
+        }
+        
+        tempBoard[r] = newRow;
+      }
+
+      // Putar balik ke posisi semula
+      board = rotateBoard(tempBoard, (4 - direction) % 4);
+
+      if (moved) {
+        updateScore();
+        addRandomTile();
+        renderBoard();
+      }
+    }
+
+    // 0: Kiri, 1: Bawah, 2: Kanan, 3: Atas
+    function rotateBoard(matrix, times) {
+      let result = matrix;
+      for (let i = 0; i < times; i++) {
+        let newMatrix = Array(size).fill().map(() => Array(size).fill(0));
+        for (let r = 0; r < size; r++) {
+          for (let c = 0; c < size; c++) {
+            newMatrix[c][size - 1 - r] = result[r][c];
+          }
+        }
+        result = newMatrix;
+      }
+      return result;
+    }
+
+    // KONTROL KEYBOARD
+    document.addEventListener('keydown', (e) => {
+      if (hasWon) return;
+      switch (e.key) {
+        case 'ArrowLeft':  move(0); break;
+        case 'ArrowDown':  move(1); break;
+        case 'ArrowRight': move(2); break;
+        case 'ArrowUp':    move(3); break;
+      }
     });
 
-    // ===================== LOGIN LOGIC =====================
-    function checkLogin() {
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value.trim();
-      
-      if(user.toLowerCase() === "anggi dwi aprilia" && pass === "200408") {
-        showView('birthdayView');
-        startBirthdayAnimation();
-      } else {
-        document.getElementById('loginError').style.display = 'block';
-      }
-    }
+    // KONTROL SWIPE (TOUCH) ANTI BUG
+    let touchStartX = 0, touchStartY = 0;
+    const gameArea = document.getElementById('gameContainer');
 
-    // ===================== BIRTHDAY ANIMATION =====================
-    function startBirthdayAnimation() {
-      let sections = ['s1', 's2', 's3', 's4'];
-      sections.forEach((id, index) => {
-        setTimeout(() => {
-          document.getElementById(id).classList.add('show');
-        }, index * 2000);
-      });
-    }
+    gameArea.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: false });
+
+    // Matikan scroll saat jari menyentuh kotak game biar lancar
+    gameArea.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    }, { passive: false });
+
+    gameArea.addEventListener('touchend', (e) => {
+      if (hasWon) return;
+      let touchEndX = e.changedTouches[0].screenX;
+      let touchEndY = e.changedTouches[0].screenY;
+      
+      let dx = touchEndX - touchStartX;
+      let dy = touchEndY - touchStartY;
+      
+      // Deteksi usapan minimal 30px
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (Math.abs(dx) > 30) {
+          dx > 0 ? move(2) : move(0); // Kanan : Kiri
+        }
+      } else {
+        if (Math.abs(dy) > 30) {
+          dy > 0 ? move(1) : move(3); // Bawah : Atas
+        }
+      }
+    });
   </script>
 </body>
 </html>
