@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>HBD Sayangku Anggie ❤️</title>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+      <link href="css/reset.css" rel="stylesheet">
+      <link href="css/main.css" rel="stylesheet">
+   </head>
+   <body>
+
+      <!-- =============================================
+           WELCOME OVERLAY — muncul saat NFC di-scan
+           ============================================= -->
+      <div id="welcomeOverlay">
+         <div class="wc-emoji">👋</div>
+         <h1>Welcome!</h1>
+         <p>Hayoo ngapain ditempel hp-nya? 😄<br>Kalau ingin tahu lebih lanjut...</p>
+         <div class="wc-highlight">
+            Selesaikan <span>10</span> poin<br>dari game ini!
+         </div>
+         <p>Bisa gak? 😏</p>
+         <p class="tap-hint">— tap di mana saja untuk mulai —</p>
+      </div>
+
+      <!-- =============================================
+           WIN OVERLAY — muncul saat 10 poin tercapai
+           ============================================= -->
+      <div id="winOverlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:9999; background:rgba(10,30,60,0.93); display:none; align-items:center; justify-content:center; flex-direction:column; text-align:center; padding:30px;">
+         <div class="win-emoji">🎉</div>
+         <h2>Selamat! Kamu berhasil!</h2>
+         <p>Membuka halaman rahasia...</p>
+      </div>
+
+      <!-- =============================================
+           GAME WRAPPER
+           ============================================= -->
+      <div id="gameWrapper">
+         <div id="gamecontainer">
+            <div id="gamescreen">
+               <div id="sky" class="animated">
+                  <div id="flyarea">
+                     <div id="ceiling" class="animated"></div>
+                     <div id="player" class="bird animated"></div>
+                     <div id="bigscore"></div>
+                     <div id="splash"></div>
+                     <div id="scoreboard">
+                        <div id="medal"></div>
+                        <div id="currentscore"></div>
+                        <div id="highscore"></div>
+                        <div id="replay"><img src="assets/replay.png" alt="replay"></div>
+                     </div>
+                     <!-- Pipes go here! -->
+                  </div>
+               </div>
+               <div id="land" class="animated"></div>
+            </div>
+         </div>
+      </div>
+
+      <div id="footer">
+         <a href="https://www.dotgears.com/">original game/concept/art by dong nguyen</a>
+         <a href="https://nebezb.com/">recreated by nebez briefkani</a>
+      </div>
+      <div id="custom-footer"><p>Dibuat dengan ❤️ oleh Orang Ganteng buat Anggie</p></div>
+
+      <div class="boundingbox" id="playerbox"></div>
+      <div class="boundingbox" id="pipebox"></div>
+
+      <script src="js/jquery.min.js"></script>
+      <script src="js/jquery.transit.min.js"></script>
+      <script src="js/buzz.min.js"></script>
+      <script src="js/main.js"></script>
+   </body>
+</html>
