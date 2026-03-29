@@ -1,0 +1,437 @@
+/* =============================================
+   KEYFRAMES
+   ============================================= */
+@-webkit-keyframes animLand {
+   0% { background-position: 0px 0px; }
+   100% { background-position: -335px 0px; }
+}
+@keyframes animLand {
+   0% { background-position: 0px 0px; }
+   100% { background-position: -335px 0px; }
+}
+@-webkit-keyframes animSky {
+   0% { background-position: 0px 100%; }
+   100% { background-position: -275px 100%; }
+}
+@keyframes animSky {
+   0% { background-position: 0px 100%; }
+   100% { background-position: -275px 100%; }
+}
+@-webkit-keyframes animBird {
+   from { background-position: 0px 0px; }
+   to   { background-position: 0px -96px; }
+}
+@keyframes animBird {
+   from { background-position: 0px 0px; }
+   to   { background-position: 0px -96px; }
+}
+@-webkit-keyframes animPipe {
+   0%   { left: 400px; }
+   100% { left: -100px; }
+}
+@keyframes animPipe {
+   0%   { left: 400px; }
+   100% { left: -100px; }
+}
+@-webkit-keyframes animCeiling {
+   0%   { background-position: 0px 0px; }
+   100% { background-position: -63px 0px; }
+}
+@keyframes animCeiling {
+   0%   { background-position: 0px 0px; }
+   100% { background-position: -63px 0px; }
+}
+
+/* =============================================
+   GLOBAL
+   ============================================= */
+*, *:before, *:after {
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   box-sizing: border-box;
+   -webkit-touch-callout: none;
+   -webkit-user-select: none;
+   -khtml-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+html, body {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+   font-family: monospace;
+   font-size: 12px;
+   color: #fff;
+   /* BIRU LANGIT — bukan hitam */
+   background: #4ec0ca;
+   padding-top:    env(safe-area-inset-top);
+   padding-bottom: env(safe-area-inset-bottom);
+   padding-left:   env(safe-area-inset-left);
+   padding-right:  env(safe-area-inset-right);
+}
+
+/* =============================================
+   GAME WRAPPER — fullscreen, centering
+   ============================================= */
+#gameWrapper {
+   position: fixed;
+   top: 0; left: 0; right: 0; bottom: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   overflow: hidden;
+   /* Biru langit juga di sisi kiri/kanan */
+   background: #4ec0ca;
+}
+
+/* =============================================
+   GAME CONTAINER — fixed 320×568, di-scale JS
+   ============================================= */
+#gamecontainer {
+   position: relative;
+   width: 320px;
+   height: 568px;
+   overflow: hidden;
+   transform-origin: center center;
+}
+
+#gamescreen {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+}
+
+#sky {
+   position: absolute;
+   top: 0;
+   width: 100%;
+   height: 80%;
+   background-image: url('../assets/sky.png');
+   background-repeat: repeat-x;
+   background-position: 0px 100%;
+   background-color: #4ec0ca;
+   -webkit-animation: animSky 7s linear infinite;
+   animation: animSky 7s linear infinite;
+}
+
+#flyarea {
+   position: absolute;
+   bottom: 0;
+   height: 420px;
+   width: 100%;
+}
+
+#ceiling {
+   position: absolute;
+   top: -16px;
+   height: 16px;
+   width: 100%;
+   background-image: url('../assets/ceiling.png');
+   background-repeat: repeat-x;
+   -webkit-animation: animCeiling 481ms linear infinite;
+   animation: animCeiling 481ms linear infinite;
+}
+
+#land {
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+   height: 20%;
+   background-image: url('../assets/land.png');
+   background-repeat: repeat-x;
+   background-position: 0px 0px;
+   background-color: #ded895;
+   -webkit-animation: animLand 2516ms linear infinite;
+   animation: animLand 2516ms linear infinite;
+}
+
+/* =============================================
+   SCORE & UI
+   ============================================= */
+#bigscore {
+   position: absolute;
+   top: 20px;
+   left: 0; right: 0;
+   text-align: center;
+   z-index: 100;
+}
+#bigscore img { display: inline-block; padding: 1px; }
+
+#splash {
+   position: absolute;
+   opacity: 0;
+   top: 75px;
+   left: 66px;
+   width: 188px;
+   height: 170px;
+   background-image: url('../assets/splash.png');
+   background-repeat: no-repeat;
+}
+
+#scoreboard {
+   position: absolute;
+   display: none;
+   opacity: 0;
+   top: 64px;
+   left: 42px;
+   width: 236px;
+   height: 280px;
+   background-image: url('../assets/scoreboard.png');
+   background-repeat: no-repeat;
+   z-index: 1000;
+}
+
+#medal {
+   position: absolute;
+   opacity: 0;
+   top: 114px;
+   left: 32px;
+   width: 44px;
+   height: 44px;
+}
+
+#currentscore {
+   position: absolute;
+   top: 105px;
+   left: 107px;
+   width: 104px;
+   height: 14px;
+   text-align: right;
+}
+#currentscore img { padding-left: 2px; }
+
+#highscore {
+   position: absolute;
+   top: 147px;
+   left: 107px;
+   width: 104px;
+   height: 14px;
+   text-align: right;
+}
+#highscore img { padding-left: 2px; }
+
+#replay {
+   position: absolute;
+   opacity: 0;
+   top: 205px;
+   left: 61px;
+   height: 115px;
+   width: 70px;
+   cursor: pointer;
+}
+
+/* =============================================
+   BIRD & PIPES
+   ============================================= */
+.boundingbox {
+   position: absolute;
+   display: none;
+   top: 0; left: 0;
+   width: 0; height: 0;
+   border: 1px solid red;
+}
+
+#player { left: 60px; top: 200px; }
+
+.bird {
+   position: absolute;
+   width: 34px;
+   height: 24px;
+   background-image: url('../assets/bird.png');
+   -webkit-animation: animBird 300ms steps(4) infinite;
+   animation: animBird 300ms steps(4) infinite;
+}
+
+.pipe {
+   position: absolute;
+   left: -100px;
+   width: 52px;
+   height: 100%;
+   z-index: 10;
+   -webkit-animation: animPipe 4000ms linear;
+   animation: animPipe 4000ms linear;
+}
+
+.pipe_upper {
+   position: absolute;
+   top: 0;
+   width: 52px;
+   background-image: url('../assets/pipe.png');
+   background-repeat: repeat-y;
+   background-position: center;
+}
+.pipe_upper:after {
+   content: "";
+   position: absolute;
+   bottom: 0;
+   width: 52px;
+   height: 26px;
+   background-image: url('../assets/pipe-down.png');
+}
+
+.pipe_lower {
+   position: absolute;
+   bottom: 0;
+   width: 52px;
+   background-image: url('../assets/pipe.png');
+   background-repeat: repeat-y;
+   background-position: center;
+}
+.pipe_lower:after {
+   content: "";
+   position: absolute;
+   top: 0;
+   width: 52px;
+   height: 26px;
+   background-image: url('../assets/pipe-up.png');
+}
+
+/* =============================================
+   WELCOME OVERLAY — tampil pertama saat dibuka
+   ============================================= */
+#welcomeOverlay {
+   display: none;
+   position: fixed;
+   top: 0; left: 0; right: 0; bottom: 0;
+   z-index: 9999;
+   background: linear-gradient(160deg, #1e3c5a 0%, #2a5470 50%, #1a2e45 100%);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   text-align: center;
+   padding: 30px;
+   /* mulai tersembunyi, JS yang fadeIn */
+   opacity: 0;
+}
+
+#welcomeOverlay .wc-emoji {
+   font-size: 3rem;
+   margin-bottom: 16px;
+   animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+   0%, 100% { transform: translateY(0); }
+   50%       { transform: translateY(-10px); }
+}
+
+#welcomeOverlay h1 {
+   font-family: 'Poppins', monospace, sans-serif;
+   font-size: 1.5rem;
+   font-weight: 700;
+   color: #fff;
+   margin: 0 0 12px;
+   text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+
+#welcomeOverlay p {
+   font-family: monospace, sans-serif;
+   font-size: 0.95rem;
+   line-height: 1.7;
+   color: #b8d8ea;
+   margin: 0 0 28px;
+}
+
+#welcomeOverlay .wc-highlight {
+   background: rgba(255, 180, 50, 0.2);
+   border: 1px solid rgba(255, 180, 50, 0.5);
+   border-radius: 10px;
+   padding: 10px 18px;
+   display: inline-block;
+   margin: 10px 0 24px;
+}
+
+#welcomeOverlay .wc-highlight span {
+   font-size: 2rem;
+   font-weight: 700;
+   color: #ffd166;
+   text-shadow: 0 0 12px rgba(255, 209, 102, 0.6);
+}
+
+#welcomeOverlay .tap-hint {
+   color: rgba(255,255,255,0.5);
+   font-size: 0.8rem;
+   margin: 0;
+   animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+   0%, 100% { opacity: 0.5; }
+   50%       { opacity: 1; }
+}
+
+/* =============================================
+   WIN OVERLAY — muncul saat capai 10 poin
+   ============================================= */
+#winOverlay {
+   display: none;
+   position: fixed;
+   top: 0; left: 0; right: 0; bottom: 0;
+   z-index: 9999;
+   background: rgba(10, 30, 60, 0.93);
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   text-align: center;
+   padding: 30px;
+}
+
+#winOverlay .win-emoji {
+   font-size: 4rem;
+   margin-bottom: 16px;
+}
+
+#winOverlay h2 {
+   font-family: monospace;
+   font-size: 1.6rem;
+   color: #ffd166;
+   margin: 0 0 12px;
+   text-shadow: 0 0 20px rgba(255,209,102,0.6);
+}
+
+#winOverlay p {
+   font-family: monospace;
+   color: #b8d8ea;
+   font-size: 0.9rem;
+   margin: 0;
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+#footer {
+   position: fixed;
+   bottom: 3px;
+   left: 3px;
+   z-index: 9999;
+}
+#footer a,
+#footer a:link,
+#footer a:visited,
+#footer a:hover,
+#footer a:active {
+   display: block;
+   padding: 2px;
+   text-decoration: none;
+   color: rgba(255,255,255,0.5);
+   font-size: 10px;
+   font-family: monospace;
+   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+#custom-footer {
+   position: fixed;
+   bottom: 3px;
+   right: 6px;
+   z-index: 9999;
+   font-family: monospace;
+   font-size: 10px;
+   color: rgba(255,255,255,0.5);
+   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+#custom-footer p { margin: 0; }
