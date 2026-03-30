@@ -13,6 +13,78 @@
 
       .page-wrap { display: flex; height: 100vh; }
 
+      /* =============================================
+         MENU TITIK 3 (NAVIGASI)
+         ============================================= */
+      .top-menu {
+         position: fixed;
+         top: 20px;
+         right: 25px;
+         z-index: 10000;
+      }
+      
+      .dots-btn {
+         background: rgba(255, 255, 255, 0.1);
+         border: 1px solid rgba(255, 255, 255, 0.2);
+         color: white;
+         font-size: 1.5rem;
+         width: 45px;
+         height: 45px;
+         border-radius: 50%;
+         cursor: pointer;
+         backdrop-filter: blur(5px);
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         transition: 0.3s;
+         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      }
+
+      .dots-btn:hover {
+         background: rgba(255, 255, 255, 0.2);
+         transform: scale(1.05);
+      }
+
+      .dropdown-content {
+         display: none;
+         position: absolute;
+         right: 0;
+         top: 55px;
+         background: #12233a;
+         min-width: 180px;
+         border-radius: 12px;
+         box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+         border: 1px solid rgba(255,255,255,0.15);
+         overflow: hidden;
+         animation: fadeInDown 0.3s ease;
+      }
+
+      @keyframes fadeInDown {
+         from { opacity: 0; transform: translateY(-10px); }
+         to { opacity: 1; transform: translateY(0); }
+      }
+
+      .dropdown-content a {
+         color: white;
+         padding: 14px 16px;
+         text-decoration: none;
+         display: block;
+         font-size: 0.85rem;
+         transition: 0.2s;
+         border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+
+      .dropdown-content a:last-child {
+         border-bottom: none;
+      }
+
+      .dropdown-content a:hover {
+         background: rgba(255, 130, 170, 0.2);
+         padding-left: 20px;
+      }
+
+      .show { display: block; }
+
       /* PANEL KIRI */
       .left-panel {
          flex: 1;
@@ -87,19 +159,53 @@
 
       .form-footer { margin-top: 28px; text-align: center; color: rgba(255,255,255,0.2); font-size: 0.72rem; }
 
+      /* FOOTER TENGAH SAKTI */
+      #custom-footer {
+         position: fixed;
+         bottom: 15px;
+         left: 50%;
+         transform: translateX(-50%);
+         width: 100%;
+         text-align: center;
+         z-index: 9999;
+         pointer-events: none;
+      }
+      #custom-footer p {
+         margin: 0;
+         color: rgba(255, 255, 255, 0.4);
+         font-size: 11px;
+         font-family: 'Poppins', sans-serif;
+         letter-spacing: 1px;
+         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+      }
+
       /* MOBILE */
       @media (max-width: 520px) {
          .page-wrap { flex-direction: column; overflow-y: auto; }
+         
+         /* Penyesuaian tombol titik 3 di HP biar gak nabrak */
+         .top-menu { top: 15px; right: 15px; }
+         .dots-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+         
          .left-panel { flex: none; padding: 32px 20px 24px; min-height: 200px; }
          .deco-circle-big { width: 180px; height: 180px; }
          .emoji-row span { font-size: 1.6rem; }
          .left-tagline { display: none; }
-         .right-panel { flex: 1; padding: 28px 24px 40px; }
+         .right-panel { flex: 1; padding: 28px 24px 80px; }
          .welcome-title { font-size: 1.3rem; }
       }
    </style>
 </head>
 <body>
+
+<div class="top-menu">
+   <button onclick="toggleMenu()" class="dots-btn">⋮</button>
+   <div id="myDropdown" class="dropdown-content">
+      <a href="index.html">🔙 Kembali ke Sandi</a>
+      <a href="#">ℹ️ Bantuan</a>
+   </div>
+</div>
+
 <div class="page-wrap">
 
    <div class="left-panel">
@@ -135,14 +241,37 @@
             dan hadiahmu siap dibuka! 🎁
          </p>
       </div>
-<div id="custom-footer">
-    <p>Dibuat dengan ❤️ oleh Orang Ganteng buat Anggie</p>
-</div>
-      <a class="btn-start" href="flappy.html">Awas Ranjau 🚀</a>
+
+      <a class="btn-start" href="flapy.html">Awas Ranjau 🚀</a>
       <p class="tap-hint">— Jangan Kepoan Nanti Nyesel —</p>
       <div class="form-footer">Dibuat dengan ❤️ oleh Orang Ganteng buat Anggie</div>
    </div>
 
 </div>
+
+<div id="custom-footer">
+    <p>Dibuat dengan ❤️ oleh Orang Ganteng buat Anggie</p>
+</div>
+
+<script>
+   // Fungsi buat nampilin/ngilangin dropdown
+   function toggleMenu() {
+      document.getElementById("myDropdown").classList.toggle("show");
+   }
+
+   // Nutup dropdown kalau user klik di luar tombol
+   window.onclick = function(event) {
+      if (!event.target.matches('.dots-btn') && !event.target.matches('.dots-btn *')) {
+         var dropdowns = document.getElementsByClassName("dropdown-content");
+         for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+               openDropdown.classList.remove('show');
+            }
+         }
+      }
+   }
+</script>
+
 </body>
 </html>
