@@ -277,17 +277,17 @@ function setHighScore() {
 function setMedal() {
    var elemmedal = $("#medal");
    elemmedal.empty();
-   if (score < 10) return false;
+   if (score < 1) return false;
    var medal = "bronze";
-   if (score >= 20) medal = "silver";
-   if (score >= 30) medal = "gold";
-   if (score >= 40) medal = "platinum";
+   if (score >= 5) medal = "silver";
+   if (score >= 15) medal = "gold";
+   if (score >= 19) medal = "platinum";
    elemmedal.append('<img src="assets/medal_' + medal + '.png" alt="' + medal + '">');
    return true;
 }
 
 // =============================================
-// MENANG — 10 POIN → TAMPILKAN CLUE (TIDAK AUTO REDIRECT)
+// MENANG — 20 POIN → TAMPILKAN CLUE (TIDAK AUTO REDIRECT)
 // =============================================
 function playerWin() {
    clearInterval(loopGameloop);
@@ -391,8 +391,8 @@ function playerScore() {
    soundScore.play();
    setBigScore();
 
-   // 10 poin = menang!
-   if (score >= 10) {
+   // 20 poin = menang!
+   if (score >= 20) {
       playerWin();
    }
 }
