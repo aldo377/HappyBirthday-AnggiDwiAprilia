@@ -287,7 +287,7 @@ function setMedal() {
 }
 
 // =============================================
-// MENANG — 10 POIN → sandi.html
+// MENANG — 10 POIN → TAMPILKAN CLUE (TIDAK AUTO REDIRECT)
 // =============================================
 function playerWin() {
    clearInterval(loopGameloop);
@@ -305,11 +305,8 @@ function playerWin() {
       setCookie("highscore", highscore, 999);
    }
 
-   // Tampilkan win popup lalu redirect ke game 2048
-   $('#winOverlay').fadeIn(500);
-   setTimeout(function() {
-      window.location.href = '200408.html';
-   }, 3000);
+   // Tampilkan win popup (Clue Username)
+   $('#winOverlay').css('display', 'flex').hide().fadeIn(500);
 }
 
 // =============================================
@@ -394,8 +391,8 @@ function playerScore() {
    soundScore.play();
    setBigScore();
 
-   // 20 poin = menang!
-   if (score >= 20) {
+   // 10 poin = menang!
+   if (score >= 10) {
       playerWin();
    }
 }
