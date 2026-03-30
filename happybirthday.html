@@ -1,436 +1,283 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles/style.css">
-  <title>Happy Birthday Anggie!! 🎂</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Happy Birthday! 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    /* ===== BACKGROUND ABU-BIRU CALM (SEPERTI REFERENSI) ===== */
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #1e2a4a !important;
-      font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
-      color: #fff;
+    /* =========================================
+       GLOBAL & APP CONTAINER
+       ========================================= */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: #0f172a; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #fff; overflow: hidden; }
+    
+    /* Pembungkus ala Aplikasi HP */
+    .app-container {
+      width: 100%; max-width: 480px; height: 100vh; background: #1a2e45; position: relative;
+      overflow: hidden; box-shadow: 0 0 50px rgba(0,0,0,0.5); display: flex; flex-direction: column;
+    }
+    
+    /* Background Bintang Ala-ala */
+    .app-container::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 40px 40px; pointer-events: none; z-index: 0;
     }
 
-    /* Paksa semua teks di dalam .container jadi putih kalau belum ada warna khusus */
-    .container, .container p, .container h1, .container h2,
-    .container h3, .container span, .container div {
-      color: inherit;
+    /* =========================================
+       VIEWS (HOME & PROFILE)
+       ========================================= */
+    .view-section {
+      flex: 1; overflow-y: auto; padding-bottom: 90px; /* Ruang buat bottom nav */
+      display: none; position: relative; z-index: 1;
+      animation: fadeIn 0.4s ease-in-out;
     }
-    .container { color: #fff; }
+    .view-section.active { display: block; }
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Efek bintang kecil di background biar ga kosong */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-image:
-        radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
-      background-size: 90px 90px, 45px 45px;
-      background-position: 0 0, 22px 22px;
-      pointer-events: none;
-      z-index: 0;
-    }
+    /* =========================================
+       HEADER
+       ========================================= */
+    .header { padding: 30px 20px 10px; display: flex; justify-content: space-between; align-items: center; }
+    .header-text h1 { font-size: 1.5rem; font-weight: 700; color: #fff; }
+    .header-text p { font-size: 0.85rem; color: #90aac8; }
+    .header-icon { font-size: 2rem; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 50%; }
 
-    /* ===== FULL SCREEN PHOTO SCROLL ===== */
-    /* Pakai autoAlpha (visibility+opacity) — tidak perlu display:none lagi */
-    #fullscreenScroll {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100vh;
-      z-index: 9999;
-      overflow: hidden;
-      background: #000;
-      visibility: hidden;
-      opacity: 0;
+    /* =========================================
+       HOME VIEW (STORY SLIDER)
+       ========================================= */
+    .section-title { padding: 20px 20px 10px; font-size: 1.2rem; font-weight: 600; }
+    
+    /* Container Geser (Swipe) */
+    .story-slider {
+      display: flex; overflow-x: auto; gap: 15px; padding: 10px 20px 20px;
+      scroll-snap-type: x mandatory; scroll-behavior: smooth;
     }
-    #scrollTrack {
-      will-change: transform;
+    .story-slider::-webkit-scrollbar { display: none; } /* Sembunyiin scrollbar */
+    
+    /* Kartu Story */
+    .story-card {
+      min-width: 80%; background: #12233a; border-radius: 20px; padding: 20px;
+      scroll-snap-align: center; border: 1px solid rgba(255,255,255,0.1);
+      position: relative; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
-    #scrollTrack img {
-      display: block;
-      width: 100%;
-      height: 100vh;
-      /* contain: foto tidak terpotong, vertikal & horizontal ikut bentuk aslinya */
-      object-fit: contain;
-      background: #000;
-    }
+    
+    /* Warna Tiap Kartu */
+    .card-1 { background: linear-gradient(135deg, #ff6b8a, #ff4757); }
+    .card-2 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+    .card-3 { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+    .card-4 { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #1a2e45; }
+    .card-unknown { background: linear-gradient(135deg, #12233a, #0f172a); border: 2px dashed #ffd166; }
 
-    /* ===== GIFT STORY SECTION ===== */
-    .gift-story {
-      visibility: hidden;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      width: 88%;
-      max-width: 620px;
-      z-index: 10;
+    .story-image {
+      width: 100%; height: 140px; background: rgba(0,0,0,0.2); border-radius: 12px;
+      margin-bottom: 15px; display: flex; justify-content: center; align-items: center; font-size: 3rem;
     }
-    .gift-story p {
-      opacity: 0;
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: #dce8f5;
-      margin: 10px 0;
+    
+    .story-card h3 { font-size: 1.3rem; margin-bottom: 5px; font-weight: 700; }
+    .story-card p { font-size: 0.85rem; opacity: 0.9; margin-bottom: 15px; line-height: 1.4; }
+    
+    .btn-read {
+      display: inline-block; padding: 10px 20px; background: rgba(255,255,255,0.2);
+      color: inherit; text-decoration: none; border-radius: 8px; font-weight: 600;
+      font-size: 0.9rem; backdrop-filter: blur(5px); text-align: center; width: 100%; transition: 0.2s;
     }
-    .gift-story strong {
-      color: #ffd700;
-      font-weight: 600;
-    }
+    .card-unknown .btn-read { background: #ffd166; color: #1a2e45; }
+    .btn-read:active { transform: scale(0.95); }
 
-    /* ===== SECTION SIX: PROFILE WRAP ===== */
-    .six {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-    }
-    .profile-wrap {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .profile-picture {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid #ff69b4;
-      box-shadow: 0 0 0 7px rgba(255,105,180,0.2), 0 10px 40px rgba(0,0,0,0.5);
-    }
-    .hat {
-      position: absolute;
-      top: -40px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-    }
-    .wish-name {
-      margin: 10px 0 0;
-      font-size: 0.9rem;
-      color: #90aac8;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .wish-hbd {
-      font-size: 1.9rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-align: center;
-      margin: 8px 0 0;
-    }
-
-    /* ===== WISH SLIDES — masing-masing slide ucapan ===== */
-    .wish-slide {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 86%;
-      max-width: 580px;
-      text-align: center;
-      z-index: 7;
-      /* mulai invisible, GSAP yang kontrol */
-      visibility: hidden;
-      opacity: 0;
-    }
-    .wish-slide .slide-emoji {
-      font-size: 2.2rem;
-      display: block;
-      margin-bottom: 12px;
-    }
-    .wish-slide p {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      color: #dce8f5;
-      margin: 0;
-    }
-
-    /* ===== MAAFAN STATS ===== */
-    .stats-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 88%;
-      max-width: 480px;
-      text-align: center;
-      color: #dce8f5;
-      z-index: 10;
-      visibility: hidden;
-      opacity: 0;
-    }
-    .stats-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 24px;
-      color: #90aac8;
-      letter-spacing: 1px;
-    }
-    .stat-item {
-      margin: 16px 0;
-      background: rgba(255,255,255,0.06);
-      border-radius: 16px;
-      padding: 18px 22px;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-    .stat-label {
-      font-size: 0.85rem;
-      opacity: 0.75;
-      margin: 0 0 6px;
-    }
-    .stat-count {
-      font-size: 3rem;
-      font-weight: 700;
-      margin: 4px 0 12px;
-      line-height: 1;
-    }
-    #count-aldo  { color: #ff69b4; }
-    #count-gigiek { color: #87ceeb; }
-    .stat-bar {
-      background: rgba(255,255,255,0.1);
-      border-radius: 20px;
-      height: 16px;
+    /* =========================================
+       PROFILE VIEW
+       ========================================= */
+    .profile-header { text-align: center; padding: 30px 20px; }
+    .profile-pic {
+      width: 110px; height: 110px; border-radius: 50%; background: #ff6b8a;
+      margin: 0 auto 15px; display: flex; justify-content: center; align-items: center;
+      font-size: 3rem; border: 4px solid #1a2e45; box-shadow: 0 0 0 4px #ff6b8a;
       overflow: hidden;
     }
-    .bar-fill {
-      height: 100%;
-      border-radius: 20px;
-      width: 0%;
+    .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-name { font-size: 1.4rem; font-weight: 700; }
+    .profile-status { font-size: 0.85rem; color: #ffd166; margin-top: 5px; }
+
+    /* Statistik Card (Dari kode lama kamu) */
+    .stats-card {
+      background: rgba(255,255,255,0.05); margin: 0 20px 20px; padding: 20px;
+      border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: center;
     }
-    #bar-aldo {
-      background: linear-gradient(90deg, #ff69b4, #ff1493);
+    .stats-title { font-size: 0.9rem; color: #90aac8; margin-bottom: 15px; font-weight: 600; }
+    .stat-row { display: flex; justify-content: space-around; }
+    .stat-item h4 { font-size: 1.5rem; color: #ff6b8a; }
+    .stat-item p { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+    
+    .menu-list { padding: 0 20px; }
+    .menu-item {
+      background: rgba(255,255,255,0.05); padding: 15px 20px; border-radius: 12px;
+      margin-bottom: 10px; display: flex; align-items: center; gap: 15px;
+      color: #fff; text-decoration: none; transition: 0.2s; border: 1px solid transparent;
     }
-    #bar-gigiek {
-      background: linear-gradient(90deg, #87ceeb, #4169e1);
+    .menu-item:active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+    .menu-icon { font-size: 1.2rem; }
+
+    /* =========================================
+       BOTTOM NAVIGATION BAR
+       ========================================= */
+    .bottom-nav {
+      position: absolute; bottom: 0; left: 0; width: 100%; height: 75px;
+      background: rgba(18, 35, 58, 0.95); backdrop-filter: blur(15px);
+      border-top-left-radius: 25px; border-top-right-radius: 25px;
+      display: flex; justify-content: space-around; align-items: center;
+      padding: 0 20px; z-index: 100; border-top: 1px solid rgba(255,255,255,0.05);
     }
-    .stats-note {
-      font-style: italic;
-      font-size: 0.85rem;
-      opacity: 0.7;
-      margin-top: 22px;
-      line-height: 1.7;
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      color: rgba(255,255,255,0.4); cursor: pointer; transition: 0.3s; width: 80px;
     }
+    .nav-item.active { color: #ff6b8a; transform: translateY(-3px); }
+    .nav-icon { font-size: 1.6rem; }
+    .nav-text { font-size: 0.7rem; font-weight: 600; }
+
   </style>
 </head>
-
 <body>
 
-  <audio class="song" loop>
-    <source src="./music/hbd.mp3" />
+  <audio class="song" loop autoplay>
+    <source src="music/hbd.mp3" type="audio/mpeg" />
   </audio>
 
-  <!-- ===== FULL SCREEN PHOTO SCROLL ===== -->
-  <div id="fullscreenScroll">
-    <div id="scrollTrack">
-      <img src="img/slide1.jpg"  alt="foto 1"  />
-      <img src="img/slide2.jpg"  alt="foto 2"  />
-      <img src="img/slide3.jpg"  alt="foto 3"  />
-      <img src="img/slide4.jpg"  alt="foto 4"  />
-      <img src="img/slide5.jpg"  alt="foto 5"  />
-      <img src="img/slide6.jpg"  alt="foto 6"  />
-      <img src="img/slide7.jpg"  alt="foto 7"  />
-      <img src="img/slide8.jpg"  alt="foto 8"  />
-      <img src="img/slide9.jpg"  alt="foto 9"  />
-      <img src="img/slide10.jpg" alt="foto 10" />
+  <div class="app-container">
+
+    <div id="view-home" class="view-section active">
+      <div class="header">
+        <div class="header-text">
+          <h1>Halo, Sayang! 👋</h1>
+          <p>Ada cerita apa hari ini?</p>
+        </div>
+        <div class="header-icon">🎂</div>
+      </div>
+
+      <h2 class="section-title">Kumpulan Cerita Kita</h2>
+      
+      <div class="story-slider">
+        
+        <div class="story-card card-1">
+          <div class="story-image">
+            <img src="img/placeholder.png" alt="Story 1" style="width:100%; height:100%; object-fit:cover; border-radius:8px; display:none;">
+            📖
+          </div>
+          <h3>Chapter 1</h3>
+          <p>Awal mula semua rasa ini bermula. Baca yuk!</p>
+          <a href="story1.html" class="btn-read">BACA CERITA</a>
+        </div>
+
+        <div class="story-card card-2">
+          <div class="story-image">☕</div>
+          <h3>Chapter 2</h3>
+          <p>Hal-hal kecil yang bikin aku makin jatuh hati.</p>
+          <a href="story2.html" class="btn-read">BACA CERITA</a>
+        </div>
+
+        <div class="story-card card-3">
+          <div class="story-image">🎢</div>
+          <h3>Chapter 3</h3>
+          <p>Jatuh bangun dan perjalanan seru kita berdua.</p>
+          <a href="story3.html" class="btn-read">BACA CERITA</a>
+        </div>
+
+        <div class="story-card card-4">
+          <div class="story-image">💌</div>
+          <h3 style="color:#1a2e45;">Chapter 4</h3>
+          <p style="color:#1a2e45;">Catatan untuk hari ini dan selamanya.</p>
+          <a href="story4.html" class="btn-read" style="background: #1a2e45; color: #fff;">BACA CERITA</a>
+        </div>
+
+        <div class="story-card card-unknown">
+          <div class="story-image">🔒</div>
+          <h3 style="color:#ffd166;">The Unknown</h3>
+          <p>Sstt... ini rahasia. Selesaikan chapter 1-4 dulu ya!</p>
+          <a href="storyunknown.html" class="btn-read">BUKA RAHASIA</a>
+        </div>
+
+      </div>
     </div>
+
+
+    <div id="view-profile" class="view-section">
+      <div class="profile-header">
+        <div class="profile-pic">
+          👸🏻
+        </div>
+        <h2 class="profile-name">Anggie Dwi Aprilia</h2>
+        <p class="profile-status">"The Birthday Princess ✨"</p>
+      </div>
+
+      <div class="stats-card">
+        <h3 class="stats-title">💌 Catatan Kita</h3>
+        <div class="stat-row">
+          <div class="stat-item">
+            <h4 id="count-aldo">99+</h4>
+            <p>Aldo Minta Maaf</p>
+          </div>
+          <div class="stat-item">
+            <h4 style="color: #4facfe;">~50</h4>
+            <p>Gigiek Minta Maaf</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-list">
+        <a href="flapy.html" class="menu-item">
+          <span class="menu-icon">🎮</span>
+          <span>Main Flappy Bird Lagi</span>
+        </a>
+        <a href="200408.html" class="menu-item">
+          <span class="menu-icon">🧩</span>
+          <span>Main Game 2048 Lagi</span>
+        </a>
+        <a href="index.html" class="menu-item">
+          <span class="menu-icon">🚪</span>
+          <span style="color: #ff4757;">Keluar (Logout)</span>
+        </a>
+      </div>
+    </div>
+
+
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="switchTab('home')">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-text">Home</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('profile')">
+        <span class="nav-icon">👤</span>
+        <span class="nav-text">Profile</span>
+      </div>
+    </div>
+
   </div>
 
-  <div class="container">
+  <script>
+    // FUNGSI GANTI TAB TANPA LOADING
+    function switchTab(tabName) {
+      // Sembunyiin semua halaman
+      document.getElementById('view-home').classList.remove('active');
+      document.getElementById('view-profile').classList.remove('active');
+      
+      // Reset warna tombol navigasi
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => item.classList.remove('active'));
 
-    <!-- SECTION 1: GREETING -->
-    <div class="one">
-      <h1 class="one">
-        Hi!👋🏼 <span id="name">Anggie</span>
-      </h1>
-      <p class="two">Aku suka banget nama kamu, unik dan cantik — persis kayak orangnya!</p>
-    </div>
-
-    <!-- SECTION 2: BIRTHDAY -->
-    <div class="three">
-      <p>Hari ini ulang tahun kamu!! 🎂</p>
-    </div>
-
-    <!-- SECTION 3: CHAT BOX -->
-    <div class="four">
-      <div class="text-box">
-        <p class="hbd-chatbox">
-          Semoga hari ini jadi hari yang paling indah buat kamu, dan tahun ke depan penuh sama berkah. Semoga semua doa dan harapan kamu dikabulkan sama Allah!
-        </p>
-        <p class="fake-btn">Kirim Doa ✨</p>
-      </div>
-    </div>
-
-    <!-- SECTION 4: IDEA SEQUENCE -->
-    <div class="five">
-      <p class="idea-1">Aku sempet bingung mau ngasih kamu apa.</p>
-      <p class="idea-2">
-        Tapi aku berhenti sebentar. Aku pikir, <br />"Kenapa nggak bikin sesuatu yang spesial buat dia?"
-      </p>
-      <p class="idea-3">
-        Aku sadar, aku mau lakuin sesuatu yang beda. <br />
-        <strong>Sesuatu yang bikin kamu senyum dan ngerasa istimewa.</strong>
-      </p>
-      <p class="idea-4">Karena,</p>
-      <p class="idea-5">Kamu istimewa buat aku. <span>😊</span></p>
-      <p class="idea-6">
-        <span>J</span><span>A</span><span>D</span><span>I</span>
-      </p>
-    </div>
-
-    <!-- SECTION 5: GIFT STORY -->
-    <div class="gift-story">
-      <p class="gift-1">Aku ngasih kamu <strong>Cardigan aku</strong> 🧥</p>
-      <p class="gift-2">
-        Bukan beli baru ya — cardigan punya aku sendiri. Karena kamu suka cardigan, aku mau kamu bisa bawa "aku" ke mana pun kamu pergi. Biar ngerasa aku selalu ada, nemenin kamu.
-      </p>
-      <p class="gift-3">Aku juga ngasih kamu <strong>TWS</strong> 🎧</p>
-      <p class="gift-4">
-        Sebenernya aku sempet mau beliin kamu jam tangan, biar jadi pengingat aku terus hehe. Tapi aku milih TWS — biar kamu bisa dengerin lagu favorit kapanpun kamu butuh, terutama pas lagi capek berjuang buat UTBK.
-      </p>
-      <p class="gift-5">Dan tentu aja... <strong>Silverqueen &amp; Oreo</strong> 🍫🍪</p>
-      <p class="gift-6">Karena kamu suka yang manis-manis. Persis kayak kamu. 😄</p>
-    </div>
-
-    <!-- SECTION 6: PROFILE + HBD TITLE -->
-    <div class="six">
-      <div class="profile-wrap">
-        <img src="img/hat.svg" alt="Hat" class="hat" />
-        <!-- FOTO DIGANTI KE .jpg -->
-        <img src="./img/ayang.jpg" alt="Anggie" class="profile-picture" id="imagePath" />
-        <p class="wish-name">Anggie Dwi Aprilia</p>
-      </div>
-      <h3 class="wish-hbd">Selamat Ulang Tahun!</h3>
-    </div>
-
-    <!-- WISH SLIDES: masing-masing masuk satu-satu dengan animasi -->
-    <div class="wish-slide" id="wish-1">
-      <span class="slide-emoji">🎉</span>
-      <p>Selamat ulang tahun, Anggie! Semoga hari ini jadi hari yang paling berkesan, dipenuhi kebahagiaan dari orang-orang yang kamu sayangi.</p>
-    </div>
-    <div class="wish-slide" id="wish-2">
-      <span class="slide-emoji">🧥</span>
-      <p>Cardigan aku — bukan sekadar baju. Aku mau kamu bisa bawa "aku" ke mana pun kamu pergi. Biar kamu ngerasa aku selalu ada, nemenin kamu di setiap momen.</p>
-    </div>
-    <div class="wish-slide" id="wish-3">
-      <span class="slide-emoji">🎧</span>
-      <p>TWS itu biar kamu bisa dengerin lagu favorit dan healing kapanpun kamu butuh. Terutama pas lagi pusing belajar — istirahat dulu, dengerin musik, terus semangat lagi ya.</p>
-    </div>
-    <div class="wish-slide" id="wish-4">
-      <span class="slide-emoji">🙏</span>
-      <p>Semoga Allah selalu jagain kamu dan kasih kamu kemudahan di setiap langkah. Apapun yang ada di depan kamu nanti — percaya aja, Allah pasti kasih yang terbaik buat kamu.</p>
-    </div>
-    <div class="wish-slide" id="wish-5">
-      <span class="slide-emoji">💕</span>
-      <p>Tetap jadi Anggie yang kuat, yang semangat, yang selalu aku kagumi. Selamat ulang tahun — semoga tahun ini jadi tahun terbaik kamu! 🎂✨</p>
-    </div>
-
-    <!-- SECTION 7: BALLOONS -->
-    <div class="seven">
-      <div class="ballons">
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-        <img src="img/ballon2.svg" alt="Ballon" />
-        <img src="img/ballon1.svg" alt="Ballon" />
-        <img src="img/ballon3.svg" alt="Ballon" />
-      </div>
-    </div>
-
-    <!-- SECTION 8: BURST SVG -->
-    <div class="eight">
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
-    </div>
-
-    <!-- SECTION 9: MAAFAN STATS -->
-    <div class="stats-container">
-      <p class="stats-title">💌 Catatan Kita · Jun 2025 – Mar 2026</p>
-      <div class="stat-item">
-        <p class="stat-label">Aldo Minta Maaf 🥺</p>
-        <p class="stat-count"><span id="count-aldo">0</span><small style="font-size:1rem; font-weight:400">+ kali</small></p>
-        <div class="stat-bar"><div id="bar-aldo" class="bar-fill"></div></div>
-      </div>
-      <div class="stat-item">
-        <p class="stat-label">Gigiek Minta Maaf 🥹</p>
-        <p class="stat-count">~<span id="count-gigiek">0</span><small style="font-size:1rem; font-weight:400"> kali</small></p>
-        <div class="stat-bar"><div id="bar-gigiek" class="bar-fill"></div></div>
-      </div>
-      <p class="stats-note">
-        "Semoga kita terus saling memaafkan dan saling menguatkan ya.<br />
-        Karena yang kita bangun bareng ini bukan sesuatu yang biasa-biasa aja. 💕"
-      </p>
-    </div>
-
-    <!-- SECTION 10: ENDING -->
-    <div class="nine">
-      <p>Oke, sekarang balik ke sini dan kasih tau aku kamu suka apa nggak. 😊</p>
-      <p id="replay">Atau klik di sini kalau mau liat lagi dari awal.</p>
-      <p class="last-smile">😊</p>
-    </div>
-<div id="custom-footer">
-    <p>Dibuat dengan ❤️ oleh Orang Ganteng buat Anggie</p>
-</div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script type="application/javascript" src="./scripts/birthday.js"></script>
+      // Tunjukin halaman yang dipencet
+      if(tabName === 'home') {
+        document.getElementById('view-home').classList.add('active');
+        navItems[0].classList.add('active');
+      } else if(tabName === 'profile') {
+        document.getElementById('view-profile').classList.add('active');
+        navItems[1].classList.add('active');
+      }
+    }
+  </script>
 
 </body>
 </html>
