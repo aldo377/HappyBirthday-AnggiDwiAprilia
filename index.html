@@ -54,7 +54,7 @@
          pointer-events: none;
       }
 
-      /* Lingkaran dekorasi hijau (seperti Feb Mart) */
+      /* Lingkaran dekorasi hijau */
       .deco-circle-big {
          position: absolute;
          width: 260px; height: 260px;
@@ -81,16 +81,26 @@
          display: flex;
          flex-direction: column;
          align-items: center;
-         margin-bottom: 20px;
+         margin-bottom: 15px;
       }
 
-      .left-logo .logo-emoji {
-         font-size: 3.5rem;
-         margin-bottom: 8px;
+      /* Tempat buat sandi.gif */
+      .left-logo img.sandi-gif {
+         width: 140px;
+         height: auto;
+         margin-bottom: 15px;
+         border-radius: 15px;
+         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+         animation: floatGif 3s ease-in-out infinite;
+      }
+
+      @keyframes floatGif {
+         0%, 100% { transform: translateY(0); }
+         50% { transform: translateY(-10px); }
       }
 
       .left-logo h2 {
-         font-size: 1.2rem;
+         font-size: 1.4rem;
          font-weight: 700;
          color: #fff;
          text-align: center;
@@ -98,39 +108,12 @@
       }
 
       .left-logo p {
-         font-size: 0.75rem;
-         color: rgba(255,255,255,0.5);
+         font-size: 0.8rem;
+         color: rgba(255,255,255,0.7);
          text-align: center;
          margin-top: 4px;
          letter-spacing: 2px;
          text-transform: uppercase;
-      }
-
-      /* Ilustrasi hati */
-      .heart-illustration {
-         position: relative;
-         z-index: 1;
-         display: flex;
-         flex-wrap: wrap;
-         gap: 12px;
-         justify-content: center;
-         max-width: 200px;
-         margin: 10px auto;
-      }
-
-      .heart-illustration span {
-         font-size: 2rem;
-         animation: floatHeart 3s ease-in-out infinite;
-      }
-
-      .heart-illustration span:nth-child(2) { animation-delay: 0.4s; }
-      .heart-illustration span:nth-child(3) { animation-delay: 0.8s; }
-      .heart-illustration span:nth-child(4) { animation-delay: 1.2s; }
-      .heart-illustration span:nth-child(5) { animation-delay: 1.6s; }
-
-      @keyframes floatHeart {
-         0%, 100% { transform: translateY(0) scale(1); }
-         50%       { transform: translateY(-8px) scale(1.1); }
       }
 
       .left-tagline {
@@ -138,8 +121,8 @@
          z-index: 1;
          text-align: center;
          margin-top: 20px;
-         color: rgba(255,255,255,0.6);
-         font-size: 0.82rem;
+         color: rgba(255,255,255,0.8);
+         font-size: 0.85rem;
          line-height: 1.7;
       }
 
@@ -152,6 +135,7 @@
          align-items: center;
          justify-content: center;
          padding: 40px 32px;
+         position: relative;
       }
 
       .form-title {
@@ -247,11 +231,45 @@
          max-width: 280px;
       }
 
-      .form-footer {
-         margin-top: 30px;
+      /* Tombol Bantuan Clue */
+      .help-link {
+         display: block;
+         margin-top: 25px;
+         color: #ffd166;
+         font-size: 0.8rem;
+         text-decoration: none;
          text-align: center;
-         color: rgba(255,255,255,0.25);
-         font-size: 0.72rem;
+         padding: 10px;
+         border: 1px dashed rgba(255, 209, 102, 0.4);
+         border-radius: 8px;
+         background: rgba(255, 209, 102, 0.05);
+         transition: 0.3s;
+      }
+
+      .help-link:hover {
+         background: rgba(255, 209, 102, 0.15);
+         border-color: #ffd166;
+      }
+
+      /* Footer Tengah */
+      #custom-footer {
+         position: fixed;
+         bottom: 15px;
+         left: 50%;
+         transform: translateX(-50%);
+         width: 100%;
+         text-align: center;
+         z-index: 9999;
+         pointer-events: none;
+      }
+
+      #custom-footer p {
+         margin: 0;
+         color: rgba(255, 255, 255, 0.4);
+         font-size: 11px;
+         font-family: 'Poppins', sans-serif;
+         letter-spacing: 1px;
+         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
       }
 
       /* =============================================
@@ -266,20 +284,18 @@
          .left-panel {
             flex: none;
             padding: 32px 20px 24px;
-            min-height: 200px;
+            min-height: 250px;
          }
 
          .deco-circle-big {
             width: 180px; height: 180px;
          }
 
-         .heart-illustration span { font-size: 1.6rem; }
-
          .left-tagline { display: none; }
 
          .right-panel {
             flex: none;
-            padding: 28px 24px 40px;
+            padding: 28px 24px 80px; /* Bawah agak panjang biar ga nabrak footer */
          }
 
          .form-title { font-size: 1.3rem; margin-bottom: 24px; }
@@ -290,23 +306,15 @@
 
 <div class="page-wrap">
 
-   <!-- ── PANEL KIRI ── -->
    <div class="left-panel">
       <div class="deco-circle-big"></div>
       <div class="deco-circle-sm"></div>
 
       <div class="left-logo">
-         <div class="logo-emoji">🎂</div>
+         <img src="sandi.gif" alt="Animasi Lucu" class="sandi-gif" onerror="this.style.display='none';">
+         
          <h2>Hayoo Tebak</h2>
          <p>Khusus buat orang cantik</p>
-      </div>
-
-      <div class="heart-illustration">
-         <span>💕</span>
-         <span>🎉</span>
-         <span>🎂</span>
-         <span>💝</span>
-         <span>✨</span>
       </div>
 
       <div class="left-tagline">
@@ -315,7 +323,6 @@
       </div>
    </div>
 
-   <!-- ── PANEL KANAN ── -->
    <div class="right-panel">
       <h1 class="form-title">Masuk</h1>
 
@@ -341,14 +348,15 @@
          Gimana sih Kok Engga Bisa Buka 😅
       </p>
 
-      <div class="form-footer">
-         Dibuat dengan ❤️ oleh Orang Ganteng
-      </div>
+      <a href="tutor.html" class="help-link">
+         Enggak tau nama & sandinya? Klik di sini buat cari Clue! 🔍
+      </a>
+
    </div>
-   <div id="custom-footer">
-    <p>Dibuat dengan ❤️ oleh Orang Ganteng buat Anggie</p>
 </div>
 
+<div id="custom-footer">
+    <p>Dibuat dengan ❤️ oleh Orang Ganteng buat Anggie</p>
 </div>
 
 <script>
@@ -358,27 +366,37 @@
    });
 
    function doLogin() {
-      var username = document.getElementById('inputUsername').value.trim();
+      var username = document.getElementById('inputUsername').value.trim().toLowerCase();
       var password = document.getElementById('inputPassword').value.trim();
 
-      // Kredensial — case-insensitive untuk nama
-      var validUser = "Anggi Dwi Aprilia";
-      var validPass = "200408";
-      var validUser = "Aldo Leo Saputra";
-      var validPass = "280708";
-      var validUser = "Alief Hidayat";
-      var validPass = "200408";
+      // LOGIKNYA UDAH AKU PERBAIKI BIAR BISA MASUK SEMUA
+      var isSuccess = false;
 
-      if (username.toLowerCase() === validUser.toLowerCase() && password === validPass) {
-         // Sukses — redirect ke birthday
-         document.querySelector('.btn-login').textContent = '💕 Sudah Di  Bilang Jangan Di pencet';
-         document.querySelector('.btn-login').style.opacity = '0.7';
+      // Pengecekan 1: Anggi Dwi Aprilia
+      if (username === "anggi dwi aprilia" || username === "anggie dwi aprilia") {
+         if (password === "200408") isSuccess = true;
+      }
+      // Pengecekan 2: Aldo Leo Saputra
+      else if (username === "aldo leo saputra") {
+         if (password === "280708") isSuccess = true;
+      }
+      // Pengecekan 3: Alief Hidayat
+      else if (username === "alief hidayat") {
+         if (password === "200408") isSuccess = true;
+      }
+
+      if (isSuccess) {
+         // Sukses — redirect ke happybirthday.html
+         var btn = document.querySelector('.btn-login');
+         btn.textContent = '💕 Sudah Di Bilang Jangan Di pencet';
+         btn.style.opacity = '0.7';
          setTimeout(function() {
-            window.location.href = 'birthday.html';
+            window.location.href = 'happybirthday.html';
          }, 800);
       } else {
          var errMsg = document.getElementById('errorMsg');
          errMsg.style.display = 'block';
+         
          // Animasi shake
          var inputWraps = document.querySelectorAll('.input-wrap');
          inputWraps.forEach(function(el) {
