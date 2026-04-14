@@ -21,7 +21,275 @@
          top: 20px;
          right: 25px;
          z-index: 10000;
-      }
+      }<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aturan Main & Bantuan 📖</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. RESET & CSS VARIABLES (NEO-BRUTALISM SETTINGS)
+           ========================================================================== */
+        :root {
+            --bg-color: #f8f9fa;       
+            --border-color: #111111;   
+            --accent-pink: #ff6b8a;    
+            --accent-blue: #4facfe;    
+            --accent-green: #ccff00;   
+            --accent-yellow: #ffd166;  
+            --border-thick: 4px;       
+        }
+
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            font-family: 'Poppins', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        /* SCROLL ALAMI BAWAAN BROWSER (ANTI BUG HP) */
+        body {
+            background-color: var(--bg-color);
+            color: var(--border-color);
+            overflow-x: hidden;
+            min-height: 100vh; /* Biar bisa memanjang alami ke bawah */
+            background-image: radial-gradient(var(--border-color) 1.5px, transparent 1.5px);
+            background-size: 30px 30px;
+        }
+
+        /* ==========================================================================
+           2. SPLASH SCREEN (LAYAR LOADING AWAL) - FIXED POSITION
+           ========================================================================== */
+        #splash-screen {
+            position: fixed; /* Menutupi layar secara penuh */
+            top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
+            background: var(--bg-color); z-index: 99999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        #splash-screen.hidden { opacity: 0; transform: scale(1.1); pointer-events: none; }
+
+        .loader-box {
+            width: 70px; height: 70px;
+            border: var(--border-thick) solid var(--border-color);
+            background: var(--accent-blue);
+            animation: spinBrutal 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px;
+        }
+        @keyframes spinBrutal {
+            0% { transform: rotate(0deg) scale(1); background: var(--accent-blue); }
+            50% { transform: rotate(180deg) scale(1.2); background: var(--accent-yellow); }
+            100% { transform: rotate(360deg) scale(1); background: var(--accent-pink); }
+        }
+        .splash-text { font-size: 1.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; animation: pulseText 1.5s infinite alternate; }
+        @keyframes pulseText { from { opacity: 0.5; transform: translateY(0); } to { opacity: 1; transform: translateY(-5px); } }
+
+        /* ==========================================================================
+           3. CONTAINER UTAMA (AUTO-HEIGHT)
+           ========================================================================== */
+        .app-container {
+            width: 100%; max-width: 480px; 
+            min-height: 100vh; /* Tidak dikunci, mengikuti isi konten */
+            background: #ffffff; 
+            margin: 0 auto; /* Posisi di tengah layar jika dibuka di laptop */
+            position: relative; overflow: visible; /* Scroll alami */
+            border-left: var(--border-thick) solid var(--border-color); 
+            border-right: var(--border-thick) solid var(--border-color);
+            display: flex; flex-direction: column;
+        }
+
+        /* ==========================================================================
+           4. HEADER STICKY
+           ========================================================================== */
+        .header { 
+            padding: 25px 20px 20px; display: flex; align-items: center; gap: 15px;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            border-bottom: var(--border-thick) solid var(--border-color); 
+            position: sticky; top: 0; z-index: 100;
+        }
+        .back-btn {
+            background: var(--accent-pink); color: var(--border-color);
+            width: 45px; height: 45px; border-radius: 12px;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; font-weight: 900; text-decoration: none;
+            border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);
+            transition: 0.1s;
+        }
+        .back-btn:active { transform: translate(3px, 3px); box-shadow: 0px 0px 0px var(--border-color); }
+        
+        .header-text h1 { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; line-height: 1; }
+        .header-text p { font-size: 0.8rem; color: #555; font-weight: 700; margin-top: 5px; }
+
+        /* ==========================================================================
+           5. KONTEN ATURAN MAIN (BRUTALIST CARDS)
+           ========================================================================== */
+        .content-area { padding: 30px 20px 50px; }
+        
+        .intro-box {
+            text-align: center; margin-bottom: 30px;
+        }
+        .intro-box span { font-size: 4rem; display: block; margin-bottom: 10px; animation: bounce 2s infinite; }
+        .intro-box h2 { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* List Aturan */
+        .rule-card {
+            border: var(--border-thick) solid var(--border-color);
+            border-radius: 16px; padding: 20px; margin-bottom: 25px;
+            box-shadow: 6px 6px 0px var(--border-color);
+            position: relative; background: #fff;
+        }
+        
+        .rule-card .rule-num {
+            position: absolute; top: -15px; left: -10px;
+            width: 40px; height: 40px; background: var(--border-color); color: #fff;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 1.2rem; font-weight: 900; border: 3px solid #fff;
+        }
+
+        .rule-card h3 { font-size: 1.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; margin-left: 15px;}
+        .rule-card p { font-size: 0.9rem; font-weight: 600; color: #333; line-height: 1.5; }
+
+        /* Warna per kartu */
+        .bg-pink { background: var(--accent-pink); }
+        .bg-blue { background: var(--accent-blue); }
+        .bg-yellow { background: var(--accent-yellow); }
+        .bg-green { background: var(--accent-green); }
+        
+        /* ==========================================================================
+           6. TOMBOL NAVIGASI BAWAH
+           ========================================================================== */
+        .action-box {
+            margin-top: 40px; display: flex; flex-direction: column; gap: 15px;
+            border-top: var(--border-thick) dashed var(--border-color); padding-top: 30px;
+        }
+
+        .brutal-btn {
+            display: block; padding: 18px; text-align: center; text-decoration: none;
+            border: var(--border-thick) solid var(--border-color); border-radius: 12px;
+            font-weight: 900; font-size: 1rem; text-transform: uppercase;
+            box-shadow: 5px 5px 0px var(--border-color); transition: 0.15s;
+            position: relative; overflow: hidden;
+        }
+        .brutal-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--border-color); }
+        
+        .btn-game1 { background: #fff; }
+        .btn-game2 { background: #fff; }
+        .btn-login { background: var(--border-color); color: #fff; margin-top: 10px; }
+
+        /* Efek Ripple (Gelombang Air) pada tombol */
+        .ripple {
+            position: absolute; border-radius: 50%; transform: scale(0);
+            animation: ripple-animation 0.6s linear; background-color: rgba(0, 0, 0, 0.2); pointer-events: none;
+        }
+        .btn-login .ripple { background-color: rgba(255, 255, 255, 0.3); }
+        @keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }
+
+        .footer-note { text-align: center; font-size: 0.75rem; font-weight: 700; color: #999; margin-top: 30px; padding-bottom: 20px; text-transform: uppercase; }
+
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen">
+        <div class="loader-box"></div>
+        <div class="splash-text">Memuat Aturan...</div>
+    </div>
+
+    <div class="app-container">
+        
+        <div class="header">
+            <a href="index.html" class="back-btn">←</a>
+            <div class="header-text">
+                <h1>Tutor & Aturan</h1>
+                <p>Wajib baca sebelum buka kado!</p>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="intro-box">
+                <span>🚨</span>
+                <h2>Awas Princess!</h2>
+                <p style="font-weight: 600; color: #555; margin-top: 5px;">Selesaikan semuanya sebelum memulai kado utama.</p>
+            </div>
+
+            <div class="rule-card bg-pink">
+                <div class="rule-num">1</div>
+                <h3>BACA SEMUANYA!</h3>
+                <p>Wajib membaca semua petunjuk ini dari awal sampai akhir agar tidak terjadi kesalahan saat mencoba *login* ke kado utamamu.</p>
+            </div>
+
+            <div class="rule-card bg-blue">
+                <div class="rule-num">2</div>
+                <h3>Misi 1: Flappy Bird 🐦</h3>
+                <p>Mainkan Misi 1 (Terbang). Hindari pipa dan capai skor tertentu. Nanti bakal muncul pop-up berisi <strong>Clue Username</strong> kamu.</p>
+            </div>
+
+            <div class="rule-card bg-yellow">
+                <div class="rule-num">3</div>
+                <h3>Misi 2: Game 2048 🧩</h3>
+                <p>Mainkan Misi 2 (Puzzle). Gabungkan kotak-kotak angka sampai kamu menemukan <strong>Clue Kode Rahasia (Password)</strong> di dalamnya.</p>
+            </div>
+
+            <div class="rule-card bg-green">
+                <div class="rule-num">4</div>
+                <h3>JANGAN LUPA SCREENSHOT 📸</h3>
+                <p>Kalau kamu udah dapat clue-nya, <strong>Wajib Screenshot!</strong> Biar kamu nggak lupa pas mau masukin sandi di halaman depan.</p>
+            </div>
+
+            <div class="rule-card" style="background: #eee;">
+                <div class="rule-num">5</div>
+                <h3>SALAH? MENGULANG! ☠️</h3>
+                <p>Jika *Username* dan *Kata Sandi* yang kamu masukkan salah, silakan main ulang gamenya dari awal buat nyari clue-nya lagi wleee 😜.</p>
+            </div>
+
+            <div class="action-box">
+                <a href="flapy.html" class="brutal-btn btn-game1 ripple-btn">🎮 Mulai Misi 1 (Flappy)</a>
+                <a href="200408.html" class="brutal-btn btn-game2 ripple-btn">🧩 Mulai Misi 2 (2048)</a>
+                <a href="index.html" class="brutal-btn btn-login ripple-btn">🚪 Kembali Ke Halaman Login</a>
+            </div>
+
+            <p class="footer-note">Dibuat dengan ❤️ oleh Orang Ganteng</p>
+        </div>
+    </div>
+
+    <script>
+        // 1. Logika Splash Screen Menghilang
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('splash-screen').classList.add('hidden');
+            }, 1200); // Muncul 1.2 detik biar keren
+        });
+
+        // 2. Efek Ripple (Gelombang Air) pada tombol bawah
+        document.querySelectorAll('.ripple-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                let rect = this.getBoundingClientRect();
+                
+                // Kalkulasi titik sentuh agar pas di jari
+                let clientX = e.clientX || (e.touches && e.touches[0].clientX) || rect.left + rect.width/2;
+                let clientY = e.clientY || (e.touches && e.touches[0].clientY) || rect.top + rect.height/2;
+                
+                let x = clientX - rect.left;
+                let y = clientY - rect.top;
+                
+                let ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+</body>
+</html>
       
       .dots-btn {
          background: rgba(255, 255, 255, 0.1);
