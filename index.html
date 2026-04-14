@@ -51,12 +51,14 @@
         #bg-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; pointer-events: none;
+            transition: opacity 0.3s;
         }
 
         /* Kanvas Jejak Kursor Bintang */
         #cursor-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 99998; pointer-events: none;
+            transition: opacity 0.3s;
         }
 
         /* ==========================================================================
@@ -104,13 +106,31 @@
             to { transform: scale(4); opacity: 0; }
         }
 
+        /* TOMBOL ANTI-LAG MELAYANG */
+        #lite-mode-btn {
+            position: fixed;
+            top: 20px; right: 20px;
+            z-index: 999999;
+            background: #fff;
+            color: var(--border-color);
+            padding: 10px 15px;
+            font-size: 0.85rem;
+            border-radius: 20px;
+            box-shadow: 4px 4px 0px var(--border-color);
+            border: 3px solid var(--border-color);
+            font-weight: 900;
+            transition: 0.3s;
+        }
+        #lite-mode-btn.active-lite {
+            background: var(--accent-yellow);
+        }
+
         /* ==========================================================================
            3. OVERLAY PINTU MASUK (HELLO SCREEN - FIXED SOLID)
            ========================================================================== */
         #start-gate {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
-            /* BACKGROUND SOLID AGAR TIDAK TEMBUS PANDANG */
             background-color: var(--bg-color);
             background-image: radial-gradient(var(--border-color) 2px, transparent 2px);
             background-size: 30px 30px;
@@ -119,7 +139,6 @@
             transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
-        /* Kotak putih penahan teks di layar awal agar mudah dibaca */
         .gate-content-box {
             background: #ffffff;
             border: var(--border-thick) solid var(--border-color);
@@ -221,7 +240,7 @@
         .gallery-track {
             display: flex; gap: 30px; padding: 20px 30px 60px; overflow-x: auto;
             scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
-            perspective: 1000px; /* Untuk efek 3D tilt */
+            perspective: 1000px;
         }
         .gallery-track::-webkit-scrollbar { display: none; } 
 
@@ -240,7 +259,6 @@
             transition: transform 0.5s ease; 
         }
         
-        /* Highlight Galeri di Tengah */
         .gallery-card.is-focused { 
             transform: scale(1.05) rotateY(0deg); opacity: 1; 
             box-shadow: 15px 15px 0px var(--border-color); z-index: 10; 
@@ -248,7 +266,7 @@
         .gallery-card.is-focused img { transform: scale(1.05); }
 
         /* ==========================================================================
-           6. GAMES SECTION (DENGAN EFEK HIGHLIGHT SCROLL SEPERTI HBD)
+           6. GAMES SECTION
            ========================================================================== */
         .games-section { padding: 90px 20px; background: transparent; border-bottom: var(--border-thick) solid var(--border-color); }
         .games-grid { display: flex; flex-direction: column; gap: 50px; margin-top: 50px; perspective: 1000px; }
@@ -257,13 +275,11 @@
             display: block; text-decoration: none; color: var(--border-color); 
             padding: 25px; background: rgba(255,255,255,0.95); backdrop-filter: blur(5px); 
             transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            /* Setup awal untuk efek pop-out */
             opacity: 0.5;
             transform: scale(0.9) translateY(30px);
             box-shadow: 5px 5px 0px var(--border-color);
         }
 
-        /* HIGHLIGHT EFEK UNTUK GAME CARD */
         .game-card.game-focused {
             opacity: 1;
             transform: scale(1.02) translateY(0);
@@ -310,7 +326,6 @@
         .login-box h2 { font-size: 2.4rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
         .login-box p { font-size: 1rem; font-weight: 700; color: #666; margin-bottom: 35px; }
 
-        /* BAR ATURAN MAIN (KUNING KEDAP KEDIP) */
         .alert-bar {
             display: block; width: 100%; padding: 18px 15px; margin-bottom: 35px;
             background: var(--accent-yellow); color: var(--border-color);
@@ -342,7 +357,6 @@
             text-transform: uppercase; letter-spacing: 1px;
         }
 
-        /* Animasi Getar Hebat Saat Error */
         @keyframes shakeHard { 
             0%, 100% { transform: translateX(0); } 
             10%, 30%, 50%, 70%, 90% { transform: translateX(-10px) rotate(-1deg); } 
@@ -353,6 +367,8 @@
     </style>
 </head>
 <body>
+
+    <button id="lite-mode-btn" class="brutal-button ripple-btn">⚡ ANTI-LAG</button>
 
     <div class="bg-pattern"></div>
     <canvas id="bg-canvas"></canvas>
@@ -489,6 +505,36 @@
 
     <script>
         // =========================================================================
+        // 0. LOGIKA TOMBOL ANTI-LAG (PERFORMANCE MODE)
+        // =========================================================================
+        let isLiteMode = false;
+        const liteModeBtn = document.getElementById('lite-mode-btn');
+        const bgCanvasEl = document.getElementById('bg-canvas');
+        const cursorCanvasEl = document.getElementById('cursor-canvas');
+
+        liteModeBtn.addEventListener('click', function() {
+            isLiteMode = !isLiteMode;
+            if (isLiteMode) {
+                // Aktifkan Mode Ringan (Matikan Efek Berat)
+                this.textContent = '🔥 MODE GELO';
+                this.classList.add('active-lite');
+                bgCanvasEl.style.opacity = '0';
+                cursorCanvasEl.style.opacity = '0';
+                
+                // Matikan tilt 3D dengan force reset
+                document.querySelectorAll('.tilt-element').forEach(el => {
+                    el.style.transform = '';
+                });
+            } else {
+                // Aktifkan Mode Gelo (Semua Nyala)
+                this.textContent = '⚡ ANTI-LAG';
+                this.classList.remove('active-lite');
+                bgCanvasEl.style.opacity = '1';
+                cursorCanvasEl.style.opacity = '1';
+            }
+        });
+
+        // =========================================================================
         // 1. ENGINE CANVAS INTERAKTIF UTAMA (PARTIKEL & LEDAKAN SENTUHAN)
         // =========================================================================
         const canvas = document.getElementById('bg-canvas');
@@ -501,7 +547,6 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             particles = [];
-            // Partikel melayang santai
             let count = window.innerWidth < 500 ? 10 : 20; 
             for(let i=0; i<count; i++) particles.push(new Particle());
         }
@@ -529,7 +574,7 @@
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.angle * Math.PI / 180);
                 ctx.fillStyle = this.color;
-                ctx.globalAlpha = 0.4; // Transparansi halus
+                ctx.globalAlpha = 0.4;
                 ctx.beginPath();
                 if(this.type === 'rect') {
                     ctx.rect(-this.size/2, -this.size/2, this.size, this.size);
@@ -571,8 +616,8 @@
             }
         }
 
-        // Pemicu ledakan kembang api (Sparks)
         window.addEventListener('pointerdown', (e) => {
+            if (isLiteMode) return; // Matikan ledakan jika Anti-Lag aktif
             let x = e.clientX || (e.touches && e.touches[0].clientX);
             let y = e.clientY || (e.touches && e.touches[0].clientY);
             if (x && y) {
@@ -582,11 +627,13 @@
         });
 
         function animateCanvas() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            for (let i = sparks.length - 1; i >= 0; i--) {
-                sparks[i].update(); sparks[i].draw();
-                if (sparks[i].life <= 0) sparks.splice(i, 1);
+            if (!isLiteMode) { // Berhenti render jika Anti-Lag aktif untuk hemat CPU
+                ctx.clearRect(0,0,canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                for (let i = sparks.length - 1; i >= 0; i--) {
+                    sparks[i].update(); sparks[i].draw();
+                    if (sparks[i].life <= 0) sparks.splice(i, 1);
+                }
             }
             requestAnimationFrame(animateCanvas);
         }
@@ -614,7 +661,7 @@
                 this.color = colors[Math.floor(Math.random() * colors.length)];
             }
             update() {
-                this.life -= 0.05; // Cepat menghilang
+                this.life -= 0.05; 
                 this.size -= 0.2;
             }
             draw() {
@@ -622,7 +669,6 @@
                 cCtx.globalAlpha = Math.max(0, this.life);
                 cCtx.fillStyle = this.color;
                 cCtx.beginPath();
-                // Menggambar Bintang Sederhana
                 cCtx.arc(this.x, this.y, Math.max(0, this.size), 0, Math.PI * 2);
                 cCtx.fill();
                 cCtx.restore();
@@ -630,18 +676,21 @@
         }
 
         window.addEventListener('pointermove', (e) => {
+            if (isLiteMode) return; // Matikan jejak jika Anti-Lag aktif
             let x = e.clientX || (e.touches && e.touches[0].clientX);
             let y = e.clientY || (e.touches && e.touches[0].clientY);
             if (x && y) cursorTrails.push(new TrailPoint(x, y));
         });
 
         function animateCursor() {
-            cCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
-            for (let i = cursorTrails.length - 1; i >= 0; i--) {
-                cursorTrails[i].update();
-                cursorTrails[i].draw();
-                if (cursorTrails[i].life <= 0 || cursorTrails[i].size <= 0) {
-                    cursorTrails.splice(i, 1);
+            if (!isLiteMode) {
+                cCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+                for (let i = cursorTrails.length - 1; i >= 0; i--) {
+                    cursorTrails[i].update();
+                    cursorTrails[i].draw();
+                    if (cursorTrails[i].life <= 0 || cursorTrails[i].size <= 0) {
+                        cursorTrails.splice(i, 1);
+                    }
                 }
             }
             requestAnimationFrame(animateCursor);
@@ -659,7 +708,7 @@
             gate.classList.add('opened');
             audio.volume = 0.5;
             audio.play().catch(error => console.log("Audio ditahan browser"));
-            setTimeout(typeWriterEffect, 1000); // Mulai ngetik setelah gerbang kebuka
+            setTimeout(typeWriterEffect, 1000); 
         }
 
         const textToType = "Siap untuk melihat kejutanmu hari ini? Scroll ke bawah ya...";
@@ -678,7 +727,6 @@
         document.querySelectorAll('.ripple-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 let rect = this.getBoundingClientRect();
-                // Handle untuk touch atau mouse
                 let clientX = e.clientX || (e.touches && e.touches[0].clientX) || rect.left + rect.width/2;
                 let clientY = e.clientY || (e.touches && e.touches[0].clientY) || rect.top + rect.height/2;
                 
@@ -700,21 +748,20 @@
         const tiltElements = document.querySelectorAll('.tilt-element');
         tiltElements.forEach(el => {
             el.addEventListener('mousemove', (e) => {
+                if (isLiteMode) return; // Matikan goyangan 3D jika Anti-Lag aktif
                 const rect = el.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                // Kalkulasi rotasi 3D
-                const rotateX = ((y - centerY) / centerY) * -10; // Max 10 derajat
+                const rotateX = ((y - centerY) / centerY) * -10; 
                 const rotateY = ((x - centerX) / centerX) * 10;
                 
                 el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
                 el.style.transition = 'transform 0.1s ease-out';
             });
             
-            // Reset posisi saat ditinggalkan
             el.addEventListener('mouseleave', () => {
                 el.style.transform = '';
                 el.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
@@ -724,7 +771,6 @@
         // =========================================================================
         // 6. OBSERVER HIGHLIGHT (GALERI HORIZONTAL & GAME VERTIKAL)
         // =========================================================================
-        // A. Observer Galeri Foto (Horizontal)
         const galleryTrack = document.getElementById('gallery-track');
         const galleryCards = document.querySelectorAll('.gallery-card');
         const galleryObserver = new IntersectionObserver((entries) => {
@@ -736,10 +782,8 @@
                 }
             });
         }, { root: galleryTrack, rootMargin: '0px', threshold: 0.6 });
-        
         galleryCards.forEach(card => galleryObserver.observe(card));
 
-        // B. Observer Game Misi (Vertikal) --> BARU DITAMBAHKAN SESUAI PERMINTAAN
         const gameCards = document.querySelectorAll('.game-card');
         const gameObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -750,11 +794,10 @@
                 }
             });
         }, { root: null, rootMargin: '-20% 0px -20% 0px', threshold: 0.5 });
-        
         gameCards.forEach(card => gameObserver.observe(card));
 
         // =========================================================================
-        // 7. LOGIKA LOGIN FORM MENGGUNAKAN NAMA ANGGIE DENGAN EFEK GETAR
+        // 7. LOGIKA LOGIN FORM MENGGUNAKAN NAMA ANGGIE
         // =========================================================================
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') processLogin();
@@ -768,7 +811,6 @@
             const container = document.getElementById('login-container');
             let isSuccess = false;
 
-            // Logika Sandi Multi-User
             if (user === "anggi dwi aprilia" || user === "anggie dwi aprilia") {
                 if (pass === "200408") isSuccess = true;
             } else if (user === "aldo leo saputra") {
@@ -778,25 +820,19 @@
             }
 
             if (isSuccess) {
-                // Sembunyikan Error & Ubah Tombol Jadi Hijau
                 errMsg.style.display = 'none';
                 btn.textContent = 'MEMBUKA... ✨';
                 btn.style.background = 'var(--accent-green)';
                 btn.style.color = 'var(--border-color)';
                 btn.style.boxShadow = '0px 0px 0px transparent';
-                
-                // Jeda 1 Detik untuk efek visual sebelum pindah halaman
                 setTimeout(() => window.location.href = 'happybirthday.html', 1000);
             } else {
-                // Munculkan Error & Ubah Tombol Jadi Merah
                 errMsg.style.display = 'block';
                 btn.textContent = 'COBA LAGI';
                 btn.style.background = '#ff4757';
                 btn.style.color = '#fff';
-                
-                // Trigger Animasi Getar Hebat pada Kotak Login
                 container.classList.remove('shake-animation');
-                void container.offsetWidth; // Force Reflow DOM agar animasi mengulang
+                void container.offsetWidth; 
                 container.classList.add('shake-animation');
             }
         }
