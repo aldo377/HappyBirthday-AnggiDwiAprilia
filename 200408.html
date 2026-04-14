@@ -12,7 +12,7 @@
   
   <style>
     /* ==========================================================================
-       1. RESET & CSS VARIABLES (NEO-BRUTALISM SETTINGS)
+       1. PENGATURAN TEMA ULTIMATE NEO-BRUTALISM (MAXIMALIST)
        ========================================================================== */
     :root {
         --bg-color: #f8f9fa;       
@@ -20,7 +20,8 @@
         --accent-pink: #ff6b8a;    
         --accent-blue: #4facfe;    
         --accent-green: #ccff00;   
-        --accent-yellow: #ffd166;  
+        --accent-yellow: #ffd166;
+        --accent-orange: #ff9f43;
         --border-thick: 4px;       
     }
 
@@ -31,14 +32,25 @@
       color: var(--border-color);
       overflow: hidden; touch-action: none;
       height: 100vh; height: 100dvh;
+      position: relative;
     }
 
-    /* Background Pattern Solid */
+    /* ==========================================================================
+       2. EFEK VISUAL LATAR BELAKANG (CRT, GRAIN, PATTERN)
+       ========================================================================== */
+    /* Pola Titik-titik Solid */
     .bg-pattern {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
         background-color: var(--bg-color);
         background-image: radial-gradient(var(--border-color) 1.5px, transparent 1.5px);
-        background-size: 30px 30px; opacity: 0.8;
+        background-size: 25px 25px; opacity: 0.9;
+    }
+
+    /* Efek Bintik TV (Film Grain) */
+    .grain-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99997;
+        pointer-events: none; opacity: 0.04;
+        background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
     }
 
     /* Kanvas Partikel Interaktif */
@@ -48,35 +60,67 @@
     }
 
     /* ==========================================================================
-       2. SPLASH SCREEN (LAYAR LOADING AWAL)
+       3. ELEMEN DEKORATIF MELAYANG (MAXIMALIST ART)
        ========================================================================== */
-    #splash-screen {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
-        background: var(--bg-color); z-index: 99999;
-        display: flex; flex-direction: column; justify-content: center; align-items: center;
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        background-image: radial-gradient(var(--border-color) 1.5px, transparent 1.5px);
-        background-size: 30px 30px;
+    .floating-deco {
+        position: absolute; border: var(--border-thick) solid var(--border-color);
+        z-index: -2; box-shadow: 4px 4px 0px var(--border-color);
     }
-    #splash-screen.hidden { opacity: 0; transform: scale(1.1); pointer-events: none; }
+    
+    .deco-star {
+        width: 60px; height: 60px; background: var(--accent-pink);
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        top: 15%; left: 5%; animation: spin 15s linear infinite;
+    }
+    
+    .deco-pill {
+        width: 80px; height: 40px; background: var(--accent-blue); border-radius: 20px;
+        bottom: 20%; right: 5%; animation: floatPill 6s ease-in-out infinite;
+    }
+    
+    .deco-box {
+        width: 50px; height: 50px; background: var(--accent-green);
+        top: 60%; left: 8%; animation: spinReverse 12s linear infinite;
+    }
 
-    .loader-box {
-        width: 70px; height: 70px; border: var(--border-thick) solid var(--border-color);
-        background: var(--accent-yellow); animation: spinBrutal 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px;
-    }
-    @keyframes spinBrutal {
-        0% { transform: rotate(0deg) scale(1); background: var(--accent-yellow); }
-        50% { transform: rotate(180deg) scale(1.2); background: var(--accent-pink); }
-        100% { transform: rotate(360deg) scale(1); background: var(--accent-blue); }
-    }
-    .splash-text { font-size: 1.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--border-color); animation: pulseText 1.5s infinite alternate; }
-    @keyframes pulseText { from { opacity: 0.5; transform: translateY(0); } to { opacity: 1; transform: translateY(-5px); } }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
+    @keyframes floatPill { 0%, 100% { transform: translateY(0) rotate(20deg); } 50% { transform: translateY(-20px) rotate(25deg); } }
 
     /* ==========================================================================
-       3. TOP MENU (3 DOTS)
+       4. PITA MARQUEE (TEKS BERJALAN ATAS BAWAH)
        ========================================================================== */
-    .top-menu { position: fixed; top: 15px; right: 20px; z-index: 10000; }
+    .marquee-tape {
+        position: absolute; width: 100vw; background: var(--accent-yellow);
+        border-top: var(--border-thick) solid var(--border-color);
+        border-bottom: var(--border-thick) solid var(--border-color);
+        color: var(--border-color); font-weight: 900; font-size: 0.8rem;
+        padding: 5px 0; overflow: hidden; white-space: nowrap; z-index: 0;
+        box-shadow: 0px 4px 0px rgba(0,0,0,0.1);
+    }
+    .marquee-top { top: 15%; transform: rotate(-2deg) scale(1.1); }
+    .marquee-bottom { bottom: 12%; transform: rotate(3deg) scale(1.1); background: var(--accent-pink); color: #fff;}
+    
+    .marquee-content { display: inline-block; text-transform: uppercase; animation: marquee 10s linear infinite; letter-spacing: 2px;}
+    .marquee-content-reverse { display: inline-block; text-transform: uppercase; animation: marqueeReverse 12s linear infinite; letter-spacing: 2px;}
+    
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    @keyframes marqueeReverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+
+    /* ==========================================================================
+       5. TOMBOL KONTROL MUSIK & MENU (BRUTALISM)
+       ========================================================================== */
+    .music-btn {
+        position: fixed; top: 15px; left: 15px; z-index: 10000;
+        background: #fff; border: 3px solid var(--border-color); color: var(--border-color);
+        font-size: 0.8rem; font-weight: 900; padding: 10px 15px; border-radius: 12px;
+        cursor: pointer; display: flex; align-items: center; gap: 8px;
+        box-shadow: 4px 4px 0px var(--border-color); transition: 0.2s; text-transform: uppercase;
+    }
+    .music-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--border-color); }
+    .music-btn.off { background: #ff4757; color: #fff; text-decoration: line-through; }
+
+    .top-menu { position: fixed; top: 15px; right: 15px; z-index: 10000; }
     .dots-btn { 
         background: #fff; border: 3px solid var(--border-color); color: var(--border-color); 
         font-size: 1.5rem; font-weight: 900; width: 50px; height: 50px; border-radius: 12px; 
@@ -87,7 +131,7 @@
     
     .dropdown-content { 
         display: none; position: absolute; right: 0; top: 60px; background: #fff; 
-        min-width: 200px; border-radius: 12px; box-shadow: 8px 8px 0px var(--border-color); 
+        min-width: 220px; border-radius: 12px; box-shadow: 8px 8px 0px var(--border-color); 
         border: 3px solid var(--border-color); overflow: hidden; animation: fadeInDown 0.3s ease; 
     }
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -101,62 +145,80 @@
     .show { display: block; }
 
     /* ==========================================================================
-       4. HOW TO PLAY OVERLAY (CARA MAIN)
+       6. SPLASH SCREEN (LAYAR LOADING AWAL)
+       ========================================================================== */
+    #splash-screen {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
+        background: var(--bg-color); z-index: 99999;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        background-image: radial-gradient(var(--border-color) 2px, transparent 2px);
+        background-size: 40px 40px;
+    }
+    #splash-screen.hidden { opacity: 0; transform: scale(1.1); pointer-events: none; }
+
+    .loader-container { width: 250px; border: var(--border-thick) solid var(--border-color); background: #fff; padding: 5px; border-radius: 20px; box-shadow: 8px 8px 0px var(--border-color); margin-bottom: 20px; }
+    .loader-bar { height: 25px; background: var(--accent-blue); border-radius: 10px; width: 0%; border: 2px solid var(--border-color); animation: loadBar 2s forwards cubic-bezier(0.77, 0, 0.175, 1); }
+    
+    @keyframes loadBar { 0% { width: 0%; background: var(--accent-pink); } 50% { background: var(--accent-yellow); } 100% { width: 100%; background: var(--accent-green); } }
+    .splash-text { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; color: var(--border-color); animation: pulseText 1s infinite alternate; text-shadow: 2px 2px 0px #fff; }
+
+    /* ==========================================================================
+       7. HOW TO PLAY OVERLAY (CARA MAIN)
        ========================================================================== */
     #howToPlayOverlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; display: flex;
-      background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
       justify-content: center; align-items: center; padding: 20px;
     }
     .htp-card {
         background: #fff; border: var(--border-thick) solid var(--border-color);
-        border-radius: 16px; box-shadow: 12px 12px 0px var(--border-color);
-        width: 100%; max-width: 400px; padding: 30px 20px; text-align: center;
+        border-radius: 16px; box-shadow: 15px 15px 0px var(--border-color);
+        width: 100%; max-width: 420px; padding: 40px 25px; text-align: center;
         animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     
-    .htp-logo { font-size: 4rem; margin-bottom: 10px; animation: bounce 2s infinite; }
-    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-    
-    .htp-card h2 { font-size: 2rem; font-weight: 900; text-transform: uppercase; line-height: 1.1; margin-bottom: 5px; }
-    .htp-card p.subtitle { font-weight: 700; color: var(--accent-pink); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; font-size: 0.85rem; }
+    .htp-logo { font-size: 4.5rem; margin-bottom: 10px; animation: bounce 2s infinite; text-shadow: 4px 4px 0px var(--accent-yellow); }
+    .htp-card h2 { font-size: 2.2rem; font-weight: 900; text-transform: uppercase; line-height: 1.1; margin-bottom: 5px; color: var(--border-color); }
+    .htp-card p.subtitle { font-weight: 800; color: var(--accent-pink); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; font-size: 0.9rem; background: var(--border-color); display: inline-block; padding: 5px 15px; border-radius: 20px;}
     
     .htp-step {
-      background: var(--bg-color); border: 2px solid var(--border-color); border-radius: 10px; 
-      padding: 12px; margin-bottom: 10px; display: flex; gap: 15px; align-items: center; 
-      text-align: left; box-shadow: 3px 3px 0px var(--border-color);
+      background: #fff; border: 3px solid var(--border-color); border-radius: 12px; 
+      padding: 15px; margin-bottom: 15px; display: flex; gap: 15px; align-items: center; 
+      text-align: left; box-shadow: 5px 5px 0px var(--accent-blue); transition: 0.2s;
     }
-    .step-icon { font-size: 1.5rem; }
-    .step-text { font-size: 0.85rem; font-weight: 600; color: #333; }
-    .step-text strong { color: var(--border-color); font-weight: 900; }
+    .htp-step:hover { transform: translateX(-5px); box-shadow: 10px 10px 0px var(--accent-blue); }
+    
+    .step-icon { font-size: 1.8rem; }
+    .step-text { font-size: 0.9rem; font-weight: 700; color: #444; }
+    .step-text strong { color: var(--border-color); font-weight: 900; background: var(--accent-green); padding: 0 5px; border: 2px solid var(--border-color);}
     
     .btn-mulai {
-      width: 100%; padding: 18px; background: var(--accent-blue);
-      border: 3px solid var(--border-color); border-radius: 12px; color: #fff; font-weight: 900; 
-      cursor: pointer; text-transform: uppercase; margin-top: 15px; font-size: 1.1rem;
-      box-shadow: 6px 6px 0px var(--border-color); transition: 0.2s;
+      width: 100%; padding: 20px; background: var(--accent-pink);
+      border: var(--border-thick) solid var(--border-color); border-radius: 12px; color: var(--border-color); font-weight: 900; 
+      cursor: pointer; text-transform: uppercase; margin-top: 25px; font-size: 1.2rem; letter-spacing: 2px;
+      box-shadow: 8px 8px 0px var(--border-color); transition: 0.2s;
     }
-    .btn-mulai:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--border-color); }
+    .btn-mulai:active { transform: translate(6px, 6px); box-shadow: 0px 0px 0px var(--border-color); }
 
     /* ==========================================================================
-       5. GAME CONTAINER (BRUTALISM STYLE)
+       8. GAME CONTAINER (BRUTALISM STYLE)
        ========================================================================== */
-    .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 80px 20px 20px; display: none; }
+    .container { width: 100%; max-width: 500px; margin: 0 auto; padding: 90px 20px 20px; display: none; position: relative; z-index: 10; }
     
-    .heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
+    .heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; background: #fff; padding: 15px; border: var(--border-thick) solid var(--border-color); box-shadow: 6px 6px 0px var(--border-color); border-radius: 16px; }
     .title { font-size: 2rem; font-weight: 900; color: var(--border-color); text-transform: uppercase; line-height: 1; }
     
-    .controls-container { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+    .controls-container { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
     .score-container {
-      background: #fff; border: 3px solid var(--border-color); padding: 8px 20px; 
-      border-radius: 12px; text-align: center; color: var(--border-color); 
-      min-width: 90px; font-weight: 900; font-size: 1.2rem; box-shadow: 4px 4px 0px var(--border-color);
+      background: var(--accent-green); border: 3px solid var(--border-color); padding: 5px 20px; 
+      border-radius: 8px; text-align: center; color: var(--border-color); 
+      min-width: 100px; font-weight: 900; font-size: 1.4rem; box-shadow: 3px 3px 0px var(--border-color);
     }
-    .score-container::before { content: "SCORE"; display: block; font-size: 0.7rem; color: #777; letter-spacing: 1px; margin-bottom: -3px; }
+    .score-container::before { content: "SCORE"; display: block; font-size: 0.7rem; color: var(--border-color); letter-spacing: 2px; margin-bottom: -5px; }
     
     .btn-reset {
-      background: var(--accent-yellow); border: 3px solid var(--border-color); border-radius: 8px;
+      background: #fff; border: 3px solid var(--border-color); border-radius: 8px;
       color: var(--border-color); padding: 8px 15px; font-weight: 900; font-size: 0.85rem; 
       cursor: pointer; text-transform: uppercase; box-shadow: 3px 3px 0px var(--border-color); transition: 0.15s;
     }
@@ -164,94 +226,122 @@
 
     /* Papan Permainan Utama */
     .game-board-wrapper {
-      position: relative; padding: 12px; background: #fff; border: var(--border-thick) solid var(--border-color);
-      border-radius: 16px; width: 100%; aspect-ratio: 1/1; max-width: 450px; 
-      margin: 0 auto; box-shadow: 10px 10px 0px var(--border-color);
+      position: relative; padding: 15px; background: #ffffff; border: var(--border-thick) solid var(--border-color);
+      border-radius: 20px; width: 100%; aspect-ratio: 1/1; max-width: 450px; 
+      margin: 0 auto; box-shadow: 12px 12px 0px var(--border-color);
     }
+    
     .grid-container {
       display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr);
       gap: 12px; width: 100%; height: 100%;
     }
-    .grid-cell { background: #e0e0e0; border-radius: 8px; width: 100%; height: 100%; border: 2px solid #ccc; inset: shadow; }
+    .grid-cell { background: #e9ecef; border-radius: 10px; width: 100%; height: 100%; border: 3px solid #ced4da; box-shadow: inset 3px 3px 0px rgba(0,0,0,0.05); }
 
     /* Tiles Angka */
-    .tile-container { position: absolute; top: 12px; left: 12px; right: 12px; bottom: 12px; z-index: 2; }
+    .tile-container { position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px; z-index: 2; }
     .tile {
       position: absolute; display: flex; align-items: center; justify-content: center;
-      border-radius: 8px; font-weight: 900; font-size: 2.2rem; color: var(--border-color);
-      transition: 150ms ease-in-out; transition-property: transform, top, left;
+      border-radius: 10px; font-weight: 900; font-size: 2.2rem; color: var(--border-color);
+      transition: 150ms cubic-bezier(0.175, 0.885, 0.32, 1.275); transition-property: transform, top, left;
       width: calc(25% - 9px); height: calc(25% - 9px);
-      border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);
+      border: var(--border-thick) solid var(--border-color); box-shadow: 5px 5px 0px var(--border-color);
     }
-    @media (max-width: 400px) { .tile { font-size: 1.8rem; box-shadow: 3px 3px 0px var(--border-color); border: 2px solid var(--border-color);} }
+    @media (max-width: 400px) { .tile { font-size: 1.8rem; box-shadow: 3px 3px 0px var(--border-color); border: 3px solid var(--border-color);} }
 
-    /* Warna Brutalism untuk setiap angka */
+    /* Warna Brutalism Super Ngejreng untuk setiap angka */
     .tile-2   { background: #ffffff; }
     .tile-4   { background: var(--accent-pink); }
     .tile-8   { background: var(--accent-blue); }
     .tile-16  { background: var(--accent-green); }
     .tile-32  { background: var(--accent-yellow); }
-    .tile-64  { background: #ff9f43; color: #fff; }
+    .tile-64  { background: var(--accent-orange); color: var(--border-color); }
     .tile-128 { background: #9b59b6; color: #fff; font-size: 1.8rem; }
     .tile-256 { background: #111111; color: #fff; font-size: 1.8rem; }
-    .tile-512 { background: var(--accent-green); font-size: 1.8rem; box-shadow: 0 0 15px var(--accent-green), 4px 4px 0px var(--border-color); animation: pulse 1s infinite; }
+    .tile-512 { background: var(--accent-green); font-size: 2rem; box-shadow: 0 0 20px var(--accent-green), 6px 6px 0px var(--border-color); animation: pulseTile 1s infinite; }
 
-    .tile-new { animation: appear 0.2s ease-in-out backwards; }
-    @keyframes appear { 0%{opacity:0;transform:scale(0)} 100%{opacity:1;transform:scale(1)} }
-    .tile-merged { animation: pop 0.2s ease-in-out backwards; z-index: 20; }
-    @keyframes pop { 0%{transform:scale(0)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+    @keyframes pulseTile { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+    .tile-new { animation: appear 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards; }
+    @keyframes appear { 0%{opacity:0;transform:scale(0) rotate(-10deg)} 100%{opacity:1;transform:scale(1) rotate(0deg)} }
+    
+    .tile-merged { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards; z-index: 20; }
+    @keyframes pop { 0%{transform:scale(0.8)} 50%{transform:scale(1.25) rotate(5deg)} 100%{transform:scale(1) rotate(0deg)} }
 
     /* ==========================================================================
-       6. OVERLAY WIN / LOSE (BRUTALISM)
+       9. OVERLAY WIN / LOSE (ULTIMATE BRUTALISM)
        ========================================================================== */
     .game-overlay {
-      display: none; position: absolute; top: -12px; left: -12px; right: -12px; bottom: -12px;
+      display: none; position: absolute; top: -15px; left: -15px; right: -15px; bottom: -15px;
       z-index: 100; flex-direction: column; align-items: center; justify-content: center;
-      border-radius: 16px; color: var(--border-color); text-align: center; 
-      backdrop-filter: blur(8px); padding: 20px;
+      border-radius: 20px; color: var(--border-color); text-align: center; 
+      backdrop-filter: blur(10px); padding: 20px;
     }
     
-    #winScreen { background: rgba(255, 255, 255, 0.9); border: var(--border-thick) solid var(--accent-green); }
-    #loseScreen { background: rgba(255, 255, 255, 0.9); border: var(--border-thick) solid var(--accent-pink); }
+    #winScreen { background: rgba(255, 255, 255, 0.95); border: 6px solid var(--accent-green); }
+    #loseScreen { background: rgba(255, 255, 255, 0.95); border: 6px solid var(--accent-pink); }
     
-    .game-overlay h1 { font-size: 2.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
-    .game-overlay p.desc { font-size: 0.9rem; font-weight: 700; color: #555; margin-bottom: 20px; }
+    .game-overlay h1 { font-size: 2.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; text-shadow: 3px 3px 0px #fff, 5px 5px 0px var(--accent-yellow); line-height: 1.1;}
+    .game-overlay p.desc { font-size: 1rem; font-weight: 800; color: #555; margin-bottom: 25px; background: var(--accent-green); padding: 5px 15px; border: 3px solid var(--border-color); transform: rotate(-2deg); box-shadow: 4px 4px 0px var(--border-color);}
     
     /* Box Clue Spesial dengan Typo Tanda Seru */
     .clue-box { 
-        background: #fff; border: 4px dashed var(--accent-pink); padding: 15px; 
-        border-radius: 12px; margin: 10px 0 20px; width: 100%; box-shadow: 6px 6px 0px var(--accent-yellow); 
-        transform: rotate(-2deg);
+        background: #fff; border: 5px dashed var(--accent-pink); padding: 20px; 
+        border-radius: 16px; margin: 10px 0 30px; width: 100%; box-shadow: 8px 8px 0px var(--accent-yellow); 
+        transform: rotate(2deg); animation: floatSlow 3s infinite;
     }
-    .clue-box h3 { color: var(--border-color); font-size: 0.9rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
-    .clue-box .password-clue { color: var(--accent-blue); font-size: 2.2rem; font-weight: 900; letter-spacing: 2px; text-shadow: 2px 2px 0px var(--border-color); }
+    .clue-box h3 { color: var(--border-color); font-size: 1rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; background: var(--accent-pink); display: inline-block; padding: 2px 10px; border: 2px solid var(--border-color);}
+    .clue-box .password-clue { color: var(--border-color); font-size: 2.8rem; font-weight: 900; letter-spacing: 3px; text-shadow: 3px 3px 0px var(--accent-blue); margin-top: 10px;}
     
     .btn-lanjut { 
-        background: var(--accent-pink); border: 3px solid var(--border-color); border-radius: 10px; 
-        color: #fff; font-size: 1.1rem; font-weight: 900; padding: 15px 25px; cursor: pointer; 
-        text-decoration: none; box-shadow: 5px 5px 0px var(--border-color); transition: 0.2s; text-transform: uppercase; 
+        background: var(--accent-blue); border: var(--border-thick) solid var(--border-color); border-radius: 12px; 
+        color: var(--border-color); font-size: 1.2rem; font-weight: 900; padding: 18px 30px; cursor: pointer; 
+        text-decoration: none; box-shadow: 8px 8px 0px var(--border-color); transition: 0.2s; text-transform: uppercase; 
+        letter-spacing: 1px; width: 100%;
     }
-    .btn-lanjut:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--border-color); }
+    .btn-lanjut:active { transform: translate(6px, 6px); box-shadow: 0px 0px 0px var(--border-color); }
 
     /* Footer */
     #custom-footer { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 100%; text-align: center; z-index: 9999; pointer-events: none; }
-    #custom-footer p { margin: 0; color: #777; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+    #custom-footer p { margin: 0; color: var(--border-color); font-size: 0.8rem; font-weight: 900; text-transform: uppercase; background: #fff; display: inline-block; padding: 5px 15px; border: 2px solid var(--border-color); border-radius: 20px; box-shadow: 2px 2px 0px var(--border-color);}
 
     /* Ripple Effect */
-    .ripple { position: absolute; border-radius: 50%; transform: scale(0); animation: ripple-animation 0.6s linear; background-color: rgba(255,255,255,0.4); pointer-events: none; }
+    .ripple { position: absolute; border-radius: 50%; transform: scale(0); animation: ripple-animation 0.6s linear; background-color: rgba(255,255,255,0.6); pointer-events: none; }
     @keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }
 
   </style>
 </head>
 <body>
 
+  <audio id="bg-audio" loop preload="auto">
+      <source src="music/opening.mp3" type="audio/mpeg" />
+  </audio>
+
   <div class="bg-pattern"></div>
   <canvas id="bg-canvas"></canvas>
+  <div class="grain-overlay"></div>
+
+  <div class="floating-deco deco-star"></div>
+  <div class="floating-deco deco-pill"></div>
+  <div class="floating-deco deco-box"></div>
+
+  <div class="marquee-tape marquee-top">
+      <div class="marquee-content">
+          ⚠️ MISI RAHASIA PRINCESS ⚠️ KUMPULKAN KOTAK 512 ⚠️ MISI RAHASIA PRINCESS ⚠️ KUMPULKAN KOTAK 512 ⚠️ MISI RAHASIA PRINCESS ⚠️ KUMPULKAN KOTAK 512 ⚠️ 
+      </div>
+  </div>
+
+  <div class="marquee-tape marquee-bottom">
+      <div class="marquee-content-reverse">
+          🎁 JANGAN LUPA SCREENSHOT CLUE NYA 🎁 JANGAN LUPA SCREENSHOT CLUE NYA 🎁 JANGAN LUPA SCREENSHOT CLUE NYA 🎁 JANGAN LUPA SCREENSHOT CLUE NYA 🎁
+      </div>
+  </div>
 
   <div id="splash-screen">
-      <div class="loader-box"></div>
+      <div class="loader-container"><div class="loader-bar"></div></div>
       <div class="splash-text">Memuat Puzzle...</div>
   </div>
+
+  <button id="musicToggle" class="music-btn ripple-btn">🎵 BGM: OFF</button>
 
   <div class="top-menu">
      <button onclick="toggleMenu()" class="dots-btn ripple-btn">⋮</button>
@@ -269,15 +359,15 @@
         
         <div class="htp-step">
             <span class="step-icon">👆</span>
-            <div class="step-text"><strong>Geser (swipe)</strong> layar untuk memindahkan kotak.</div>
+            <div class="step-text"><strong>Geser (swipe)</strong> layar untuk memindahkan kotak ke satu arah.</div>
         </div>
         <div class="htp-step">
             <span class="step-icon">🔢</span>
-            <div class="step-text">Angka sama akan <strong>bergabung</strong> (2+2=4).</div>
+            <div class="step-text">Angka yang sama akan <strong>bergabung</strong> jika bersentuhan.</div>
         </div>
         <div class="htp-step">
             <span class="step-icon">🏆</span>
-            <div class="step-text">Capai kotak <strong>512</strong> untuk dapat password!</div>
+            <div class="step-text">Gabungkan terus sampai dapat kotak <strong>512</strong> untuk menang!</div>
         </div>
         
         <button class="btn-mulai ripple-btn" onclick="mulaiGame()">Gass Main! 🚀</button>
@@ -304,24 +394,24 @@
       <div class="tile-container" id="tileContainer"></div>
       
       <div id="winScreen" class="game-overlay">
-        <div style="font-size:4rem; margin-bottom:5px; animation: bounce 1s infinite;">🎉</div>
+        <div style="font-size:5rem; margin-bottom:5px; animation: bounce 1s infinite;">🎉</div>
         <h1>MISI SELESAI!</h1>
-        <p class="desc">Hebat! Ini clue terakhir untuk login:</p>
+        <p class="desc">Hebat banget! Ini clue terakhir buat kado kamu:</p>
         
         <div class="clue-box">
             <h3>CLUE PASSWORD:</h3>
             <div class="password-clue">200408!</div>
         </div>
 
-        <p style="color:#555; font-size:0.75rem; font-weight:800; margin-bottom:20px; text-transform:uppercase;">📸 Wajib Screenshot!</p>
+        <p style="color:var(--border-color); font-size:0.85rem; font-weight:900; margin-bottom:20px; text-transform:uppercase; background: #fff; padding: 5px; border: 2px solid var(--border-color);">📸 Wajib Screenshot!</p>
         <a href="index.html" class="btn-lanjut ripple-btn">Login Sekarang ➡️</a>
       </div>
 
       <div id="loseScreen" class="game-overlay">
-        <div style="font-size:4rem; margin-bottom:5px;">💀</div>
+        <div style="font-size:5rem; margin-bottom:10px;">💀</div>
         <h1>Yahh Penuh!</h1>
-        <p class="desc">Ayo coba lagi, jangan nyerah wleee!</p>
-        <button class="btn-lanjut ripple-btn" onclick="resetGame()" style="width: 80%; background: var(--accent-blue);">Coba Lagi</button>
+        <p class="desc">Anggie pasti bisa, ayo coba lagi!</p>
+        <button class="btn-lanjut ripple-btn" onclick="resetGame()" style="width: 100%; background: var(--accent-yellow);">Coba Lagi 🔄</button>
       </div>
     </div>
   </div>
@@ -331,14 +421,47 @@
   </div>
 
   <script>
-    // =========================================================================
-    // 1. ENGINE CANVAS PARTIKEL (EFEK LEDAKAN SENTUHAN)
-    // =========================================================================
+    // ---------------------------------------------------------
+    // 1. KONTROL AUDIO (BGM)
+    // ---------------------------------------------------------
+    const bgAudio = document.getElementById('bg-audio');
+    const musicBtn = document.getElementById('musicToggle');
+    let isMusicPlaying = false;
+
+    function toggleMusic() {
+        if (isMusicPlaying) {
+            bgAudio.pause();
+            musicBtn.textContent = '🎵 BGM: OFF';
+            musicBtn.classList.add('off');
+        } else {
+            bgAudio.volume = 0.5;
+            bgAudio.play().catch(e => console.log("Audio diblokir browser"));
+            musicBtn.textContent = '🎵 BGM: ON';
+            musicBtn.classList.remove('off');
+        }
+        isMusicPlaying = !isMusicPlaying;
+    }
+
+    musicBtn.addEventListener('click', toggleMusic);
+
+    // Auto play on first interaction if blocked
+    document.body.addEventListener('click', function initAudio() {
+        if (!isMusicPlaying) {
+            toggleMusic();
+        }
+        document.body.removeEventListener('click', initAudio);
+    }, { once: true });
+
+
+    // ---------------------------------------------------------
+    // 2. ENGINE CANVAS PARTIKEL (EFEK LEDAKAN SENTUHAN & CONFETTI)
+    // ---------------------------------------------------------
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
     let sparks = [];
-    const colors = ['#ff6b8a', '#4facfe', '#ffd166', '#ccff00'];
+    let confettis = []; // Khusus pas menang
+    const colors = ['#ff6b8a', '#4facfe', '#ffd166', '#ccff00', '#ff9f43', '#9b59b6'];
 
     function initCanvas() {
         canvas.width = window.innerWidth;
@@ -352,7 +475,7 @@
         constructor() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 12 + 6;
+            this.size = Math.random() * 15 + 8;
             this.speedX = (Math.random() - 0.5) * 1.5;
             this.speedY = (Math.random() - 0.5) * 1.5;
             this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -383,20 +506,55 @@
     class Spark {
         constructor(x, y) {
             this.x = x; this.y = y;
-            this.size = Math.random() * 10 + 4;
-            this.speedX = (Math.random() - 0.5) * 10;
-            this.speedY = (Math.random() - 0.5) * 10;
+            this.size = Math.random() * 10 + 5;
+            this.speedX = (Math.random() - 0.5) * 12;
+            this.speedY = (Math.random() - 0.5) * 12;
             this.color = colors[Math.floor(Math.random() * colors.length)];
             this.life = 1.0;
-            this.decay = Math.random() * 0.04 + 0.02;
+            this.decay = Math.random() * 0.03 + 0.02;
+            this.angle = Math.random() * 360;
         }
-        update() { this.x += this.speedX; this.y += this.speedY; this.life -= this.decay; }
+        update() { 
+            this.x += this.speedX; this.y += this.speedY; 
+            this.life -= this.decay; this.angle += 5;
+        }
         draw() {
             ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.angle * Math.PI / 180);
             ctx.globalAlpha = Math.max(0, this.life);
             ctx.fillStyle = this.color;
             ctx.strokeStyle = '#111'; ctx.lineWidth = 2;
-            ctx.beginPath(); ctx.rect(this.x, this.y, this.size, this.size);
+            ctx.beginPath(); ctx.rect(-this.size/2, -this.size/2, this.size, this.size);
+            ctx.fill(); ctx.stroke();
+            ctx.restore();
+        }
+    }
+
+    class Confetti {
+        constructor(x, y) {
+            this.x = x; this.y = y;
+            this.size = Math.random() * 15 + 5;
+            this.speedX = (Math.random() - 0.5) * 20;
+            this.speedY = (Math.random() * -15) - 5; // Tembak ke atas
+            this.gravity = 0.5;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.angle = Math.random() * 360;
+            this.spin = (Math.random() - 0.5) * 10;
+        }
+        update() {
+            this.speedY += this.gravity;
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.angle += this.spin;
+        }
+        draw() {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.angle * Math.PI / 180);
+            ctx.fillStyle = this.color;
+            ctx.strokeStyle = '#111'; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.rect(-this.size/2, -this.size/2, this.size, this.size);
             ctx.fill(); ctx.stroke();
             ctx.restore();
         }
@@ -407,18 +565,32 @@
         let x = e.clientX || (e.touches && e.touches[0].clientX);
         let y = e.clientY || (e.touches && e.touches[0].clientY);
         if (x && y) {
-            let sparkCount = Math.floor(Math.random() * 5) + 6;
+            let sparkCount = Math.floor(Math.random() * 6) + 8;
             for(let i=0; i<sparkCount; i++) sparks.push(new Spark(x, y));
         }
     });
 
+    function fireConfetti() {
+        for(let i=0; i<100; i++) {
+            confettis.push(new Confetti(canvas.width/2, canvas.height/2 + 100));
+        }
+    }
+
     function animateCanvas() {
         ctx.clearRect(0,0,canvas.width, canvas.height);
+        
         particles.forEach(p => { p.update(); p.draw(); });
+        
         for (let i = sparks.length - 1; i >= 0; i--) {
             sparks[i].update(); sparks[i].draw();
             if (sparks[i].life <= 0) sparks.splice(i, 1);
         }
+
+        for (let i = confettis.length - 1; i >= 0; i--) {
+            confettis[i].update(); confettis[i].draw();
+            if (confettis[i].y > canvas.height + 50) confettis.splice(i, 1);
+        }
+
         requestAnimationFrame(animateCanvas);
     }
     
@@ -426,11 +598,11 @@
     initCanvas(); animateCanvas();
 
 
-    // =========================================================================
-    // 2. FUNGSI UI & EFEK LAINNYA
-    // =========================================================================
+    // ---------------------------------------------------------
+    // 3. FUNGSI UI & EFEK LAINNYA
+    // ---------------------------------------------------------
     window.addEventListener('load', function() {
-        setTimeout(function() { document.getElementById('splash-screen').classList.add('hidden'); }, 1200);
+        setTimeout(function() { document.getElementById('splash-screen').classList.add('hidden'); }, 2000);
     });
 
     function toggleMenu() { document.getElementById("myDropdown").classList.toggle("show"); }
@@ -458,15 +630,17 @@
     });
 
 
-    // =========================================================================
-    // 3. ENGINE GAME 2048 (TIDAK DIUBAH LOGIKANYA, HANYA DOM)
-    // =========================================================================
+    // ---------------------------------------------------------
+    // 4. ENGINE GAME 2048 (LOGIC INTENSIF)
+    // ---------------------------------------------------------
     let board = [];
     let score = 0;
     let hasWon = false;
     let isGameOver = false;
     const size = 4;
-    const targetScore = 686;
+    
+    // TARGET MENANG (Ubah 512 ke target lain jika mau lebih lama)
+    const targetScore = 99999; // Kita fokus di pencapaian kotak
     const targetTile = 512; 
 
     function mulaiGame() {
@@ -478,6 +652,7 @@
     function resetGame() {
       document.getElementById('winScreen').style.display = 'none';
       document.getElementById('loseScreen').style.display = 'none';
+      confettis = []; // Bersihkan sisa confetti
       initBoard();
     }
 
@@ -520,7 +695,7 @@
             // Penyesuaian margin dinamis
             let topPos = (r * 25) + "%";
             let leftPos = (c * 25) + "%";
-            // Hitung sela grid (12px gap total ada 3 gap) -> disederhanakan pakai calc
+            // 12px gap dikali indeks
             tileDiv.style.top = `calc(${topPos} + ${(r * 3)}px)`;
             tileDiv.style.left = `calc(${leftPos} + ${(c * 3)}px)`;
             
@@ -537,7 +712,8 @@
         }
       }
 
-      if ((score >= targetScore || maxTile >= targetTile) && !hasWon) {
+      // Cek Menang / Kalah
+      if (maxTile >= targetTile && !hasWon) {
         triggerWin();
       } else if (checkLose() && !hasWon) {
         triggerLose();
@@ -547,6 +723,7 @@
     function triggerWin() {
       hasWon = true;
       document.getElementById('winScreen').style.display = 'flex';
+      fireConfetti(); // Tembakkan efek kertas meledak!
     }
 
     function triggerLose() {
@@ -554,7 +731,13 @@
       document.getElementById('loseScreen').style.display = 'flex';
     }
 
-    function updateScore() { document.getElementById('scoreValue').textContent = score; }
+    function updateScore() { 
+        // Efek counter animasi simpel untuk skor
+        let scoreEl = document.getElementById('scoreValue');
+        scoreEl.style.transform = 'scale(1.3)';
+        setTimeout(() => { scoreEl.style.transform = 'scale(1)'; }, 150);
+        scoreEl.textContent = score; 
+    }
 
     function checkLose() {
       for (let r = 0; r < size; r++) {
@@ -645,6 +828,7 @@
       let touchEndY = e.changedTouches[0].screenY;
       let dx = touchEndX - touchStartX; let dy = touchEndY - touchStartY;
       
+      // Deteksi swipe (minimal geser 30px)
       if (Math.abs(dx) > Math.abs(dy)) {
         if (Math.abs(dx) > 30) dx > 0 ? move(2) : move(0); 
       } else {
