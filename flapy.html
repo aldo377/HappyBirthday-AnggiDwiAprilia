@@ -4,68 +4,203 @@
       <title>HBD Sayangku Anggie ❤️</title>
       <meta http-equiv="content-type" content="text/html; charset=utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+      
       <link href="css/reset.css" rel="stylesheet">
       <link href="css/main.css" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+      
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800;900&display=swap" rel="stylesheet">
       
       <style>
-         /* 3 DOTS MENU */
+         /* ==========================================================================
+            TEMA NEO-BRUTALISM KHUSUS OVERLAY & UI (TIDAK GANGGU GAME)
+            ========================================================================== */
+         :root {
+            --bg-color: #f8f9fa;       
+            --border-color: #111111;   
+            --accent-pink: #ff6b8a;    
+            --accent-blue: #4facfe;    
+            --accent-green: #ccff00;   
+            --accent-yellow: #ffd166;  
+            --border-thick: 4px;       
+         }
+
+         body { font-family: 'Poppins', sans-serif; background-color: #71c5cf; /* Warna langit flappy default */ }
+
+         /* ==========================================================================
+            SPLASH SCREEN (LAYAR LOADING AWAL)
+            ========================================================================== */
+         #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
+            background: var(--bg-color); z-index: 99999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            background-image: radial-gradient(var(--border-color) 1.5px, transparent 1.5px);
+            background-size: 30px 30px;
+         }
+         #splash-screen.hidden { opacity: 0; transform: scale(1.1); pointer-events: none; }
+
+         .loader-box {
+            width: 70px; height: 70px;
+            border: var(--border-thick) solid var(--border-color);
+            background: var(--accent-pink);
+            animation: spinBrutal 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px;
+         }
+         @keyframes spinBrutal {
+            0% { transform: rotate(0deg) scale(1); background: var(--accent-pink); }
+            50% { transform: rotate(180deg) scale(1.2); background: var(--accent-blue); }
+            100% { transform: rotate(360deg) scale(1); background: var(--accent-yellow); }
+         }
+         .splash-text { font-size: 1.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--border-color); animation: pulseText 1.5s infinite alternate; }
+         @keyframes pulseText { from { opacity: 0.5; transform: translateY(0); } to { opacity: 1; transform: translateY(-5px); } }
+
+         /* ==========================================================================
+            3 DOTS MENU (GAYA BRUTALISM)
+            ========================================================================== */
          .top-menu { position: fixed; top: 20px; right: 25px; z-index: 10000; }
-         .dots-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; font-size: 1.5rem; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-         .dots-btn:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
-         .dropdown-content { display: none; position: absolute; right: 0; top: 55px; background: #12233a; min-width: 180px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); overflow: hidden; animation: fadeInDown 0.3s ease; }
+         .dots-btn { 
+            background: #fff; border: 3px solid var(--border-color); color: var(--border-color); 
+            font-size: 1.5rem; font-weight: 900; width: 50px; height: 50px; border-radius: 12px; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center; 
+            transition: 0.2s; box-shadow: 4px 4px 0px var(--border-color); 
+         }
+         .dots-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--border-color); }
+         
+         .dropdown-content { 
+            display: none; position: absolute; right: 0; top: 60px; background: #fff; 
+            min-width: 200px; border-radius: 12px; box-shadow: 8px 8px 0px var(--border-color); 
+            border: 3px solid var(--border-color); overflow: hidden; animation: fadeInDown 0.3s ease; 
+         }
          @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-         .dropdown-content a { color: white; padding: 14px 16px; text-decoration: none; display: block; font-size: 0.85rem; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.05); font-family: 'Poppins', sans-serif;}
+         
+         .dropdown-content a { 
+            color: var(--border-color); padding: 15px 20px; text-decoration: none; 
+            display: block; font-size: 0.9rem; font-weight: 800; transition: 0.2s; 
+            border-bottom: 2px solid var(--border-color); text-transform: uppercase;
+         }
          .dropdown-content a:last-child { border-bottom: none; }
-         .dropdown-content a:hover { background: rgba(255, 130, 170, 0.2); padding-left: 20px; }
+         .dropdown-content a:hover { background: var(--accent-yellow); padding-left: 25px; }
          .show { display: block; }
 
-         /* CLUE BOX */
-         .clue-box { background: rgba(255,255,255,0.05); border: 2px dashed #ffd166; padding: 20px; border-radius: 15px; margin: 20px 0; width: 100%; max-width: 300px; box-shadow: 0 0 20px rgba(255, 209, 102, 0.2); }
-         .clue-box h3 { color: #ffd166; font-family: 'Poppins', sans-serif; font-size: 1rem; margin-bottom: 8px; letter-spacing: 1px; }
-         .clue-box .username-clue { color: #fff; font-family: monospace; font-size: 1.2rem; font-weight: bold; letter-spacing: 1px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+         /* ==========================================================================
+            WELCOME OVERLAY
+            ========================================================================== */
+         #welcomeOverlay {
+            display: none; /* Di-handle oleh jQuery fadeIn di main.js */
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px);
+            z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+         }
+         .welcome-card {
+            background: #fff; border: var(--border-thick) solid var(--border-color);
+            padding: 40px 30px; border-radius: 16px; box-shadow: 10px 10px 0px var(--border-color);
+            max-width: 90%; animation: floatSlow 3s infinite ease-in-out;
+         }
+         @keyframes floatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
          
-         /* TOMBOL LANJUT */
-         .btn-lanjut { background: linear-gradient(135deg, #e8507a, #c0254e); border: none; border-radius: 10px; color: #fff; font-size: 1rem; font-weight: bold; padding: 14px 30px; cursor: pointer; text-decoration: none; font-family: 'Poppins', sans-serif; box-shadow: 0 4px 15px rgba(200, 40, 80, 0.4); display: inline-block; transition: 0.2s; }
-         .btn-lanjut:active { transform: scale(0.95); }
+         .welcome-card h1 { font-size: 2rem; font-weight: 900; text-transform: uppercase; color: var(--border-color); margin-bottom: 10px; }
+         .welcome-card p { font-weight: 600; font-size: 0.9rem; color: #555; }
          
+         .wc-highlight {
+            background: var(--accent-green); border: 3px solid var(--border-color);
+            padding: 10px 20px; font-weight: 900; font-size: 1.2rem; display: inline-block;
+            margin: 20px 0; transform: rotate(-3deg); box-shadow: 4px 4px 0px var(--border-color);
+         }
+         
+         .tap-hint { font-weight: 800; font-size: 0.85rem; color: var(--accent-pink); text-transform: uppercase; animation: pulse 1s infinite alternate; }
+         @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+         /* ==========================================================================
+            WIN OVERLAY (SUPER HEBOH)
+            ========================================================================== */
+         #winOverlay {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 99999; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 20px;
+         }
+
+         .win-card {
+            background: var(--accent-pink); border: 5px solid var(--border-color);
+            border-radius: 20px; padding: 40px 20px; width: 100%; max-width: 360px;
+            box-shadow: 15px 15px 0px var(--accent-yellow);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; overflow: hidden;
+         }
+         @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+         .win-emoji { font-size: 5rem; margin-bottom: 10px; animation: jumpBounce 1s infinite; text-shadow: 4px 4px 0px var(--border-color); }
+         @keyframes jumpBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+         .win-title { font-size: 2.2rem; font-weight: 900; text-transform: uppercase; color: #fff; text-shadow: 3px 3px 0px var(--border-color); margin-bottom: 10px; line-height: 1; }
+         .win-sub { font-weight: 700; color: var(--border-color); font-size: 0.95rem; margin-bottom: 20px; }
+
+         /* Kotak Clue Rahasia */
+         .clue-box { 
+            background: #fff; border: 4px dashed var(--border-color); padding: 20px; 
+            border-radius: 15px; margin: 0 auto 25px; width: 90%; 
+            box-shadow: inset 5px 5px 0px rgba(0,0,0,0.1); transform: rotate(2deg);
+         }
+         .clue-box h3 { color: var(--accent-pink); font-size: 1rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
+         .clue-box .username-clue { color: var(--border-color); font-size: 1.4rem; font-weight: 900; letter-spacing: 1px; }
+
+         /* TOMBOL KEMBALI KE TUTOR */
+         .btn-lanjut { 
+            background: var(--accent-yellow); border: 4px solid var(--border-color); 
+            border-radius: 12px; color: var(--border-color); font-size: 1.1rem; 
+            font-weight: 900; padding: 18px 20px; cursor: pointer; text-decoration: none; 
+            box-shadow: 6px 6px 0px var(--border-color); display: block; 
+            transition: 0.2s; text-transform: uppercase; width: 90%; margin: 0 auto;
+         }
+         .btn-lanjut:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--border-color); }
+
          #custom-footer { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); width: 100%; text-align: center; z-index: 9999; pointer-events: none; }
-         #custom-footer p { margin: 0; color: rgba(255, 255, 255, 0.6); font-size: 11px; font-family: 'Poppins', sans-serif; letter-spacing: 1px; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); }
+         #custom-footer p { margin: 0; color: rgba(255, 255, 255, 0.8); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-shadow: 1px 1px 2px #000; text-transform: uppercase;}
       </style>
    </head>
    <body>
 
+      <audio id="win-music" preload="auto">
+         <source src="music/menang.mp3" type="audio/mpeg" />
+      </audio>
+
+      <div id="splash-screen">
+         <div class="loader-box"></div>
+         <div class="splash-text">Memuat Misi 1...</div>
+      </div>
+
       <div class="top-menu">
          <button onclick="toggleMenu()" class="dots-btn">⋮</button>
          <div id="myDropdown" class="dropdown-content">
-            <a href="tutor.html">🔙 Kembali ke Tutor</a>
+            <a href="tutor.html">🔙 Buka Aturan</a>
             <a href="index.html">🏠 Ke Halaman Awal</a>
          </div>
       </div>
 
       <div id="welcomeOverlay">
-         <div class="wc-emoji">🎮</div>
-         <h1>Misi Pertama!</h1>
-         <p style="font-family:'Poppins', sans-serif; color:#b8d8ea;">Selesaikan misi ini untuk mendapatkan Clue Username rahasia!</p>
-         <div class="wc-highlight">
-            Dapatkan <span>10</span> Poin!
+         <div class="welcome-card">
+            <div style="font-size: 4rem; margin-bottom: 10px; animation: jumpBounce 2s infinite;">🐦</div>
+            <h1>Misi Pertama!</h1>
+            <p>Selesaikan misi ini untuk mendapatkan Clue Username rahasia!</p>
+            <div class="wc-highlight">Dapatkan 20 Poin!</div>
+            <p class="tap-hint">👇 Tap layar untuk mulai 👇</p>
          </div>
-         <p class="tap-hint">— Tap layar untuk mulai terbang —</p>
       </div>
 
-      <div id="winOverlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:9999; background:rgba(10,30,60,0.95); align-items:center; justify-content:center; flex-direction:column; text-align:center; padding:30px;">
-         <div class="win-emoji" style="font-size:4rem; margin-bottom:10px;">🎉</div>
-         <h2 style="font-family:'Poppins', sans-serif; color:#fff; font-size:1.8rem; margin-bottom:10px;">Misi 1 Selesai!</h2>
-         <p style="font-family:'Poppins', sans-serif; color:#b8d8ea; margin-bottom:10px; font-size: 0.9rem;">Hebat! Ini clue pertama untuk buka hadiahmu:</p>
-         
-         <div class="clue-box">
-             <h3>CLUE USERNAME:</h3>
-             <div class="username-clue">Anggie Dwi Aprilia</div>
+      <div id="winOverlay">
+         <div class="win-card">
+            <div class="win-emoji">🎉</div>
+            <h2 class="win-title">MISI 1 SELESAI!</h2>
+            <p class="win-sub">Hebat banget! Ini clue pertama untuk buka hadiahmu:</p>
+            
+            <div class="clue-box">
+                <h3>CLUE USERNAME:</h3>
+                <div class="username-clue">Anggie Dwi Aprilia</div>
+            </div>
+
+            <p style="color:#fff; font-weight:700; font-size:0.8rem; margin-bottom:20px; text-transform:uppercase;">📸 (Wajib Screenshot!)</p>
+
+            <a href="tutor.html" class="btn-lanjut">Kembali Ke Aturan ➡️</a>
          </div>
-
-         <p style="font-family:'Poppins', sans-serif; color:rgba(255,255,255,0.6); font-size:0.75rem; margin-bottom:30px;">(Ingat-ingat atau Screenshot ya!)</p>
-
-         <a href="200408.html" class="btn-lanjut">Lanjut Misi 2 ➡️</a>
       </div>
 
       <div id="gameWrapper">
@@ -90,7 +225,7 @@
          </div>
       </div>
 
-      <div id="custom-footer"><p>Dibuat dengan ❤️ oleh Orang Ganteng buat Anggie</p></div>
+      <div id="custom-footer"><p>Dibuat dengan ❤️ oleh Orang Ganteng</p></div>
 
       <div class="boundingbox" id="playerbox"></div>
       <div class="boundingbox" id="pipebox"></div>
@@ -101,6 +236,14 @@
       <script src="js/main.js"></script>
       
       <script>
+         // 1. Logika Loading Screen
+         window.addEventListener('load', function() {
+            setTimeout(function() {
+               document.getElementById('splash-screen').classList.add('hidden');
+            }, 1500); // Tahan 1.5 detik biar asik
+         });
+
+         // 2. Logika Menu 3 Titik
          function toggleMenu() {
             document.getElementById("myDropdown").classList.toggle("show");
          }
@@ -115,6 +258,25 @@
                }
             }
          }
+
+         // 3. SENSOR RAHASIA UNTUK MUTAR MUSIK SAAT MENANG
+         // Ini memantau elemen #winOverlay, kalau 'display'-nya berubah dari 'none' ke 'flex', lagu diputar.
+         const winOverlayEl = document.getElementById('winOverlay');
+         const winObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+               if (mutation.attributeName === 'style') {
+                  const displayStyle = window.getComputedStyle(winOverlayEl).display;
+                  if (displayStyle !== 'none') {
+                     const laguMenang = document.getElementById('win-music');
+                     // Putar lagu jika ada filenya
+                     if (laguMenang) {
+                        laguMenang.play().catch(e => console.log("Gagal memutar audio otomatis:", e));
+                     }
+                  }
+               }
+            });
+         });
+         winObserver.observe(winOverlayEl, { attributes: true });
       </script>
    </body>
 </html>
