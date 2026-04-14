@@ -1,416 +1,659 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-   <title>Hayooo Tebakk ❤️</title>
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-   <style>
-      * {
-         margin: 0; padding: 0;
-         box-sizing: border-box;
-         font-family: 'Poppins', sans-serif;
-      }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Special Day For Princess ❤️</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. RESET & CSS VARIABLES (NEO-BRUTALISM SETTINGS)
+           ========================================================================== */
+        :root {
+            --bg-color: #f8f9fa;       /* Putih tulang yang elegan */
+            --border-color: #111111;   /* Hitam tegas ala Spongbob */
+            --accent-pink: #ff6b8a;    /* Pink ceria */
+            --accent-blue: #4facfe;    /* Biru langit */
+            --accent-green: #ccff00;   /* Hijau stabilo super terang */
+            --accent-yellow: #ffd166;  /* Kuning hangat */
+            --border-thick: 4px;       /* Ketebalan garis Spongbob */
+            --shadow-thick: 8px;       /* Ketebalan bayangan keras */
+        }
 
-      html, body {
-         height: 100%;
-         overflow: hidden;
-         background: #1a2e45;
-      }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Poppins', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+        }
 
-      /* =============================================
-         LAYOUT SPLIT: kiri dekorasi, kanan form
-         ============================================= */
-      .page-wrap {
-         display: flex;
-         height: 100vh;
-      }
+        body {
+            background-color: var(--bg-color);
+            color: var(--border-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+            background-size: 30px 30px; /* Efek titik-titik (polka) tipis di background */
+        }
 
-      /* ── PANEL KIRI ── */
-      .left-panel {
-         flex: 1;
-         background: linear-gradient(145deg, #2a5470 0%, #1e3c5a 60%, #162e47 100%);
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         justify-content: center;
-         padding: 40px 30px;
-         position: relative;
-         overflow: hidden;
-      }
+        /* ==========================================================================
+           2. GLOBAL UTILITIES & BRUTALIST COMPONENTS
+           ========================================================================== */
+        .brutal-card {
+            border: var(--border-thick) solid var(--border-color);
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: var(--shadow-thick) var(--shadow-thick) 0px var(--border-color);
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
 
-      /* Bintang-bintang dekorasi */
-      .left-panel::before {
-         content: '';
-         position: absolute;
-         top: 0; left: 0; right: 0; bottom: 0;
-         background-image:
-            radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px),
-            radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
-         background-size: 70px 70px, 35px 35px;
-         background-position: 0 0, 17px 17px;
-         pointer-events: none;
-      }
+        .brutal-button {
+            border: var(--border-thick) solid var(--border-color);
+            border-radius: 8px;
+            background: var(--accent-pink);
+            color: var(--border-color);
+            font-weight: 900;
+            text-transform: uppercase;
+            box-shadow: 5px 5px 0px var(--border-color);
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+            display: inline-block;
+        }
 
-      /* Lingkaran dekorasi hijau */
-      .deco-circle-big {
-         position: absolute;
-         width: 260px; height: 260px;
-         border-radius: 50%;
-         background: radial-gradient(circle at 40% 40%,
-            rgba(255, 130, 170, 0.18) 0%,
-            rgba(255, 80, 130, 0.08) 60%,
-            transparent 100%);
-         top: 50%; left: 50%;
-         transform: translate(-50%, -50%);
-      }
+        .brutal-button:active {
+            transform: translate(4px, 4px);
+            box-shadow: 1px 1px 0px var(--border-color);
+        }
 
-      .deco-circle-sm {
-         position: absolute;
-         width: 130px; height: 130px;
-         border-radius: 50%;
-         background: rgba(255, 180, 200, 0.08);
-         top: 15%; right: -20px;
-      }
-
-      .left-logo {
-         position: relative;
-         z-index: 1;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         margin-bottom: 15px;
-      }
-
-      /* Tempat buat sandi.gif */
-      .left-logo img.sandi-gif {
-         width: 140px;
-         height: auto;
-         margin-bottom: 15px;
-         border-radius: 15px;
-         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-         animation: floatGif 3s ease-in-out infinite;
-      }
-
-      @keyframes floatGif {
-         0%, 100% { transform: translateY(0); }
-         50% { transform: translateY(-10px); }
-      }
-
-      .left-logo h2 {
-         font-size: 1.4rem;
-         font-weight: 700;
-         color: #fff;
-         text-align: center;
-         letter-spacing: 1px;
-      }
-
-      .left-logo p {
-         font-size: 0.8rem;
-         color: rgba(255,255,255,0.7);
-         text-align: center;
-         margin-top: 4px;
-         letter-spacing: 2px;
-         text-transform: uppercase;
-      }
-
-      .left-tagline {
-         position: relative;
-         z-index: 1;
-         text-align: center;
-         margin-top: 20px;
-         color: rgba(255,255,255,0.8);
-         font-size: 0.85rem;
-         line-height: 1.7;
-      }
-
-      /* ── PANEL KANAN ── */
-      .right-panel {
-         flex: 1;
-         background: #12233a;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         justify-content: center;
-         padding: 40px 32px;
-         position: relative;
-      }
-
-      .form-title {
-         font-size: 1.7rem;
-         font-weight: 700;
-         color: #fff;
-         letter-spacing: 3px;
-         text-transform: uppercase;
-         margin-bottom: 36px;
-      }
-
-      .form-group {
-         width: 100%;
-         max-width: 280px;
-         margin-bottom: 20px;
-      }
-
-      .form-group label {
-         display: block;
-         font-size: 0.78rem;
-         color: rgba(255,255,255,0.55);
-         margin-bottom: 6px;
-         letter-spacing: 1px;
-         text-transform: uppercase;
-      }
-
-      .input-wrap {
-         position: relative;
-         display: flex;
-         align-items: center;
-         background: rgba(255,255,255,0.07);
-         border: 1px solid rgba(255,255,255,0.12);
-         border-radius: 10px;
-         overflow: hidden;
-         transition: border 0.25s;
-      }
-
-      .input-wrap:focus-within {
-         border-color: rgba(255, 130, 170, 0.6);
-         background: rgba(255,255,255,0.1);
-      }
-
-      .input-wrap .input-icon {
-         padding: 0 12px;
-         font-size: 1.1rem;
-         opacity: 0.6;
-      }
-
-      .input-wrap input {
-         flex: 1;
-         background: transparent;
-         border: none;
-         outline: none;
-         padding: 12px 12px 12px 0;
-         font-size: 0.9rem;
-         color: #fff;
-         font-family: 'Poppins', sans-serif;
-      }
-
-      .input-wrap input::placeholder {
-         color: rgba(255,255,255,0.25);
-      }
-
-      .btn-login {
-         width: 100%;
-         max-width: 280px;
-         padding: 13px;
-         background: linear-gradient(135deg, #e8507a, #c0254e);
-         border: none;
-         border-radius: 10px;
-         color: #fff;
-         font-size: 0.95rem;
-         font-weight: 700;
-         letter-spacing: 2px;
-         text-transform: uppercase;
-         cursor: pointer;
-         margin-top: 8px;
-         transition: opacity 0.2s, transform 0.15s;
-         box-shadow: 0 4px 20px rgba(200, 40, 80, 0.4);
-      }
-
-      .btn-login:active {
-         opacity: 0.85;
-         transform: scale(0.98);
-      }
-
-      .error-msg {
-         display: none;
-         color: #ff6b8a;
-         font-size: 0.78rem;
-         text-align: center;
-         margin-top: 12px;
-         max-width: 280px;
-      }
-
-      /* Tombol Bantuan Clue */
-      .help-link {
-         display: block;
-         margin-top: 25px;
-         color: #ffd166;
-         font-size: 0.8rem;
-         text-decoration: none;
-         text-align: center;
-         padding: 10px;
-         border: 1px dashed rgba(255, 209, 102, 0.4);
-         border-radius: 8px;
-         background: rgba(255, 209, 102, 0.05);
-         transition: 0.3s;
-      }
-
-      .help-link:hover {
-         background: rgba(255, 209, 102, 0.15);
-         border-color: #ffd166;
-      }
-
-      /* Footer Tengah */
-      #custom-footer {
-         position: fixed;
-         bottom: 15px;
-         left: 50%;
-         transform: translateX(-50%);
-         width: 100%;
-         text-align: center;
-         z-index: 9999;
-         pointer-events: none;
-      }
-
-      #custom-footer p {
-         margin: 0;
-         color: rgba(255, 255, 255, 0.4);
-         font-size: 11px;
-         font-family: 'Poppins', sans-serif;
-         letter-spacing: 1px;
-         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-      }
-
-      /* =============================================
-         MOBILE — stack vertikal
-         ============================================= */
-      @media (max-width: 520px) {
-         .page-wrap {
+        /* ==========================================================================
+           3. OVERLAY PINTU MASUK (MENGAKALI AUTOPLAY MUSIK IPHONE)
+           ========================================================================== */
+        #start-gate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
+            background: var(--bg-color);
+            z-index: 99999;
+            display: flex;
             flex-direction: column;
-            overflow-y: auto;
-         }
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            background-image: repeating-linear-gradient(45deg, #e5e5e5 25%, transparent 25%, transparent 75%, #e5e5e5 75%, #e5e5e5), repeating-linear-gradient(45deg, #e5e5e5 25%, var(--bg-color) 25%, var(--bg-color) 75%, #e5e5e5 75%, #e5e5e5);
+            background-position: 0 0, 15px 15px;
+            background-size: 30px 30px;
+        }
 
-         .left-panel {
-            flex: none;
-            padding: 32px 20px 24px;
-            min-height: 250px;
-         }
+        #start-gate.opened {
+            transform: translateY(-100%);
+            pointer-events: none;
+        }
 
-         .deco-circle-big {
-            width: 180px; height: 180px;
-         }
+        .gate-btn {
+            background: var(--accent-green);
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            animation: floating 3s ease-in-out infinite;
+        }
 
-         .left-tagline { display: none; }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
 
-         .right-panel {
-            flex: none;
-            padding: 28px 24px 80px; /* Bawah agak panjang biar ga nabrak footer */
-         }
+        /* ==========================================================================
+           4. HERO SECTION (BAGIAN PALING ATAS)
+           ========================================================================== */
+        .hero-section {
+            height: 100vh; height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: var(--border-thick) solid var(--border-color);
+            background: #ffffff;
+        }
 
-         .form-title { font-size: 1.3rem; margin-bottom: 24px; }
-      }
-   </style>
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title .highlight-blue { color: var(--accent-blue); }
+        
+        .hero-title .badge {
+            background: var(--accent-yellow);
+            padding: 5px 15px;
+            border: var(--border-thick) solid var(--border-color);
+            display: inline-block;
+            transform: rotate(-4deg);
+            margin-top: 10px;
+            box-shadow: 4px 4px 0px var(--border-color);
+        }
+
+        .typewriter-text {
+            margin-top: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #444;
+            min-height: 24px;
+            background: #fff;
+            padding: 5px 10px;
+            border: 2px solid var(--border-color);
+            display: inline-block;
+        }
+
+        /* Dekorasi Mengambang */
+        .floating-shape {
+            position: absolute;
+            border: var(--border-thick) solid var(--border-color);
+            z-index: 1;
+            animation: spinAndFloat 15s linear infinite;
+        }
+        .shape-1 { width: 60px; height: 60px; background: var(--accent-pink); border-radius: 50%; top: 15%; left: 10%; }
+        .shape-2 { width: 50px; height: 50px; background: var(--accent-blue); top: 20%; right: 15%; transform: rotate(15deg); }
+        .shape-3 { width: 70px; height: 30px; background: var(--accent-green); bottom: 25%; left: 20%; transform: rotate(-25deg); }
+
+        @keyframes spinAndFloat {
+            0% { transform: rotate(0deg) translate(0, 0); }
+            50% { transform: rotate(180deg) translate(20px, 30px); }
+            100% { transform: rotate(360deg) translate(0, 0); }
+        }
+
+        /* Marquee / Teks Berjalan */
+        .marquee-container {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: var(--border-color);
+            color: var(--accent-green);
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-top: var(--border-thick) solid var(--border-color);
+            z-index: 10;
+        }
+        .marquee-content {
+            display: inline-block;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ==========================================================================
+           5. GALLERY SECTION (HORIZONTAL SCROLL)
+           ========================================================================== */
+        .gallery-section {
+            padding: 80px 0;
+            background: var(--bg-color);
+            border-bottom: var(--border-thick) solid var(--border-color);
+            position: relative;
+        }
+
+        .section-header {
+            padding: 0 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .section-header h2 { font-weight: 900; font-size: 2.2rem; line-height: 1; text-transform: uppercase; }
+        .section-header p { font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; color: #555; }
+        
+        .swipe-indicator {
+            background: #fff;
+            padding: 8px 15px;
+            font-weight: 800;
+            font-size: 0.8rem;
+        }
+
+        /* Area Gulir Samping */
+        .gallery-track {
+            display: flex;
+            gap: 25px;
+            padding: 20px 30px 40px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .gallery-track::-webkit-scrollbar { display: none; } /* Sembunyikan scrollbar bawaan */
+
+        .gallery-card {
+            flex: 0 0 75%; /* Lebar gambar di HP */
+            height: 450px;
+            scroll-snap-align: center;
+            border: var(--border-thick) solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            background: #ddd;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(0.9);
+            opacity: 0.5;
+            box-shadow: 0px 0px 0px var(--border-color);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        /* Efek Saat Gambar Pas Di Tengah Layar */
+        .gallery-card.is-focused {
+            transform: scale(1.05);
+            opacity: 1;
+            box-shadow: 12px 12px 0px var(--border-color);
+            z-index: 10;
+        }
+
+        .gallery-card.is-focused img {
+            transform: scale(1.1); /* Gambar di dalamnya juga sedikit membesar */
+        }
+
+        /* ==========================================================================
+           6. GAMES SECTION (ARCADE)
+           ========================================================================== */
+        .games-section {
+            padding: 80px 20px;
+            background: #ffffff;
+            border-bottom: var(--border-thick) solid var(--border-color);
+        }
+
+        .games-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            margin-top: 40px;
+        }
+
+        .game-card {
+            display: block;
+            text-decoration: none;
+            color: var(--border-color);
+            padding: 20px;
+        }
+
+        .game-1 { background: #e0f7fa; }
+        .game-2 { background: #fce4ec; }
+
+        .game-thumbnail {
+            width: 100%;
+            height: 180px;
+            border: var(--border-thick) solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: #ccc;
+        }
+
+        .game-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .game-info h3 { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; }
+        .game-info p { font-size: 0.85rem; font-weight: 600; margin-top: 5px; color: #444; }
+        
+        .play-icon {
+            background: var(--accent-yellow);
+            width: 45px; height: 45px;
+            border: var(--border-thick) solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 900;
+        }
+
+        /* ==========================================================================
+           7. LOGIN SECTION (THE GATE)
+           ========================================================================== */
+        .login-section {
+            padding: 100px 20px;
+            background: var(--accent-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            background: #ffffff;
+            padding: 40px 25px;
+            text-align: center;
+        }
+
+        .login-box h2 { font-size: 2.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; }
+        .login-box p { font-size: 0.9rem; font-weight: 600; color: #555; margin-bottom: 30px; }
+
+        .input-wrapper {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-wrapper label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 16px;
+            border: var(--border-thick) solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: all 0.2s;
+            background: var(--bg-color);
+        }
+
+        .input-wrapper input:focus {
+            background: #fff;
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0px var(--accent-pink);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            display: none;
+            color: #d63031;
+            font-weight: 800;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            background: #ff7675;
+            color: #fff;
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+        }
+
+        .help-link {
+            display: inline-block;
+            margin-top: 25px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--border-color);
+            text-decoration: none;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        /* Animasi Getar Hebat Saat Error */
+        @keyframes shakeHard {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+            20%, 40%, 60%, 80% { transform: translateX(8px); }
+        }
+        .shake-animation { animation: shakeHard 0.5s ease-in-out; }
+
+    </style>
 </head>
 <body>
 
-<div class="page-wrap">
+    <audio id="bg-audio" loop preload="auto">
+        <source src="music/opening.mp3" type="audio/mpeg" />
+    </audio>
 
-   <div class="left-panel">
-      <div class="deco-circle-big"></div>
-      <div class="deco-circle-sm"></div>
+    <div id="start-gate">
+        <h1 style="font-size: 4rem; margin-bottom: 20px; font-weight: 900; color: var(--border-color); text-transform: uppercase;">Hello!</h1>
+        <button class="brutal-button gate-btn" onclick="openGate()">TAP TO START</button>
+        <p style="margin-top: 20px; font-weight: 600; font-size: 0.8rem;">Pastikan volume HP nyala ya!</p>
+    </div>
 
-      <div class="left-logo">
-         <img src="sandi.gif" alt="Animasi Lucu" class="sandi-gif" onerror="this.style.display='none';">
-         
-         <h2>Hayoo Tebak</h2>
-         <p>Khusus buat orang cantik</p>
-      </div>
+    <section class="hero-section">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        
+        <h1 class="hero-title">
+            LEVEL UP <br>
+            <span class="highlight-blue">YOUR DAY</span> <br>
+            WITH OUR <br>
+            <span class="badge">SURPRISE</span>
+        </h1>
+        
+        <div class="typewriter-text" id="typewriter"></div>
 
-      <div class="left-tagline">
-         Selamat! Kamu berhasil mendapatkan<br>Uang 1Jt Rupiah 😊<br><br>
-         Masukkan nama &amp; kode rahasiamu<br>untuk membuka hadiah spesial ini.
-      </div>
-   </div>
+        <div class="marquee-container">
+            <div class="marquee-content">
+                A SPECIAL DAY FOR A SPECIAL PERSON • HAPPY BIRTHDAY PRINCESS • SCROLL DOWN TO UNLOCK • FIND THE CLUES • A SPECIAL DAY FOR A SPECIAL PERSON • HAPPY BIRTHDAY PRINCESS • SCROLL DOWN TO UNLOCK • FIND THE CLUES •
+            </div>
+        </div>
+    </section>
 
-   <div class="right-panel">
-      <h1 class="form-title">Masuk</h1>
+    <section class="section gallery-section">
+        <div class="section-header">
+            <div>
+                <p>OVERLOAD MEMORIES</p>
+                <h2>OUR GALLERY</h2>
+            </div>
+            <div class="brutal-card swipe-indicator">SWIPE ➡️</div>
+        </div>
 
-      <div class="form-group">
-         <label>Username</label>
-         <div class="input-wrap">
-            <span class="input-icon">👤</span>
-            <input type="text" id="inputUsername" placeholder="Nama kamu..." autocomplete="off" />
-         </div>
-      </div>
+        <div class="gallery-track" id="gallery-track">
+            <div class="gallery-card brutal-card">
+                <img src="img/gallery1.jpg" alt="Memory 1" onerror="this.src='https://via.placeholder.com/600x800/ff6b8a/fff?text=Foto+1'">
+            </div>
+            <div class="gallery-card brutal-card">
+                <img src="img/gallery2.jpg" alt="Memory 2" onerror="this.src='https://via.placeholder.com/600x800/4facfe/fff?text=Foto+2'">
+            </div>
+            <div class="gallery-card brutal-card">
+                <img src="img/gallery3.jpg" alt="Memory 3" onerror="this.src='https://via.placeholder.com/600x800/ccff00/111?text=Foto+3'">
+            </div>
+            <div class="gallery-card brutal-card">
+                <img src="img/gallery4.jpg" alt="Memory 4" onerror="this.src='https://via.placeholder.com/600x800/ffd166/111?text=Foto+4'">
+            </div>
+            <div class="gallery-card brutal-card">
+                <img src="img/gallery5.jpg" alt="Memory 5" onerror="this.src='https://via.placeholder.com/600x800/111111/fff?text=Foto+5'">
+            </div>
+        </div>
+    </section>
 
-      <div class="form-group">
-         <label>Kode Rahasia</label>
-         <div class="input-wrap">
-            <span class="input-icon">🔒</span>
-            <input type="password" id="inputPassword" placeholder="••••••" autocomplete="off" />
-         </div>
-      </div>
+    <section class="games-section">
+        <div class="section-header" style="justify-content: center; text-align: center;">
+            <div>
+                <p>FIND THE KEY</p>
+                <h2>SECRET MISSIONS</h2>
+            </div>
+        </div>
 
-      <button class="btn-login" onclick="doLogin()">Jangan Di Pencet ❤️</button>
+        <div class="games-grid">
+            <a href="flapy.html" class="brutal-card game-card game-1">
+                <div class="game-thumbnail">
+                    <img src="img/game-flappy.jpg" alt="Flappy Bird" onerror="this.src='https://via.placeholder.com/600x400/4facfe/fff?text=Thumbnail+Flappy'">
+                </div>
+                <div class="game-info">
+                    <div>
+                        <h3>Mission: Fly 🐦</h3>
+                        <p>Cari Clue Username di sini.</p>
+                    </div>
+                    <div class="play-icon">↗</div>
+                </div>
+            </a>
 
-      <p class="error-msg" id="errorMsg">
-         Gimana sih Kok Engga Bisa Buka 😅
-      </p>
+            <a href="200408.html" class="brutal-card game-card game-2">
+                <div class="game-thumbnail">
+                    <img src="img/game-2048.jpg" alt="Game 2048" onerror="this.src='https://via.placeholder.com/600x400/ff6b8a/fff?text=Thumbnail+2048'">
+                </div>
+                <div class="game-info">
+                    <div>
+                        <h3>Mission: Puzzle 🧩</h3>
+                        <p>Cari Clue Password di sini.</p>
+                    </div>
+                    <div class="play-icon">↗</div>
+                </div>
+            </a>
+        </div>
+    </section>
 
-      <a href="tutor.html" class="help-link">
-         Enggak tau nama & sandinya? Klik di sini buat cari Clue! 🔍
-      </a>
+    <section class="login-section" id="form-login">
+        <div class="brutal-card login-box" id="login-container">
+            <h2>BUKA KADO 🎁</h2>
+            <p>Masukkan kunci rahasia yang kamu dapat.</p>
 
-   </div>
-</div>
+            <div class="input-wrapper">
+                <label>Username</label>
+                <input type="text" id="inputUsername" placeholder="Siapa nama princess?">
+            </div>
 
-<div id="custom-footer">
-    <p>Dibuat dengan ❤️ oleh Orang Ganteng buat Anggie</p>
-</div>
+            <div class="input-wrapper">
+                <label>Kode Rahasia</label>
+                <input type="password" id="inputPassword" placeholder="Enam angka rahasia">
+            </div>
 
-<script>
-   // Tekan Enter juga bisa login
-   document.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') doLogin();
-   });
+            <button class="brutal-button btn-submit" id="btn-login" onclick="processLogin()">Buka Sekarang</button>
+            
+            <div class="error-message" id="error-msg">
+                Ngapain nebak-nebak? Cari clue nya dulu dong 😜
+            </div>
 
-   function doLogin() {
-      var username = document.getElementById('inputUsername').value.trim().toLowerCase();
-      var password = document.getElementById('inputPassword').value.trim();
+            <a href="tutor.html" class="help-link">Butuh Bantuan? Baca Tutor Di Sini</a>
+        </div>
+    </section>
 
-      // LOGIKNYA UDAH AKU PERBAIKI BIAR BISA MASUK SEMUA
-      var isSuccess = false;
-
-      // Pengecekan 1: Anggi Dwi Aprilia
-      if (username === "anggi dwi aprilia" || username === "anggie dwi aprilia") {
-         if (password === "200408") isSuccess = true;
-      }
-      // Pengecekan 2: Aldo Leo Saputra
-      else if (username === "aldo leo saputra") {
-         if (password === "280708") isSuccess = true;
-      }
-      // Pengecekan 3: Alief Hidayat
-      else if (username === "alief hidayat") {
-         if (password === "200408") isSuccess = true;
-      }
-
-      if (isSuccess) {
-         // Sukses — redirect ke happybirthday.html
-         var btn = document.querySelector('.btn-login');
-         btn.textContent = '💕 Sudah Di Bilang Jangan Di pencet';
-         btn.style.opacity = '0.7';
-         setTimeout(function() {
-            window.location.href = 'happybirthday.html';
-         }, 800);
-      } else {
-         var errMsg = document.getElementById('errorMsg');
-         errMsg.style.display = 'block';
-         
-         // Animasi shake
-         var inputWraps = document.querySelectorAll('.input-wrap');
-         inputWraps.forEach(function(el) {
-            el.style.border = '1px solid rgba(255, 80, 100, 0.7)';
-            el.style.animation = 'none';
-         });
-         setTimeout(function() {
-            inputWraps.forEach(function(el) {
-               el.style.border = '1px solid rgba(255,255,255,0.12)';
+    <script>
+        // --- 1. Fungsi Buka Pintu & Mainkan Musik ---
+        function openGate() {
+            const gate = document.getElementById('start-gate');
+            const audio = document.getElementById('bg-audio');
+            
+            gate.classList.add('opened');
+            
+            // Setel volume dan mainkan
+            audio.volume = 0.4;
+            audio.play().catch(error => {
+                console.log("Browser memblokir audio autoplay.");
             });
-         }, 1200);
-      }
-   }
-</script>
 
+            // Mulai efek ngetik setelah pintu terbuka
+            setTimeout(typeWriterEffect, 800);
+        }
+
+        // --- 2. Efek Mesin Ketik (Typewriter) ---
+        const textToType = "Siap untuk melihat kejutanmu hari ini? Scroll ke bawah ya...";
+        let typeIndex = 0;
+        function typeWriterEffect() {
+            if (typeIndex < textToType.length) {
+                document.getElementById("typewriter").innerHTML += textToType.charAt(typeIndex);
+                typeIndex++;
+                setTimeout(typeWriterEffect, 50); // Kecepatan ngetik
+            }
+        }
+
+        // --- 3. Logika Intersection Observer buat Horizontal Scroll (Lebih Canggih) ---
+        const track = document.getElementById('gallery-track');
+        const cards = document.querySelectorAll('.gallery-card');
+
+        // Menggunakan observer agar performa HP tetap enteng
+        const observerOptions = {
+            root: track,
+            rootMargin: '0px',
+            threshold: 0.6 // Gambar dibilang 'aktif' kalau 60% badannya masuk tengah layar
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Kasih class is-focused biar membesar
+                    entry.target.classList.add('is-focused');
+                } else {
+                    entry.target.classList.remove('is-focused');
+                }
+            });
+        }, observerOptions);
+
+        cards.forEach(card => observer.observe(card));
+
+        // --- 4. Logika Validasi Login ---
+        // Biar bisa pencet 'Enter' di keyboard HP
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') processLogin();
+        });
+
+        function processLogin() {
+            // Ambil data dan ubah jadi huruf kecil semua biar gak sensitif
+            const user = document.getElementById('inputUsername').value.trim().toLowerCase();
+            const pass = document.getElementById('inputPassword').value.trim();
+            const btn = document.getElementById('btn-login');
+            const errMsg = document.getElementById('error-msg');
+            const container = document.getElementById('login-container');
+
+            let isSuccess = false;
+
+            // Logika Sandi Sesuai Permintaan Asli (Pengecekan Tiga Kondisi)
+            if (user === "anggi dwi aprilia" || user === "anggie dwi aprilia") {
+                if (pass === "200408") isSuccess = true;
+            } else if (user === "aldo leo saputra") {
+                if (pass === "280708") isSuccess = true;
+            } else if (user === "alief hidayat") {
+                if (pass === "200408") isSuccess = true;
+            }
+
+            if (isSuccess) {
+                // Animasi Sukses
+                errMsg.style.display = 'none';
+                btn.textContent = 'MEMBUKA... ✨';
+                btn.style.background = 'var(--accent-green)';
+                btn.style.color = 'var(--border-color)';
+                
+                // Tunggu sebentar biar efeknya kerasa, lalu pindah halaman
+                setTimeout(function() {
+                    window.location.href = 'happybirthday.html';
+                }, 1000);
+            } else {
+                // Animasi Gagal (Gemetar)
+                errMsg.style.display = 'block';
+                btn.textContent = 'COBA LAGI';
+                btn.style.background = '#ff4757'; // Merah error
+                
+                // Hapus class shake lama (kalau ada) lalu tambahkan yang baru biar bisa getar berkali-kali
+                container.classList.remove('shake-animation');
+                void container.offsetWidth; // Trigger reflow CSS
+                container.classList.add('shake-animation');
+            }
+        }
+    </script>
 </body>
 </html>
