@@ -28,10 +28,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--border-color);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            background-color: var(--bg-color); color: var(--border-color);
+            overflow-x: hidden; scroll-behavior: smooth;
         }
 
         /* ==========================================================================
@@ -57,13 +55,10 @@
             background-size: 100% 4px;
         }
 
-        #bg-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; transition: opacity 0.3s; z-index: -1;
-        }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; transition: opacity 0.3s; z-index: -1; }
 
         /* ==========================================================================
-           3. COUNTDOWN BOOT SEQUENCE (PENGGANTI TERMINAL HACKER)
+           3. COUNTDOWN BOOT SEQUENCE
            ========================================================================== */
         #countdown-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
@@ -79,13 +74,9 @@
         }
 
         /* ==========================================================================
-           4. TOMBOL MUSIK & ANTI-LAG KEKINIAN
+           4. TOMBOL MUSIK & ANTI-LAG
            ========================================================================== */
-        .control-panel {
-            position: fixed; top: 15px; left: 15px; z-index: 999999;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-
+        .control-panel { position: fixed; top: 15px; left: 15px; z-index: 999999; display: flex; flex-direction: column; gap: 10px; }
         .brutal-btn-small {
             background: #fff; color: var(--border-color); padding: 10px 15px;
             font-size: 0.75rem; border-radius: 12px; box-shadow: 4px 4px 0px var(--border-color);
@@ -104,20 +95,17 @@
             background: #ffffff; box-shadow: var(--shadow-thick) var(--shadow-thick) 0px var(--border-color);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative;
         }
-
         .brutal-button {
             border: var(--border-thick) solid var(--border-color); border-radius: 8px;
             background: var(--accent-pink); color: var(--border-color); font-weight: 900;
             text-transform: uppercase; box-shadow: 6px 6px 0px var(--border-color);
-            transition: all 0.15s ease-in-out; display: inline-block;
-            position: relative; overflow: hidden; cursor: pointer;
+            transition: all 0.15s ease-in-out; display: inline-block; position: relative; overflow: hidden; cursor: pointer;
         }
         .brutal-button:active { transform: translate(6px, 6px); box-shadow: 0px 0px 0px var(--border-color); }
 
         .ripple {
             position: absolute; border-radius: 50%; transform: scale(0);
-            animation: ripple-animation 0.6s ease-out; background-color: rgba(255, 255, 255, 0.7);
-            pointer-events: none;
+            animation: ripple-animation 0.6s ease-out; background-color: rgba(255, 255, 255, 0.7); pointer-events: none;
         }
         @keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }
 
@@ -140,43 +128,23 @@
         @keyframes floatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
         /* ==========================================================================
-           7. HERO SECTION DENGAN EFEK GLITCH & PARALLAX DEKORASI
+           7. HERO SECTION DENGAN EFEK GLITCH & PARALLAX
            ========================================================================== */
         .hero-section {
             height: 100vh; height: 100dvh; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; padding: 20px; text-align: center; 
-            position: relative; overflow: hidden; border-bottom: var(--border-thick) solid var(--border-color);
-            background: transparent;
+            position: relative; overflow: hidden; border-bottom: var(--border-thick) solid var(--border-color); background: transparent;
         }
 
-        /* EFEK GLITCH TEKS */
         .glitch-text {
             font-size: clamp(3rem, 10vw, 5rem); font-weight: 900; line-height: 1.1;
-            text-transform: uppercase; position: relative; z-index: 2;
-            color: var(--border-color); text-shadow: 3px 3px 0px #fff;
+            text-transform: uppercase; position: relative; z-index: 2; color: var(--border-color); text-shadow: 3px 3px 0px #fff;
         }
-        .glitch-text::before, .glitch-text::after {
-            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: transparent; z-index: -1;
-        }
-        .glitch-text::before {
-            left: 4px; text-shadow: -2px 0 var(--accent-pink);
-            clip: rect(44px, 450px, 56px, 0); animation: glitch-anim 5s infinite linear alternate-reverse;
-        }
-        .glitch-text::after {
-            left: -4px; text-shadow: -2px 0 var(--accent-blue);
-            clip: rect(44px, 450px, 56px, 0); animation: glitch-anim2 5s infinite linear alternate-reverse;
-        }
-        @keyframes glitch-anim {
-            0% { clip: rect(10px, 9999px, 83px, 0); } 20% { clip: rect(32px, 9999px, 12px, 0); }
-            40% { clip: rect(87px, 9999px, 54px, 0); } 60% { clip: rect(42px, 9999px, 73px, 0); }
-            80% { clip: rect(15px, 9999px, 92px, 0); } 100% { clip: rect(65px, 9999px, 34px, 0); }
-        }
-        @keyframes glitch-anim2 {
-            0% { clip: rect(85px, 9999px, 14px, 0); } 20% { clip: rect(12px, 9999px, 65px, 0); }
-            40% { clip: rect(54px, 9999px, 83px, 0); } 60% { clip: rect(92px, 9999px, 21px, 0); }
-            80% { clip: rect(34px, 9999px, 45px, 0); } 100% { clip: rect(73px, 9999px, 87px, 0); }
-        }
+        .glitch-text::before, .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; z-index: -1; }
+        .glitch-text::before { left: 4px; text-shadow: -2px 0 var(--accent-pink); clip: rect(44px, 450px, 56px, 0); animation: glitch-anim 5s infinite linear alternate-reverse; }
+        .glitch-text::after { left: -4px; text-shadow: -2px 0 var(--accent-blue); clip: rect(44px, 450px, 56px, 0); animation: glitch-anim2 5s infinite linear alternate-reverse; }
+        @keyframes glitch-anim { 0% { clip: rect(10px, 9999px, 83px, 0); } 20% { clip: rect(32px, 9999px, 12px, 0); } 40% { clip: rect(87px, 9999px, 54px, 0); } 60% { clip: rect(42px, 9999px, 73px, 0); } 80% { clip: rect(15px, 9999px, 92px, 0); } 100% { clip: rect(65px, 9999px, 34px, 0); } }
+        @keyframes glitch-anim2 { 0% { clip: rect(85px, 9999px, 14px, 0); } 20% { clip: rect(12px, 9999px, 65px, 0); } 40% { clip: rect(54px, 9999px, 83px, 0); } 60% { clip: rect(92px, 9999px, 21px, 0); } 80% { clip: rect(34px, 9999px, 45px, 0); } 100% { clip: rect(73px, 9999px, 87px, 0); } }
 
         .hero-title .badge {
             background: var(--accent-yellow); padding: 5px 25px; border: var(--border-thick) solid var(--border-color); 
@@ -185,19 +153,14 @@
         }
         @keyframes pulseBadge { 0%, 100% { transform: rotate(-4deg) scale(1); } 50% { transform: rotate(-4deg) scale(1.1); } }
 
-        .typewriter-container {
-            margin-top: 40px; background: #fff; padding: 15px 20px; border: 4px solid var(--border-color); 
-            display: inline-block; box-shadow: 6px 6px 0px var(--border-color); transform: rotate(2deg);
-        }
+        .typewriter-container { margin-top: 40px; background: #fff; padding: 15px 20px; border: 4px solid var(--border-color); display: inline-block; box-shadow: 6px 6px 0px var(--border-color); transform: rotate(2deg); }
         .typewriter-text { font-weight: 800; font-size: 1.1rem; color: var(--border-color); min-height: 28px; }
 
-        /* Floating Geometrics Parallax */
         .parallax-shape { position: absolute; border: var(--border-thick) solid var(--border-color); z-index: 1; box-shadow: 5px 5px 0px rgba(0,0,0,0.8); }
         .shape-1 { width: 80px; height: 80px; background: var(--accent-pink); border-radius: 50%; top: 15%; left: 8%; }
         .shape-2 { width: 70px; height: 70px; background: var(--accent-blue); top: 30%; right: 10%; transform: rotate(15deg); }
         .shape-3 { width: 100px; height: 40px; background: var(--accent-green); bottom: 25%; left: 15%; transform: rotate(-25deg); }
 
-        /* Marquee Tapes */
         .marquee-tape {
             position: absolute; width: 120vw; left: -10vw; background: var(--accent-yellow);
             border-top: var(--border-thick) solid var(--border-color); border-bottom: var(--border-thick) solid var(--border-color);
@@ -208,24 +171,16 @@
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* ==========================================================================
-           8. GALLERY SECTION (EFEK 3D TILT & HIGHLIGHT)
+           8. GALLERY SECTION
            ========================================================================== */
-        .gallery-section { 
-            padding: 100px 0; background: rgba(255,255,255,0.85); 
-            border-bottom: var(--border-thick) solid var(--border-color); 
-            position: relative; backdrop-filter: blur(10px); 
-        }
+        .gallery-section { padding: 100px 0; background: rgba(255,255,255,0.85); border-bottom: var(--border-thick) solid var(--border-color); position: relative; backdrop-filter: blur(10px); }
         .section-header { padding: 0 20px; margin-bottom: 50px; display: flex; justify-content: space-between; align-items: flex-end; }
         .section-header h2 { font-weight: 900; font-size: 2.8rem; line-height: 1; text-transform: uppercase; text-shadow: 3px 3px 0px #fff; }
         .section-header p { font-weight: 800; font-size: 1rem; letter-spacing: 3px; color: var(--accent-pink); text-transform: uppercase; }
         .swipe-indicator { background: var(--border-color); color: #fff; padding: 12px 25px; font-weight: 900; font-size: 0.9rem; border-radius: 25px; animation: bounceX 1.5s infinite; }
-
         @keyframes bounceX { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(15px); } }
 
-        .gallery-track {
-            display: flex; gap: 35px; padding: 20px 30px 80px; overflow-x: auto;
-            scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; perspective: 1200px;
-        }
+        .gallery-track { display: flex; gap: 35px; padding: 20px 30px 80px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; perspective: 1200px; }
         .gallery-track::-webkit-scrollbar { display: none; } 
 
         .gallery-card {
@@ -250,9 +205,7 @@
         .game-card.game-focused { opacity: 1; transform: scale(1.02) translateY(0); box-shadow: 18px 18px 0px var(--border-color); z-index: 10; border: 5px solid var(--border-color);}
         .game-card.game-focused .play-icon { transform: rotate(45deg) scale(1.3); background: var(--accent-pink); color: #fff; box-shadow: 4px 4px 0px var(--border-color);}
 
-        .game-thumbnail { 
-            width: 100%; height: 220px; border: var(--border-thick) solid var(--border-color); border-radius: 15px; overflow: hidden; margin-bottom: 30px; background: #ccc; box-shadow: inset 0px 0px 25px rgba(0,0,0,0.3);
-        }
+        .game-thumbnail { width: 100%; height: 220px; border: var(--border-thick) solid var(--border-color); border-radius: 15px; overflow: hidden; margin-bottom: 30px; background: #ccc; box-shadow: inset 0px 0px 25px rgba(0,0,0,0.3); }
         .game-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
         .game-card.game-focused .game-thumbnail img { transform: scale(1.15) rotate(2deg); }
 
@@ -262,16 +215,19 @@
         .play-icon { background: var(--accent-yellow); width: 60px; height: 60px; border: var(--border-thick) solid var(--border-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-weight: 900; transition: 0.5s; }
 
         /* ==========================================================================
-           10. LOGIN SECTION & ALERT BAR (JEBAKAN TYPO)
+           10. LOGIN SECTION & THE TROLL BUTTON
            ========================================================================== */
         .login-section { padding: 150px 20px; background: var(--accent-blue); display: flex; justify-content: center; align-items: center; position: relative; z-index: 5;}
         
         .login-box { 
             width: 100%; max-width: 450px; background: #ffffff; padding: 50px 35px; 
             text-align: center; box-shadow: 20px 20px 0px var(--border-color); border-radius: 25px;
-            transform-style: preserve-3d; border: 5px solid var(--border-color);
+            transform-style: preserve-3d; border: 5px solid var(--border-color); position: relative;
         }
-        .login-box h2 { font-size: 2.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; text-shadow: 3px 3px 0px var(--accent-pink);}
+        
+        /* JUDUL INI BISA DI-TAP 7 KALI BUAT CHEAT CODE */
+        .secret-title { font-size: 2.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; text-shadow: 3px 3px 0px var(--accent-pink); cursor: pointer;}
+        
         .login-box p { font-size: 1.1rem; font-weight: 800; color: #555; margin-bottom: 40px; }
 
         .alert-bar {
@@ -299,6 +255,16 @@
         }
         @keyframes shakeHard { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-15px) rotate(-2deg); } 20%, 40%, 60%, 80% { transform: translateX(15px) rotate(2deg); } }
         .shake-animation { animation: shakeHard 0.6s ease-in-out; }
+
+        /* TROLL BUTTON STYLE */
+        .troll-container { margin-top: 25px; height: 40px; position: relative; }
+        #troll-btn {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            font-size: 0.85rem; font-weight: 800; padding: 8px 15px; border-radius: 8px;
+            background: var(--bg-color); border: 2px solid var(--border-color); color: var(--border-color);
+            cursor: pointer; transition: top 0.15s ease, left 0.15s ease, transform 0.15s ease;
+            white-space: nowrap; z-index: 10;
+        }
 
     </style>
 </head>
@@ -363,21 +329,11 @@
         </div>
 
         <div class="gallery-track" id="gallery-track">
-            <div class="gallery-card brutal-card custom-hover">
-                <img src="img/gallery1.jpg" alt="Memory 1" onerror="this.src='https://via.placeholder.com/600x800/ff6b8a/fff?text=Foto+1'">
-            </div>
-            <div class="gallery-card brutal-card custom-hover">
-                <img src="img/gallery2.jpg" alt="Memory 2" onerror="this.src='https://via.placeholder.com/600x800/4facfe/fff?text=Foto+2'">
-            </div>
-            <div class="gallery-card brutal-card custom-hover">
-                <img src="img/gallery3.jpg" alt="Memory 3" onerror="this.src='https://via.placeholder.com/600x800/ccff00/111?text=Foto+3'">
-            </div>
-            <div class="gallery-card brutal-card custom-hover">
-                <img src="img/gallery4.jpg" alt="Memory 4" onerror="this.src='https://via.placeholder.com/600x800/ffd166/111?text=Foto+4'">
-            </div>
-            <div class="gallery-card brutal-card custom-hover">
-                <img src="img/gallery5.jpg" alt="Memory 5" onerror="this.src='https://via.placeholder.com/600x800/111111/fff?text=Foto+5'">
-            </div>
+            <div class="gallery-card brutal-card custom-hover"><img src="img/gallery1.jpg" alt="Memory 1" onerror="this.src='https://via.placeholder.com/600x800/ff6b8a/fff?text=Foto+1'"></div>
+            <div class="gallery-card brutal-card custom-hover"><img src="img/gallery2.jpg" alt="Memory 2" onerror="this.src='https://via.placeholder.com/600x800/4facfe/fff?text=Foto+2'"></div>
+            <div class="gallery-card brutal-card custom-hover"><img src="img/gallery3.jpg" alt="Memory 3" onerror="this.src='https://via.placeholder.com/600x800/ccff00/111?text=Foto+3'"></div>
+            <div class="gallery-card brutal-card custom-hover"><img src="img/gallery4.jpg" alt="Memory 4" onerror="this.src='https://via.placeholder.com/600x800/ffd166/111?text=Foto+4'"></div>
+            <div class="gallery-card brutal-card custom-hover"><img src="img/gallery5.jpg" alt="Memory 5" onerror="this.src='https://via.placeholder.com/600x800/111111/fff?text=Foto+5'"></div>
         </div>
     </section>
 
@@ -391,27 +347,17 @@
 
         <div class="games-grid" id="games-track">
             <a href="flapy.html" class="brutal-card game-card game-1 custom-hover ripple-btn">
-                <div class="game-thumbnail">
-                    <img src="img/thumb-flappy.jpg" alt="Flappy Bird" onerror="this.src='https://via.placeholder.com/600x400/4facfe/fff?text=Thumbnail+Flappy'">
-                </div>
+                <div class="game-thumbnail"><img src="img/thumb-flappy.jpg" alt="Flappy Bird" onerror="this.src='https://via.placeholder.com/600x400/4facfe/fff?text=Thumbnail+Flappy'"></div>
                 <div class="game-info">
-                    <div>
-                        <h3>Mission: Fly 🐦</h3>
-                        <p>Cari Clue Username di sini.</p>
-                    </div>
+                    <div><h3>Mission: Fly 🐦</h3><p>Cari Clue Username di sini.</p></div>
                     <div class="play-icon">↗</div>
                 </div>
             </a>
 
             <a href="200408.html" class="brutal-card game-card game-2 custom-hover ripple-btn">
-                <div class="game-thumbnail">
-                    <img src="img/thumb-2048.jpg" alt="Game 2048" onerror="this.src='https://via.placeholder.com/600x400/ff6b8a/fff?text=Thumbnail+2048'">
-                </div>
+                <div class="game-thumbnail"><img src="img/thumb-2048.jpg" alt="Game 2048" onerror="this.src='https://via.placeholder.com/600x400/ff6b8a/fff?text=Thumbnail+2048'"></div>
                 <div class="game-info">
-                    <div>
-                        <h3>Mission: Puzzle 🧩</h3>
-                        <p>Cari Clue Password di sini.</p>
-                    </div>
+                    <div><h3>Mission: Puzzle 🧩</h3><p>Cari Clue Password di sini.</p></div>
                     <div class="play-icon">↗</div>
                 </div>
             </a>
@@ -420,12 +366,10 @@
 
     <section class="login-section" id="form-login">
         <div class="brutal-card login-box" id="login-container">
-            <h2>BUKA KADO 🎁</h2>
+            <h2 id="secret-title" class="secret-title">BUKA KADO 🎁</h2>
             <p>Masukkan kunci rahasia yang kamu dapat.</p>
 
-            <a href="tutor.html" class="alert-bar custom-hover ripple-btn">
-                ⚠️ Wajib baca aturan dulu di sini! ⚠️
-            </a>
+            <a href="tutor.html" class="alert-bar custom-hover ripple-btn">⚠️ Wajib baca aturan dulu di sini! ⚠️</a>
 
             <div class="input-wrapper">
                 <label>Username</label>
@@ -439,8 +383,10 @@
 
             <button class="brutal-button btn-submit custom-hover ripple-btn" id="btn-login" onclick="processLogin()">BUKA SEKARANG</button>
             
-            <div class="error-message" id="error-msg">
-                Salah! Jangan nebak-nebak, cari clue-nya di game! 😜
+            <div class="error-message" id="error-msg">Salah! Jangan nebak-nebak, cari clue-nya di game! 😜</div>
+            
+            <div class="troll-container">
+                <button id="troll-btn" type="button">Nyerah cari clue? Klik ini 🏳️</button>
             </div>
             
         </div>
@@ -448,7 +394,7 @@
 
     <script>
         // -------------------------------------------------------------------------
-        // 1. COUNTDOWN BOOT SEQUENCE (PENGGANTI TERMINAL HACKER)
+        // 1. COUNTDOWN BOOT SEQUENCE
         // -------------------------------------------------------------------------
         const cdScreen = document.getElementById('countdown-screen');
         const cdNumber = document.getElementById('cd-number');
@@ -467,9 +413,7 @@
                 cdNumber.textContent = "GO!";
                 cdScreen.style.background = 'var(--accent-orange)';
                 cdNumber.style.transform = 'scale(1.5)';
-                setTimeout(() => {
-                    cdScreen.style.transform = 'translateY(-100%)';
-                }, 800);
+                setTimeout(() => { cdScreen.style.transform = 'translateY(-100%)'; }, 800);
             }
         }
         window.addEventListener('load', () => { setTimeout(runCountdown, 300); });
@@ -483,18 +427,13 @@
 
         function toggleMusic() {
             if (isMusicPlaying) {
-                bgAudio.pause();
-                musicBtn.textContent = '🎵 BGM: OFF';
-                musicBtn.classList.add('music-off');
+                bgAudio.pause(); musicBtn.textContent = '🎵 BGM: OFF'; musicBtn.classList.add('music-off');
             } else {
-                bgAudio.volume = 0.5;
-                bgAudio.play().catch(e => console.log("Audio diblokir browser"));
-                musicBtn.textContent = '🎵 BGM: ON';
-                musicBtn.classList.remove('music-off');
+                bgAudio.volume = 0.5; bgAudio.play().catch(e => console.log("Audio diblokir"));
+                musicBtn.textContent = '🎵 BGM: ON'; musicBtn.classList.remove('music-off');
             }
             isMusicPlaying = !isMusicPlaying;
         }
-
         musicBtn.addEventListener('click', toggleMusic);
 
         // -------------------------------------------------------------------------
@@ -507,44 +446,36 @@
         liteModeBtn.addEventListener('click', function() {
             isLiteMode = !isLiteMode;
             if (isLiteMode) {
-                this.textContent = '🔥 MODE GELO';
-                this.classList.add('lite-on');
+                this.textContent = '🔥 MODE GELO'; this.classList.add('lite-on');
                 bgCanvasEl.style.opacity = '0';
                 document.querySelectorAll('.parallax-shape').forEach(el => { el.style.transform = ''; });
             } else {
-                this.textContent = '⚡ ANTI-LAG';
-                this.classList.remove('lite-on');
+                this.textContent = '⚡ ANTI-LAG'; this.classList.remove('lite-on');
                 bgCanvasEl.style.opacity = '1';
             }
         });
 
         // -------------------------------------------------------------------------
-        // 4. ENGINE CANVAS INTERAKTIF (PARTIKEL KLIK, LEDAKAN, & CONFETTI KEMENANGAN)
+        // 4. ENGINE CANVAS INTERAKTIF (PARTIKEL & CONFETTI KEMENANGAN)
         // -------------------------------------------------------------------------
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        let particles = [];
-        let sparks = [];
-        let confettis = [];
+        let particles = [], sparks = [], confettis = [];
         const colors = ['#ff6b8a', '#4facfe', '#ffd166', '#ccff00', '#ff9f43'];
 
         function initCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            particles = [];
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight; particles = [];
             let count = window.innerWidth < 500 ? 10 : 25; 
             for(let i=0; i<count; i++) particles.push(new Particle());
         }
 
-        // Kelas Fisika Partikel Dasar
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 18 + 10;
                 this.speedX = (Math.random() - 0.5) * 2; this.speedY = (Math.random() - 0.5) * 2;
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.angle = Math.random() * 360;
-                this.type = Math.random() > 0.5 ? 'rect' : 'circle';
+                this.angle = Math.random() * 360; this.type = Math.random() > 0.5 ? 'rect' : 'circle';
             }
             update() {
                 this.x += this.speedX; this.y += this.speedY; this.angle += 1;
@@ -560,19 +491,16 @@
             }
         }
 
-        // Kelas Fisika Ledakan (Sparks saat diklik)
         class Spark {
             constructor(x, y) {
                 this.x = x; this.y = y; this.size = Math.random() * 15 + 5;
                 this.speedX = (Math.random() - 0.5) * 15; this.speedY = (Math.random() - 0.5) * 15;
-                this.friction = 0.95; 
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.friction = 0.95; this.color = colors[Math.floor(Math.random() * colors.length)];
                 this.life = 1.0; this.decay = Math.random() * 0.03 + 0.02; this.angle = Math.random() * 360;
             }
             update() { 
                 this.speedX *= this.friction; this.speedY *= this.friction;
-                this.x += this.speedX; this.y += this.speedY; 
-                this.life -= this.decay; this.angle += 8; 
+                this.x += this.speedX; this.y += this.speedY; this.life -= this.decay; this.angle += 8; 
             }
             draw() {
                 ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.angle * Math.PI / 180);
@@ -582,21 +510,15 @@
             }
         }
 
-        // Kelas Fisika Confetti (Dengan Gravitasi)
         class Confetti {
             constructor() {
                 this.x = canvas.width / 2; this.y = canvas.height; 
                 this.size = Math.random() * 20 + 8;
-                this.speedX = (Math.random() - 0.5) * 40; 
-                this.speedY = (Math.random() * -30) - 15; 
-                this.gravity = 0.8;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.speedX = (Math.random() - 0.5) * 40; this.speedY = (Math.random() * -30) - 15; 
+                this.gravity = 0.8; this.color = colors[Math.floor(Math.random() * colors.length)];
                 this.angle = Math.random() * 360; this.spin = (Math.random() - 0.5) * 20;
             }
-            update() { 
-                this.speedY += this.gravity; 
-                this.x += this.speedX; this.y += this.speedY; this.angle += this.spin; 
-            }
+            update() { this.speedY += this.gravity; this.x += this.speedX; this.y += this.speedY; this.angle += this.spin; }
             draw() {
                 ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.angle * Math.PI / 180);
                 ctx.fillStyle = this.color; ctx.strokeStyle = '#111'; ctx.lineWidth = 3;
@@ -607,8 +529,7 @@
 
         window.addEventListener('pointerdown', (e) => {
             if (isLiteMode) return;
-            let x = e.clientX || (e.touches && e.touches[0].clientX);
-            let y = e.clientY || (e.touches && e.touches[0].clientY);
+            let x = e.clientX || (e.touches && e.touches[0].clientX); let y = e.clientY || (e.touches && e.touches[0].clientY);
             if (x && y) {
                 let sparkCount = Math.floor(Math.random() * 8) + 10;
                 for(let i=0; i<sparkCount; i++) sparks.push(new Spark(x, y));
@@ -644,8 +565,7 @@
         // 5. FUNGSI PINTU MASUK & EFEK NGETIK
         // -------------------------------------------------------------------------
         function openGate() {
-            const gate = document.getElementById('start-gate');
-            gate.classList.add('opened');
+            document.getElementById('start-gate').classList.add('opened');
             if(!isMusicPlaying) toggleMusic(); 
             setTimeout(typeWriterEffect, 1200); 
         }
@@ -665,12 +585,10 @@
         document.addEventListener('click', function(e) {
             let target = e.target.closest('.ripple-btn');
             if (!target) return;
-            
             let rect = target.getBoundingClientRect();
             let x = e.clientX - rect.left; let y = e.clientY - rect.top;
             let ripple = document.createElement('span'); ripple.classList.add('ripple');
             ripple.style.left = `${x}px`; ripple.style.top = `${y}px`;
-            
             try { target.appendChild(ripple); setTimeout(() => ripple.remove(), 600); } catch(err){}
         });
 
@@ -710,7 +628,62 @@
         gameCards.forEach(card => gameObserver.observe(card));
 
         // -------------------------------------------------------------------------
-        // 9. LOGIKA LOGIN FORM SANGAT KETAT (SANDI: 200408!)
+        // 9. THE TROLL BUTTON (TOMBOL KABUR-KABURAN)
+        // -------------------------------------------------------------------------
+        const trollBtn = document.getElementById('troll-btn');
+        
+        function moveTrollButton() {
+            // Hitung pergeseran acak (X: -100px s/d 100px, Y: -50px s/d 50px)
+            const randomX = (Math.random() - 0.5) * 200;
+            const randomY = (Math.random() - 0.5) * 100;
+            // Pindahkan tombol secara relatif dari titik awalnya (left:50%)
+            trollBtn.style.transform = `translate(calc(-50% + ${randomX}px), ${randomY}px)`;
+            // Ganti warna random biar tambah ngeselin
+            const trollColors = ['#ff6b8a', '#4facfe', '#ccff00', '#ffd166', '#f8f9fa'];
+            trollBtn.style.background = trollColors[Math.floor(Math.random() * trollColors.length)];
+        }
+
+        // Kalau di-hover mouse atau disentuh jari, dia langsung kabur!
+        trollBtn.addEventListener('mouseenter', moveTrollButton);
+        trollBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Mencegah klik ter-register di HP
+            moveTrollButton();
+        });
+
+        // -------------------------------------------------------------------------
+        // 10. CHEAT CODE (JALUR VIP ANTI-NGAMBEK)
+        // -------------------------------------------------------------------------
+        const secretTitle = document.getElementById('secret-title');
+        let cheatCount = 0;
+        let cheatTimer;
+
+        secretTitle.addEventListener('click', () => {
+            cheatCount++;
+            
+            // Reset counter kalau gak dipencet lagi dalam 2 detik
+            clearTimeout(cheatTimer);
+            cheatTimer = setTimeout(() => { cheatCount = 0; }, 2000);
+            
+            // Kalau dipencet 7 kali beruntun
+            if(cheatCount === 7) {
+                // Efek layarnya kedip kuning
+                document.body.style.background = 'var(--accent-yellow)';
+                setTimeout(() => { document.body.style.background = 'var(--bg-color)'; }, 200);
+
+                // Auto-fill formnya!
+                document.getElementById('inputUsername').value = "anggie dwi aprilia";
+                document.getElementById('inputPassword').value = "200408!";
+                
+                alert("👑 CHEAT ACTIVATED! VIP ACCESS GRANTED 👑");
+                
+                // Langsung jalanin fungsi login
+                processLogin();
+                cheatCount = 0; // Reset
+            }
+        });
+
+        // -------------------------------------------------------------------------
+        // 11. LOGIKA LOGIN FORM SANGAT KETAT (SANDI: 200408!)
         // -------------------------------------------------------------------------
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') processLogin();
@@ -724,7 +697,6 @@
             const container = document.getElementById('login-container');
             let isSuccess = false;
 
-            // CEK SANDI BARU YANG MENGGUNAKAN TANDA SERU (!)
             if (user === "anggun dwi aprilia" || user === "anggi dwi aprilia" || user === "anggie dwi aprilia") {
                 if (pass === "200408!") isSuccess = true;
             } else if (user === "aldo leo saputra") {
@@ -734,28 +706,21 @@
             }
 
             if (isSuccess) {
-                // Sembunyikan Error
                 errMsg.style.display = 'none';
-                
-                // Ubah Tombol Jadi Hijau
                 btn.textContent = 'MENGAKSES SISTEM... ✨';
                 btn.style.background = 'var(--accent-green)';
                 btn.style.color = 'var(--border-color)';
                 btn.style.boxShadow = '0px 0px 0px transparent';
                 
-                // Tembakkan Confetti Kemenangan Super Meriah
                 fireWinConfetti();
                 
-                // Tunggu 2 detik penuh biar Anggi bisa menikmati confetti sebelum masuk
                 setTimeout(() => window.location.href = 'happybirthday.html', 2000);
             } else {
-                // Munculkan Error dengan Ancaman Mengulang Game
                 errMsg.style.display = 'block';
                 btn.textContent = 'COBA LAGI';
                 btn.style.background = '#ff4757';
                 btn.style.color = '#fff';
                 
-                // Animasi Getar Gelo (Memaksa Reflow DOM)
                 container.classList.remove('shake-animation');
                 void container.offsetWidth; 
                 container.classList.add('shake-animation');
