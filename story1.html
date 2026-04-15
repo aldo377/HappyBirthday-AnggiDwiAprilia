@@ -11,88 +11,56 @@
     
     <style>
         /* ==========================================================================
-           1. CSS VARIABLES & THEMES (NEO-BRUTALISM)
+           1. CSS VARIABLES & THEMES 
            ========================================================================== */
         :root {
-            --bg-color: #f8f9fa;       
-            --text-color: #111111;   
-            --card-bg: #ffffff;
-            --border-color: #111111;
-            --accent-pink: #ff6b8a;    
-            --accent-blue: #4facfe;    
-            --accent-green: #ccff00;   
-            --accent-yellow: #ffd166;
-            --border-thick: 4px;       
+            --bg-color: #f8f9fa; --text-color: #111111; --card-bg: #ffffff;
+            --border-color: #111111; --accent-pink: #ff6b8a; --accent-blue: #4facfe;    
+            --accent-green: #ccff00; --accent-yellow: #ffd166; --border-thick: 4px;       
         }
-
-        /* DARK MODE STYLES */
         body.dark-mode {
-            --bg-color: #1a1a1a;
-            --text-color: #f8f9fa;
-            --card-bg: #2d2d2d;
-            --border-color: #ffffff;
+            --bg-color: #1a1a1a; --text-color: #f8f9fa; --card-bg: #2d2d2d; --border-color: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            background-color: var(--bg-color); color: var(--text-color);
-            overflow-x: hidden; line-height: 1.6; transition: background 0.3s, color 0.3s;
-        }
+        body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; line-height: 1.6; transition: background 0.3s, color 0.3s; }
 
         /* ==========================================================================
-           2. LOADING SCREEN
+           2. SPLASH SCREEN
            ========================================================================== */
         #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
-            background: var(--bg-color); z-index: 99999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.5s ease-out;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--bg-color); z-index: 99999; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; transition: opacity 0.5s ease-out;
         }
         #splash-screen.hidden { opacity: 0; pointer-events: none; }
 
         .loader-box {
-            width: 70px; height: 70px; border: var(--border-thick) solid var(--border-color);
-            background: var(--accent-pink); animation: spin 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 25px;
+            width: 70px; height: 70px; border: var(--border-thick) solid var(--border-color); background: var(--accent-pink); 
+            animation: spin 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 25px;
         }
-        @keyframes spin { 
-            0% { transform: rotate(0deg); background: var(--accent-pink); }
-            50% { transform: rotate(180deg); background: var(--accent-blue); }
-            100% { transform: rotate(360deg); background: var(--accent-green); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); background: var(--accent-pink); } 50% { transform: rotate(180deg); background: var(--accent-blue); } 100% { transform: rotate(360deg); background: var(--accent-green); } }
 
         /* ==========================================================================
            3. UI CONTROLS (HEADER)
            ========================================================================== */
         header {
-            padding: 20px; text-align: center; background: var(--card-bg);
-            border-bottom: var(--border-thick) solid var(--border-color);
-            position: sticky; top: 0; z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px; text-align: center; background: var(--card-bg); border-bottom: var(--border-thick) solid var(--border-color);
+            position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;
         }
         .header-title { font-weight: 900; font-size: 1rem; text-transform: uppercase; flex-grow: 1; text-align: center;}
-
         .control-btns { display: flex; gap: 10px; }
-        .ui-btn {
-            background: #fff; border: 3px solid #111; padding: 8px; border-radius: 10px;
-            cursor: pointer; box-shadow: 3px 3px 0px #111; transition: 0.1s; font-size: 1.1rem;
-        }
+        .ui-btn { background: #fff; border: 3px solid #111; padding: 8px; border-radius: 10px; cursor: pointer; box-shadow: 3px 3px 0px #111; transition: 0.1s; font-size: 1.1rem; }
         .ui-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px; }
         .dark-mode .ui-btn { background: #444; border-color: #fff; box-shadow: 3px 3px 0px #fff; color: #fff; }
-
-        .back-btn {
-            background: var(--accent-yellow); color: #111; padding: 8px 12px; border: 3px solid #111;
-            border-radius: 10px; font-weight: 900; text-decoration: none; box-shadow: 3px 3px 0px #111;
-        }
+        .back-btn { background: var(--accent-yellow); color: #111; padding: 8px 12px; border: 3px solid #111; border-radius: 10px; font-weight: 900; text-decoration: none; box-shadow: 3px 3px 0px #111; }
 
         /* ==========================================================================
            4. BACKGROUND EFFECTS & CANVAS
            ========================================================================== */
         .bg-pattern {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-            background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
-            background-size: 40px 40px; opacity: 0.15;
+            background-image: radial-gradient(var(--border-color) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.15;
         }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
 
@@ -102,22 +70,17 @@
         .story-container { max-width: 500px; margin: 0 auto; padding: 30px 15px 100px; }
 
         .scene-card {
-            background: var(--card-bg); border: var(--border-thick) solid var(--border-color);
-            border-radius: 20px; padding: 20px; margin-bottom: 40px;
-            box-shadow: 10px 10px 0px var(--border-color);
-            position: relative; transition: transform 0.3s;
+            background: var(--card-bg); border: var(--border-thick) solid var(--border-color); border-radius: 20px; padding: 20px; 
+            margin-bottom: 40px; box-shadow: 10px 10px 0px var(--border-color); position: relative; transition: transform 0.3s;
         }
-
         .scene-num {
-            position: absolute; top: -10px; right: -10px; background: var(--border-color);
-            color: var(--bg-color); width: 45px; height: 45px; display: flex; align-items: center;
-            justify-content: center; font-weight: 900; font-size: 1.2rem; border-radius: 0 0 0 15px;
+            position: absolute; top: -10px; right: -10px; background: var(--border-color); color: var(--bg-color); width: 45px; height: 45px; 
+            display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; border-radius: 0 0 0 15px;
         }
 
         .illustration-box {
-            width: 100%; height: 230px; background: #eee; border: 3px solid var(--border-color);
-            border-radius: 12px; margin-bottom: 15px; overflow: hidden; position: relative;
-            display: flex; align-items: center; justify-content: center; text-align: center; padding: 15px;
+            width: 100%; height: 230px; background: #eee; border: 3px solid var(--border-color); border-radius: 12px; margin-bottom: 15px; 
+            overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; padding: 15px;
         }
         .dark-mode .illustration-box { background: #333; }
         
@@ -128,20 +91,20 @@
         .scene-card p { font-size: 0.9rem; font-weight: 500; color: var(--text-color); opacity: 0.9; }
         .scene-card .highlight { background: var(--accent-yellow); color: #111; padding: 0 4px; font-weight: 700; border-radius: 4px; }
 
-        /* Khusus Card buat Foto Asli (02 & 03) */
+        /* Khusus Card Foto Asli (02 & 03) */
         .photo-card { border-color: var(--accent-blue); }
-        .photo-card .illustration-box { background: #ddd; }
+        .photo-card .illustration-box { background: #ddd; padding: 0; }
         .photo-card img { width: 100%; height: 100%; object-fit: cover; }
 
         /* ==========================================================================
-           6. FOOTER NAV
+           6. FOOTER NAV & SAVE BUTTON
            ========================================================================== */
         .footer-nav { text-align: center; padding: 30px 0; border-top: 4px dashed var(--border-color); }
         .next-btn {
             display: inline-block; width: 100%; padding: 18px; background: var(--accent-green);
             border: var(--border-thick) solid var(--border-color); border-radius: 15px;
-            font-weight: 900; font-size: 1.1rem; text-transform: uppercase;
-            text-decoration: none; color: #111; box-shadow: 6px 6px 0px var(--border-color);
+            font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer;
+            text-decoration: none; color: #111; box-shadow: 6px 6px 0px var(--border-color); transition: 0.2s;
         }
         .next-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px; }
 
@@ -162,7 +125,7 @@
     <canvas id="bg-canvas"></canvas>
 
     <header>
-        <a href="index.html" class="back-btn">🏠</a>
+        <a href="happybirthday.html" class="back-btn">🏠</a>
         <div class="header-title">Chapter 1: Kraksaan</div>
         <div class="control-btns">
             <button class="ui-btn" onclick="toggleMusic()" id="music-btn">🎵</button>
@@ -196,7 +159,7 @@
         <div class="scene-card photo-card">
             <div class="scene-num">03</div>
             <div class="illustration-box">
-                <img src="img/boncengan.jpg" alt="Foto Wawancara" onerror="this.parentElement.innerHTML='<div class=\'visual-placeholder\'><b>🛵 KEBON AGUNG</b>(Masukkan foto boncengan atau foto wawancara di sini!)</div>'">
+                <img src="img/boncengan.jpg" alt="Foto Wawancara" onerror="this.parentElement.innerHTML='<div class=\'visual-placeholder\'><b>🛵 KEBON AGUNG</b>(Masukkan foto boncengan di sini!)</div>'">
             </div>
             <h2>Boncengan Legend</h2>
             <p>Gara-gara tugas almarhum <span class="highlight">Pak Sugi</span>, kita jadi deket beneran. Dari nyari kades yang nggak ada di desamu, sampai akhirnya mental ke Kebon Agung. Momen kita nanya-nanya ke mbahnya Alip itu jadi awal petualangan kita berdua.</p>
@@ -275,35 +238,31 @@
         </div>
 
         <div class="footer-nav">
-            <a href="story2.html" class="next-btn ripple-btn">LANJUT KE CHAPTER 2 ➡️</a>
+            <button id="btn-selesai" class="next-btn ripple-btn" onclick="simpanProgress()">✅ SELESAI & SIMPAN KENANGAN</button>
             <p style="margin-top:20px; font-weight:800; font-size:0.7rem; color:#999; text-transform:uppercase;">Bersambung ke masa-masa kelas 3...</p>
         </div>
     </div>
 
     <script>
-        // 1. Splash Screen Logic
-        window.addEventListener('load', () => {
-            setTimeout(() => { document.getElementById('splash-screen').classList.add('hidden'); }, 1500);
-        });
+        // 1. Splash Screen
+        window.addEventListener('load', () => { setTimeout(() => { document.getElementById('splash-screen').classList.add('hidden'); }, 1200); });
 
-        // 2. Dark Mode Toggle
+        // 2. Dark Mode 
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('dark-mode', isDark);
+            localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
         }
         if(localStorage.getItem('dark-mode') === 'true') document.body.classList.add('dark-mode');
 
-        // 3. Music Control
+        // 3. Music 
         const audio = document.getElementById('bg-audio');
         let isPlaying = false;
         function toggleMusic() {
-            if (isPlaying) { audio.pause(); } 
-            else { audio.play().catch(e => alert("Klik layar dulu biar musik bisa nyala!")); }
+            if (isPlaying) { audio.pause(); } else { audio.play().catch(e => alert("Klik layar dulu biar musik nyala!")); }
             isPlaying = !isPlaying;
         }
 
-        // 4. Canvas Particles (Click Effect)
+        // 4. Canvas Particles
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let sparks = [];
@@ -311,46 +270,52 @@
         function initCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         class Spark {
             constructor(x, y) {
-                this.x = x; this.y = y;
-                this.size = Math.random() * 10 + 5;
-                this.speedX = (Math.random() - 0.5) * 15;
-                this.speedY = (Math.random() - 0.5) * 15;
+                this.x = x; this.y = y; this.size = Math.random() * 10 + 5;
+                this.speedX = (Math.random() - 0.5) * 15; this.speedY = (Math.random() - 0.5) * 15;
                 this.life = 1.0; this.decay = Math.random() * 0.03 + 0.02;
                 this.color = colors[Math.floor(Math.random() * colors.length)];
             }
             update() { this.x += this.speedX; this.y += this.speedY; this.life -= this.decay; }
             draw() {
-                ctx.save(); ctx.globalAlpha = Math.max(0, this.life);
-                ctx.fillStyle = this.color; ctx.beginPath();
+                ctx.save(); ctx.globalAlpha = Math.max(0, this.life); ctx.fillStyle = this.color; ctx.beginPath();
                 ctx.rect(this.x, this.y, this.size, this.size); ctx.fill(); ctx.restore();
             }
         }
         window.addEventListener('pointerdown', (e) => {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
             for(let i=0; i<8; i++) sparks.push(new Spark(e.clientX, e.clientY));
         });
         function animate() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
-            for (let i = sparks.length - 1; i >= 0; i--) {
-                sparks[i].update(); sparks[i].draw();
-                if (sparks[i].life <= 0) sparks.splice(i, 1);
-            }
+            for (let i = sparks.length - 1; i >= 0; i--) { sparks[i].update(); sparks[i].draw(); if (sparks[i].life <= 0) sparks.splice(i, 1); }
             requestAnimationFrame(animate);
         }
-        window.addEventListener('resize', initCanvas);
-        initCanvas(); animate();
+        window.addEventListener('resize', initCanvas); initCanvas(); animate();
 
-        // 5. Ripple Effect
+        // 5. Ripple Button
         document.addEventListener('click', function(e) {
             let target = e.target.closest('.ripple-btn');
             if (!target) return;
-            let rect = target.getBoundingClientRect();
-            let x = e.clientX - rect.left; let y = e.clientY - rect.top;
-            let ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-            ripple.style.left = `${x}px`; ripple.style.top = `${y}px`;
-            target.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 600);
+            let rect = target.getBoundingClientRect(); let x = e.clientX - rect.left; let y = e.clientY - rect.top;
+            let ripple = document.createElement('span'); ripple.classList.add('ripple'); ripple.style.left = `${x}px`; ripple.style.top = `${y}px`;
+            target.appendChild(ripple); setTimeout(() => ripple.remove(), 600);
         });
+
+        // 6. FUNGSI SIMPAN CACHE & LANJUT
+        function simpanProgress() {
+            // Set Cache untuk membuka gembok di Halaman HBD
+            localStorage.setItem('chapter1_completed', 'true');
+            
+            // Ubah tampilan tombol
+            const btn = document.getElementById('btn-selesai');
+            btn.innerHTML = 'MENYIMPAN... 💾';
+            btn.style.background = 'var(--accent-yellow)';
+            
+            // Delay sebentar sebelum pindah halaman
+            setTimeout(() => {
+                window.location.href = 'story2.html';
+            }, 800);
+        }
     </script>
 </body>
 </html>
