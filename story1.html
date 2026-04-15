@@ -11,44 +11,39 @@
     
     <style>
         /* ==========================================================================
-           1. CSS VARIABLES & THEMES 
+           1. CSS VARIABLES & THEMES (NEO-BRUTALISM)
            ========================================================================== */
         :root {
             --bg-color: #f8f9fa; --text-color: #111111; --card-bg: #ffffff;
             --border-color: #111111; --accent-pink: #ff6b8a; --accent-blue: #4facfe;    
             --accent-green: #ccff00; --accent-yellow: #ffd166; --border-thick: 4px;       
         }
-        body.dark-mode {
-            --bg-color: #1a1a1a; --text-color: #f8f9fa; --card-bg: #2d2d2d; --border-color: #ffffff;
-        }
-
+        body.dark-mode { --bg-color: #1a1a1a; --text-color: #f8f9fa; --card-bg: #2d2d2d; --border-color: #ffffff; }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; line-height: 1.6; transition: background 0.3s, color 0.3s; }
 
         /* ==========================================================================
-           2. SPLASH SCREEN
+           2. SPLASH SCREEN (LOADING KOTAK BERPUTAR)
            ========================================================================== */
-        #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: var(--bg-color); z-index: 99999; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; transition: opacity 0.5s ease-out;
-        }
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-color); z-index: 999999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
         #splash-screen.hidden { opacity: 0; pointer-events: none; }
-
-        .loader-box {
-            width: 70px; height: 70px; border: var(--border-thick) solid var(--border-color); background: var(--accent-pink); 
-            animation: spin 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 25px;
-        }
+        .loader-box { width: 70px; height: 70px; border: var(--border-thick) solid var(--border-color); background: var(--accent-pink); animation: spin 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 25px; }
         @keyframes spin { 0% { transform: rotate(0deg); background: var(--accent-pink); } 50% { transform: rotate(180deg); background: var(--accent-blue); } 100% { transform: rotate(360deg); background: var(--accent-green); } }
 
         /* ==========================================================================
-           3. UI CONTROLS (HEADER)
+           3. READING PROGRESS BAR
            ========================================================================== */
-        header {
-            padding: 20px; text-align: center; background: var(--card-bg); border-bottom: var(--border-thick) solid var(--border-color);
-            position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;
-        }
-        .header-title { font-weight: 900; font-size: 1rem; text-transform: uppercase; flex-grow: 1; text-align: center;}
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 6px; background: rgba(0,0,0,0.1); z-index: 10000; }
+        .progress-bar { height: 100%; background: var(--accent-green); width: 0%; border-right: var(--border-thick) solid var(--border-color); transition: width 0.1s; }
+
+        /* ==========================================================================
+           4. HEADER STICKY & KONTROL UI
+           ========================================================================== */
+        header { padding: 20px; margin-top: 6px; text-align: center; background: var(--card-bg); border-bottom: var(--border-thick) solid var(--border-color); position: sticky; top: 6px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
+        .header-title { font-weight: 900; font-size: 0.95rem; text-transform: uppercase; flex-grow: 1; text-align: center; white-space: nowrap; overflow: hidden; border-right: 3px solid var(--border-color); animation: blinkCursor .75s step-end infinite; }
+        @keyframes blinkCursor { from, to { border-color: transparent } 50% { border-color: var(--border-color); } }
+        
         .control-btns { display: flex; gap: 10px; }
         .ui-btn { background: #fff; border: 3px solid #111; padding: 8px; border-radius: 10px; cursor: pointer; box-shadow: 3px 3px 0px #111; transition: 0.1s; font-size: 1.1rem; }
         .ui-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px; }
@@ -56,77 +51,80 @@
         .back-btn { background: var(--accent-yellow); color: #111; padding: 8px 12px; border: 3px solid #111; border-radius: 10px; font-weight: 900; text-decoration: none; box-shadow: 3px 3px 0px #111; }
 
         /* ==========================================================================
-           4. BACKGROUND EFFECTS & CANVAS
+           5. BACKGROUND KANVAS & EFEK MELAYANG
            ========================================================================== */
-        .bg-pattern {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-            background-image: radial-gradient(var(--border-color) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.15;
-        }
+        .bg-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; background-image: radial-gradient(var(--border-color) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.15; }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+        
+        /* Wadah buat emoji melayang */
+        #floating-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+        .float-emoji { position: absolute; bottom: -50px; font-size: 1.5rem; opacity: 0.4; animation: floatUp linear forwards; }
+        @keyframes floatUp { to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
 
         /* ==========================================================================
-           5. STORY CONTENT (CARDS)
+           6. KARTU CERITA (EFEK POP-UP 3D)
            ========================================================================== */
-        .story-container { max-width: 500px; margin: 0 auto; padding: 30px 15px 100px; }
-
+        .story-container { max-width: 500px; margin: 0 auto; padding: 30px 15px 100px; perspective: 1000px; }
+        
         .scene-card {
             background: var(--card-bg); border: var(--border-thick) solid var(--border-color); border-radius: 20px; padding: 20px; 
-            margin-bottom: 40px; box-shadow: 10px 10px 0px var(--border-color); position: relative; transition: transform 0.3s;
+            margin-bottom: 50px; position: relative; 
+            opacity: 0; transform: translateY(80px) rotateX(-10deg) scale(0.9);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0px 0px 0px transparent; transform-style: preserve-3d;
         }
-        .scene-num {
-            position: absolute; top: -10px; right: -10px; background: var(--border-color); color: var(--bg-color); width: 45px; height: 45px; 
-            display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; border-radius: 0 0 0 15px;
+        .scene-card.pop-up {
+            opacity: 1; transform: translateY(0) rotateX(0deg) scale(1);
+            box-shadow: 12px 12px 0px var(--border-color);
         }
 
-        .illustration-box {
-            width: 100%; height: 230px; background: #eee; border: 3px solid var(--border-color); border-radius: 12px; margin-bottom: 15px; 
-            overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; padding: 15px;
-        }
+        .scene-num { position: absolute; top: -10px; right: -10px; background: var(--border-color); color: var(--bg-color); width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; border-radius: 0 0 0 15px; z-index: 10;}
+        .illustration-box { width: 100%; height: 230px; background: #eee; border: 3px solid var(--border-color); border-radius: 12px; margin-bottom: 15px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; padding: 15px; }
         .dark-mode .illustration-box { background: #333; }
-        
         .visual-placeholder { font-style: italic; font-weight: 600; color: #777; font-size: 0.8rem; }
         .visual-placeholder b { color: var(--text-color); display: block; font-size: 1.3rem; margin-bottom: 5px; }
-
         .scene-card h2 { font-weight: 900; text-transform: uppercase; font-size: 1.3rem; margin-bottom: 12px; color: var(--text-color); }
         .scene-card p { font-size: 0.9rem; font-weight: 500; color: var(--text-color); opacity: 0.9; }
         .scene-card .highlight { background: var(--accent-yellow); color: #111; padding: 0 4px; font-weight: 700; border-radius: 4px; }
-
-        /* Khusus Card Foto Asli (02 & 03) */
+        
         .photo-card { border-color: var(--accent-blue); }
+        .photo-card.pop-up { box-shadow: 12px 12px 0px var(--accent-blue); } 
         .photo-card .illustration-box { background: #ddd; padding: 0; }
         .photo-card img { width: 100%; height: 100%; object-fit: cover; }
 
         /* ==========================================================================
-           6. FOOTER NAV & SAVE BUTTON
+           7. FOOTER, BUTTONS, & SECRET RAIN
            ========================================================================== */
-        .footer-nav { text-align: center; padding: 30px 0; border-top: 4px dashed var(--border-color); }
-        .next-btn {
-            display: inline-block; width: 100%; padding: 18px; background: var(--accent-green);
-            border: var(--border-thick) solid var(--border-color); border-radius: 15px;
-            font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer;
-            text-decoration: none; color: #111; box-shadow: 6px 6px 0px var(--border-color); transition: 0.2s;
-        }
+        .footer-nav { text-align: center; padding: 30px 0; border-top: 4px dashed var(--border-color); position: relative;}
+        .next-btn { display: inline-block; width: 100%; padding: 18px; background: var(--accent-green); border: var(--border-thick) solid var(--border-color); border-radius: 15px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; text-decoration: none; color: #111; box-shadow: 6px 6px 0px var(--border-color); transition: 0.2s; position: relative; overflow: hidden;}
         .next-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px; }
+        
+        /* Tombol Rahasia Hujan Hati */
+        #secret-heart { font-size: 2rem; cursor: pointer; display: inline-block; margin-top: 20px; transition: transform 0.2s; filter: drop-shadow(2px 2px 0px var(--border-color));}
+        #secret-heart:active { transform: scale(1.5); }
+
+        /* Wadah buat Hujan Hati */
+        #rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: 999999; overflow: hidden;}
+        .rain-drop { position: absolute; font-size: 2rem; animation: fallDown linear forwards; }
+        @keyframes fallDown { 0% { transform: translateY(-50px) rotate(0deg); } 100% { transform: translateY(110vh) rotate(360deg); } }
 
     </style>
 </head>
 <body class="light-mode">
 
-    <audio id="bg-audio" loop>
-        <source src="music/opening.mp3" type="audio/mpeg">
-    </audio>
+    <div class="progress-container"><div class="progress-bar" id="myBar"></div></div>
 
-    <div id="splash-screen">
-        <div class="loader-box"></div>
-        <div class="splash-text">MEMBUKA KENANGAN...</div>
-    </div>
-
+    <audio id="bg-audio" loop> <source src="music/opening.mp3" type="audio/mpeg"> </audio>
+    
+    <div id="splash-screen"><div class="loader-box"></div><div class="splash-text">MEMBUKA KENANGAN...</div></div>
+    
     <div class="bg-pattern"></div>
+    <div id="floating-bg"></div>
     <canvas id="bg-canvas"></canvas>
 
     <header>
         <a href="happybirthday.html" class="back-btn">🏠</a>
-        <div class="header-title">Chapter 1: Kraksaan</div>
+        <div class="header-title" id="typewriter-title"></div>
         <div class="control-btns">
             <button class="ui-btn" onclick="toggleMusic()" id="music-btn">🎵</button>
             <button class="ui-btn" onclick="toggleDarkMode()">🌓</button>
@@ -134,14 +132,11 @@
     </header>
 
     <div class="story-container">
-
+        
         <div class="scene-card">
             <div class="scene-num">01</div>
             <div class="illustration-box" style="background: var(--accent-pink);">
-                <div class="visual-placeholder" style="color: #fff;">
-                    <b>🎭 GALLERY TEATER</b>
-                    Aldo lagi iseng main ke Gallery,<br>terus tiba-tiba ada kamu (Anggie)<br>nanyain aku ke Hamdan.
-                </div>
+                <div class="visual-placeholder" style="color: #fff;"><b>🎭 GALLERY TEATER</b>Aldo lagi iseng main ke Gallery,<br>terus tiba-tiba ada kamu (Anggie)<br>nanyain aku ke Hamdan.</div>
             </div>
             <h2>"Fans" Jalur Maksa</h2>
             <p>Lucu banget kalau inget pertama kali kenal. Aku cuma tamu di teater, tapi dengan PD-nya aku ambil HP-mu terus <span class="highlight">Follow IG-ku</span> sendiri. "Eh aku di-follow fans nih!" kataku waktu itu. Padahal itu modus paling maksa sedunia! 😂</p>
@@ -149,172 +144,156 @@
 
         <div class="scene-card photo-card">
             <div class="scene-num">02</div>
-            <div class="illustration-box">
-                <img src="img/foto2.jpg" alt="Foto Semester 2" onerror="this.parentElement.innerHTML='<div class=\'visual-placeholder\'><b>🤫 INTEL KELAS</b>(Masukkan foto zaman semester 2 di sini!)</div>'">
-            </div>
+            <div class="illustration-box"><img src="img/foto2.jpg" alt="Foto Semester 2" onerror="this.parentElement.innerHTML='<div class=\'visual-placeholder\'><b>🤫 INTEL KELAS</b>(Foto semester 2)</div>'"></div>
             <h2>Intel Berkedok Teman</h2>
-            <p>Ternyata sejak kelas 1 semester 2, kamu udah jadi intel ya? Inget nggak pas ada gosip aku deket sama Sandra? Kamu langsung nanyain ke Firda. Padahal aku cuma <span class="highlight">partner jurnal</span> biasa. Ketahuan deh sekarang kalau kamu udah nungguin aku! 😜</p>
+            <p>Ternyata sejak kelas 1 semester 2, kamu udah jadi intel ya? Inget nggak pas ada gosip aku deket sama Sandra? Kamu langsung nanyain ke Firda. Ketahuan deh sekarang kalau kamu udah nungguin aku! 😜</p>
         </div>
 
         <div class="scene-card photo-card">
             <div class="scene-num">03</div>
-            <div class="illustration-box">
-                <img src="img/boncengan.jpg" alt="Foto Wawancara" onerror="this.parentElement.innerHTML='<div class=\'visual-placeholder\'><b>🛵 KEBON AGUNG</b>(Masukkan foto boncengan di sini!)</div>'">
-            </div>
+            <div class="illustration-box"><img src="img/boncengan.jpg" alt="Foto Wawancara" onerror="this.parentElement.innerHTML='<div class=\'visual-placeholder\'><b>🛵 KEBON AGUNG</b>(Foto boncengan wawancara)</div>'"></div>
             <h2>Boncengan Legend</h2>
-            <p>Gara-gara tugas almarhum <span class="highlight">Pak Sugi</span>, kita jadi deket beneran. Dari nyari kades yang nggak ada di desamu, sampai akhirnya mental ke Kebon Agung. Momen kita nanya-nanya ke mbahnya Alip itu jadi awal petualangan kita berdua.</p>
+            <p>Gara-gara tugas almarhum <span class="highlight">Pak Sugi</span>, kita jadi deket beneran. Dari nyari kades yang nggak ada, sampai mental ke Kebon Agung. Momen kita nanya ke mbahnya Alip itu awal petualangan kita.</p>
         </div>
 
         <div class="scene-card">
             <div class="scene-num">04</div>
-            <div class="illustration-box" style="background: var(--accent-green);">
-                <div class="visual-placeholder">
-                    <b>💻 LAPTOP MODE</b>
-                    Aldo lagi benerin tata letak makalah Anggie gara-gara si Fatime rempong.
-                </div>
-            </div>
+            <div class="illustration-box" style="background: var(--accent-green);"><div class="visual-placeholder"><b>💻 LAPTOP MODE</b>Aldo lagi benerin tata letak makalah Anggie gara-gara si Fatime rempong.</div></div>
             <h2>Editor Jalur Risih</h2>
-            <p>Aku aslinya risih banget sama Fatime yang nyuruh-nyuruh buat ngerespon kamu. Tapi yaudah, akhirnya aku malah <span class="highlight">benerin makalahmu</span> sampai rapi. Dari sub-bab sampai daftar isi, semua editornya aku. Masih simpen kan fotonya?</p>
+            <p>Aku aslinya risih banget sama Fatime yang nyuruh-nyuruh. Tapi akhirnya aku malah <span class="highlight">benerin makalahmu</span> sampai rapi. Dari sub-bab sampai daftar isi, semua editornya aku. Masih simpen kan fotonya?</p>
         </div>
 
         <div class="scene-card">
             <div class="scene-num">05</div>
-            <div class="illustration-box" style="background: var(--accent-orange);">
-                <div class="visual-placeholder" style="color:#fff;">
-                    <b>🎥 TENGAH AULA</b>
-                    Aldo lagi rekam panggung,<br>Anggie di belakang nyuruh temennya<br>fotoin kita berdua.
-                </div>
-            </div>
+            <div class="illustration-box" style="background: var(--accent-orange);"><div class="visual-placeholder" style="color:#fff;"><b>🎥 TENGAH AULA</b>Aldo lagi rekam panggung,<br>Anggie di belakang nyuruh temennya<br>fotoin kita berdua.</div></div>
             <h2>Paparazzi Aula</h2>
-            <p>Pas ada tugas pentas, aku sibuk jadi PDD berdiri di tengah aula buat ngerekam. Eh, ternyata diem-diem kamu nyuruh temenmu <span class="highlight">fotoin kita berdua</span> dari belakang. Aku baru sadarnya lama banget setelah itu. Fix, kamu emang fans beratku! 🤣</p>
+            <p>Pas tugas pentas, aku sibuk rekam di tengah aula. Ternyata diem-diem kamu nyuruh temenmu <span class="highlight">fotoin kita berdua</span> dari belakang. Fix, kamu emang fans beratku! 🤣</p>
         </div>
 
         <div class="scene-card">
             <div class="scene-num">06</div>
-            <div class="illustration-box" style="background: #111;">
-                <div class="visual-placeholder" style="color:#fff;">
-                    <b>📷 KAMERA MODE</b>
-                    Aldo kirim foto kamera ke Anggie buat izin dispen ke Bu Ninning.
-                </div>
-            </div>
+            <div class="illustration-box" style="background: #111;"><div class="visual-placeholder" style="color:#fff;"><b>📷 KAMERA MODE</b>Aldo kirim foto kamera ke Anggie buat izin dispen ke Bu Ninning.</div></div>
             <h2>Harta Karun Gallery</h2>
-            <p>Dulu kalau aku mau dispen Sinem, pasti titip izin ke kamu buat bilang ke Bu Ninning. Aku selalu <span class="highlight">PAP foto kamera</span>. Dan yang bikin speechless... ternyata foto serandom itu kamu simpen sampai sekarang di HP-mu. 🥺</p>
+            <p>Dulu kalau aku dispen Sinem, pasti titip izin ke kamu dan selalu <span class="highlight">PAP foto kamera</span>. Dan yang bikin speechless... ternyata foto serandom itu kamu simpen sampai sekarang. 🥺</p>
         </div>
 
         <div class="scene-card">
             <div class="scene-num">07</div>
-            <div class="illustration-box" style="background: var(--accent-pink);">
-                <div class="visual-placeholder" style="color:#fff;">
-                    <b>📚 DEPAN PERPUS</b>
-                    Aldo gengsi ikut makan traktiran ultah Anggie, tapi akhirnya dipaksa luluh.
-                </div>
-            </div>
+            <div class="illustration-box" style="background: var(--accent-pink);"><div class="visual-placeholder" style="color:#fff;"><b>📚 DEPAN PERPUS</b>Aldo nolak ikut makan traktiran ultah Anggie, tapi dipaksa luluh.</div></div>
             <h2>Traktiran Si Gengsi</h2>
-            <p>Pas kamu ultah, aku sengaja nggak ngucapin biar nggak ketahuan kalau perhatian. Eh, malah diajak makan bareng Aci. Aku nolak keras sampai debat di depan perpus, tapi kamu bilang: <span class="highlight">"Gapapa, aku traktir kok."</span> Pertahananku langsung runtuh.</p>
+            <p>Pas kamu ultah, aku nolak keras diajak makan bareng. Kita debat di depan perpus, tapi kamu bilang: <span class="highlight">"Gapapa, aku traktir kok."</span> Pertahananku langsung runtuh.</p>
         </div>
 
         <div class="scene-card">
             <div class="scene-num">08</div>
-            <div class="illustration-box" style="background: var(--accent-blue);">
-                <div class="visual-placeholder" style="color:#fff;">
-                    <b>🌶️ MIE GACOAN</b>
-                    Nunggu Aci & Ayra balik ngapel, Aldo & Anggie ditinggal berduaan nunggu pesanan Mie Gacoan.
-                </div>
-            </div>
+            <div class="illustration-box" style="background: var(--accent-blue);"><div class="visual-placeholder" style="color:#fff;"><b>🌶️ MIE GACOAN</b>Nunggu Aci & Ayra ngapel, ditinggal berduaan nunggu pesanan Mie Gacoan.</div></div>
             <h2>Misi Makcomblang</h2>
-            <p>Ingat pas di rumah Aci? Ternyata si Aci dapet misi dari Ayra buat nyomblangin kita! Kita ditinggal berduaan pas mereka lagi ngapel. <span class="highlight">Canggungnya minta ampun!</span> Apalagi pas disuruh pesen Mie Gacoan berdua di belakang.</p>
+            <p>Ternyata si Aci dapet misi dari Ayra buat nyomblangin kita! Kita ditinggal berduaan pas mereka ngapel. <span class="highlight">Canggungnya minta ampun!</span> Apalagi pas pesen Gacoan berdua.</p>
         </div>
 
         <div class="scene-card" style="border-style: dashed;">
             <div class="scene-num">09</div>
-            <div class="illustration-box" style="background: #fff;">
-                <div class="visual-placeholder">
-                    <b>🎬 FIRST DATE</b>
-                    Nonton "Tak Ingin Usai". Aldo saking canggungnya narik-narik tangan Anggie pas jalan.
-                </div>
-            </div>
+            <div class="illustration-box" style="background: #fff;"><div class="visual-placeholder"><b>🎬 FIRST DATE</b>Nonton "Tak Ingin Usai". Aldo canggung narik-narik tangan Anggie.</div></div>
             <h2>Insiden Bioskop</h2>
-            <p>Kencan pertama kita nonton film. Sumpah aku canggung parah sampai <span class="highlight">narik-narik tanganmu</span> pas jalan biar nggak ketinggalan. Saking nervous-nya aku lupa ngajakin kamu makan! Besoknya Raina langsung ngeledek aku sekelas. 😂</p>
+            <p>Kencan pertama nonton film. Sumpah aku canggung parah sampai <span class="highlight">narik-narik tanganmu</span> biar nggak ketinggalan. Saking nervous-nya aku lupa ngajakin kamu makan! Besoknya Raina langsung ngeledek aku sekelas. 😂</p>
         </div>
 
         <div class="footer-nav">
-            <button id="btn-selesai" class="next-btn ripple-btn" onclick="simpanProgress()">✅ SELESAI & SIMPAN KENANGAN</button>
-            <p style="margin-top:20px; font-weight:800; font-size:0.7rem; color:#999; text-transform:uppercase;">Bersambung ke masa-masa kelas 3...</p>
+            <button id="btn-selesai" class="next-btn ripple-btn" onclick="simpanProgress()">✅ KEMBALI KE MENU (SELESAI)</button>
+            <br>
+            <div id="secret-heart" onclick="makeItRain()">💖</div>
         </div>
     </div>
 
+    <div id="rain-container"></div>
+
     <script>
-        // 1. Splash Screen
-        window.addEventListener('load', () => { setTimeout(() => { document.getElementById('splash-screen').classList.add('hidden'); }, 1200); });
+        // 1. SPLASH SCREEN & INISIALISASI
+        window.addEventListener('load', () => { setTimeout(() => { document.getElementById('splash-screen').classList.add('hidden'); }, 1200); typeWriter(); });
 
-        // 2. Dark Mode 
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
-        }
+        // 2. DARK MODE TOGGLE
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode')); }
         if(localStorage.getItem('dark-mode') === 'true') document.body.classList.add('dark-mode');
+        
+        // 3. BGM MUSIC CONTROLLER
+        const audio = document.getElementById('bg-audio'); let isPlaying = false;
+        function toggleMusic() { if (isPlaying) { audio.pause(); } else { audio.play().catch(e => alert("Klik layar dulu!")); } isPlaying = !isPlaying; }
 
-        // 3. Music 
-        const audio = document.getElementById('bg-audio');
-        let isPlaying = false;
-        function toggleMusic() {
-            if (isPlaying) { audio.pause(); } else { audio.play().catch(e => alert("Klik layar dulu biar musik nyala!")); }
-            isPlaying = !isPlaying;
+        // 4. READING PROGRESS BAR
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("myBar").style.width = scrolled + "%";
+        };
+
+        // 5. TYPEWRITER EFFECT DI HEADER
+        const titleText = "Chapter 1: Kraksaan";
+        let typeIndex = 0;
+        function typeWriter() {
+            if (typeIndex < titleText.length) {
+                document.getElementById("typewriter-title").innerHTML += titleText.charAt(typeIndex);
+                typeIndex++; setTimeout(typeWriter, 100);
+            }
         }
 
-        // 4. Canvas Particles
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let sparks = [];
-        const colors = ['#ff6b8a', '#4facfe', '#ffd166', '#ccff00'];
+        // 6. OBSERVER ANIMASI KARTU POP-UP
+        const cards = document.querySelectorAll('.scene-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) { entry.target.classList.add('pop-up'); } 
+                else { entry.target.classList.remove('pop-up'); }
+            });
+        }, { threshold: 0.15 }); 
+        cards.forEach(card => observer.observe(card));
+
+        // 7. BACKGROUND EMOJI MELAYANG (RANDOM GENERATOR)
+        const floatingBg = document.getElementById('floating-bg');
+        const emos = ['❤️', '✨', '🌸', '💫', '💖'];
+        function createFloatingEmoji() {
+            const el = document.createElement('div');
+            el.classList.add('float-emoji');
+            el.innerText = emos[Math.floor(Math.random() * emos.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = Math.random() * 5 + 5 + 's'; // 5-10 detik
+            floatingBg.appendChild(el);
+            setTimeout(() => { el.remove(); }, 10000);
+        }
+        setInterval(createFloatingEmoji, 800); // Munculin emoji tiap 0.8 detik
+
+        // 8. KANVAS LEDAKAN KLIK (SPARKS)
+        const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d');
+        let sparks = []; const colors = ['#ff6b8a', '#4facfe', '#ffd166', '#ccff00'];
         function initCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        class Spark {
-            constructor(x, y) {
-                this.x = x; this.y = y; this.size = Math.random() * 10 + 5;
-                this.speedX = (Math.random() - 0.5) * 15; this.speedY = (Math.random() - 0.5) * 15;
-                this.life = 1.0; this.decay = Math.random() * 0.03 + 0.02;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-            }
-            update() { this.x += this.speedX; this.y += this.speedY; this.life -= this.decay; }
-            draw() {
-                ctx.save(); ctx.globalAlpha = Math.max(0, this.life); ctx.fillStyle = this.color; ctx.beginPath();
-                ctx.rect(this.x, this.y, this.size, this.size); ctx.fill(); ctx.restore();
+        class Spark { constructor(x, y) { this.x = x; this.y = y; this.size = Math.random() * 10 + 5; this.speedX = (Math.random() - 0.5) * 15; this.speedY = (Math.random() - 0.5) * 15; this.life = 1.0; this.decay = Math.random() * 0.03 + 0.02; this.color = colors[Math.floor(Math.random() * colors.length)]; } update() { this.x += this.speedX; this.y += this.speedY; this.life -= this.decay; } draw() { ctx.save(); ctx.globalAlpha = Math.max(0, this.life); ctx.fillStyle = this.color; ctx.beginPath(); ctx.rect(this.x, this.y, this.size, this.size); ctx.fill(); ctx.restore(); } }
+        window.addEventListener('pointerdown', (e) => { if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.id === 'secret-heart') return; for(let i=0; i<8; i++) sparks.push(new Spark(e.clientX, e.clientY)); });
+        function animate() { ctx.clearRect(0,0,canvas.width, canvas.height); for (let i = sparks.length - 1; i >= 0; i--) { sparks[i].update(); sparks[i].draw(); if (sparks[i].life <= 0) sparks.splice(i, 1); } requestAnimationFrame(animate); } window.addEventListener('resize', initCanvas); initCanvas(); animate();
+
+        // 9. EFEK RIPPLE (GELOMBANG) DI TOMBOL
+        document.addEventListener('click', function(e) { let target = e.target.closest('.ripple-btn'); if (!target) return; let rect = target.getBoundingClientRect(); let x = e.clientX - rect.left; let y = e.clientY - rect.top; let ripple = document.createElement('span'); ripple.classList.add('ripple'); ripple.style.left = `${x}px`; ripple.style.top = `${y}px`; target.appendChild(ripple); setTimeout(() => ripple.remove(), 600); });
+
+        // 10. FITUR RAHASIA: HUJAN CINTA
+        function makeItRain() {
+            const rainContainer = document.getElementById('rain-container');
+            for(let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const drop = document.createElement('div');
+                    drop.classList.add('rain-drop');
+                    drop.innerText = ['💖', '💕', '🥰', '😍'][Math.floor(Math.random() * 4)];
+                    drop.style.left = Math.random() * 100 + 'vw';
+                    drop.style.animationDuration = Math.random() * 2 + 2 + 's';
+                    rainContainer.appendChild(drop);
+                    setTimeout(() => { drop.remove(); }, 4000);
+                }, i * 100);
             }
         }
-        window.addEventListener('pointerdown', (e) => {
-            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-            for(let i=0; i<8; i++) sparks.push(new Spark(e.clientX, e.clientY));
-        });
-        function animate() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            for (let i = sparks.length - 1; i >= 0; i--) { sparks[i].update(); sparks[i].draw(); if (sparks[i].life <= 0) sparks.splice(i, 1); }
-            requestAnimationFrame(animate);
-        }
-        window.addEventListener('resize', initCanvas); initCanvas(); animate();
 
-        // 5. Ripple Button
-        document.addEventListener('click', function(e) {
-            let target = e.target.closest('.ripple-btn');
-            if (!target) return;
-            let rect = target.getBoundingClientRect(); let x = e.clientX - rect.left; let y = e.clientY - rect.top;
-            let ripple = document.createElement('span'); ripple.classList.add('ripple'); ripple.style.left = `${x}px`; ripple.style.top = `${y}px`;
-            target.appendChild(ripple); setTimeout(() => ripple.remove(), 600);
-        });
-
-        // 6. FUNGSI SIMPAN CACHE & LANJUT
+        // 11. FUNGSI SELESAI & KEMBALI KE MENU HBD
         function simpanProgress() {
-            // Set Cache untuk membuka gembok di Halaman HBD
             localStorage.setItem('chapter1_completed', 'true');
-            
-            // Ubah tampilan tombol
             const btn = document.getElementById('btn-selesai');
-            btn.innerHTML = 'MENYIMPAN... 💾';
-            btn.style.background = 'var(--accent-yellow)';
-            
-            // Delay sebentar sebelum pindah halaman
-            setTimeout(() => {
-                window.location.href = 'story2.html';
-            }, 800);
+            btn.innerHTML = 'MENYIMPAN... 💾'; btn.style.background = 'var(--accent-yellow)';
+            setTimeout(() => { window.location.href = 'happybirthday.html'; }, 800);
         }
     </script>
 </body>
