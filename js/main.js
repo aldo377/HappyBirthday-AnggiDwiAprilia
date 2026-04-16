@@ -3,8 +3,9 @@
    =========================================================================================
    - Fake WhatsApp Notification Injector
    - Sistem Partikel Asap & Teks Melayang
-   - Day/Night Cycle & Screen Shake
-   - BGM Auto-Play Manager
+   - Day/Night Cycle & Screen Shake (FIXED BUGS)
+   - BGM Auto-Play Manager (MIGRATED TO HTML)
+   - Desktop vs Mobile Responsive Support
    ========================================================================================= */
 
 var debugmode = false;
@@ -28,7 +29,7 @@ var flyArea = 420;
 var score = 0;
 var highscore = 0;
 
-// Jarak celah pipa (160 biar lebih ramah buat Anggi)
+// Jarak celah pipa (160 biar lebih ramah buat Anggie)
 var pipeheight = 160;    
 var pipewidth = 52;
 var pipes = new Array();
@@ -37,16 +38,32 @@ var replayclickable = false;
 var loopGameloop;
 var loopPipeloop;
 
-// --- SCALING (BIAR PAS DI SEMUA HP) ---
+// --- SCALING (BIAR PAS DI SEMUA HP & PC) ---
 var gameScale = 1;
 function scaleGame() {
    var gameW = 320;
    var gameH = 568;
+   
    var scaleX = window.innerWidth  / gameW;
    var scaleY = window.innerHeight / gameH;
+   
+   // LOGIKA BARU UNTUK MODE DESKTOP/PC
+   if (document.body.classList.contains('desktop-mode')) {
+       // Kunci tinggi layar maksimal 85% dari tinggi monitor biar gak kepotong
+       var wrapperH = window.innerHeight * 0.85; 
+       if (wrapperH > 800) wrapperH = 800; // Batas maksimal tinggi
+       if (wrapperH < 400) wrapperH = 400; // Batas minimal tinggi
+       
+       scaleY = wrapperH / gameH;
+       scaleX = scaleY; // Samakan skala X dan Y biar bentuknya tetap HP (Portrait)
+   }
+   
    gameScale = Math.min(scaleX, scaleY);
+   
    var container = document.getElementById('gamecontainer');
-   if (container) container.style.transform = 'scale(' + gameScale + ')';
+   if (container) {
+       container.style.transform = 'scale(' + gameScale + ')';
+   }
 }
 
 // --- AUDIO MANAGER ---
@@ -57,16 +74,15 @@ var soundHit    = new buzz.sound("assets/sounds/sfx_hit.ogg");
 var soundDie    = new buzz.sound("assets/sounds/sfx_die.ogg");
 var soundSwoosh = new buzz.sound("assets/sounds/sfx_swooshing.ogg");
 
-// BGM Pakai Lagu Menang (Muter saat main)
-var bgmMusic    = new buzz.sound("music/menang.mp3", { loop: true });
 buzz.all().setVolume(volume);
 
 function playBGM() {
-    bgmMusic.setVolume(50);
-    bgmMusic.play();
+    // FIX BUG LAGU DOUBLE: 
+    // Dikosongin karena pemutar musik udah ditangani secara penuh oleh HTML
 }
 function stopBGM() {
-    bgmMusic.stop();
+    // FIX BUG LAGU DOUBLE:
+    // Dikosongin karena pemutar musik udah ditangani secara penuh oleh HTML
 }
 
 // =========================================================================================
@@ -90,8 +106,7 @@ function injectFakeWA() {
 function showFakeWA() {
     // Turunkan notif dari atas layar
     $("#fake-wa").css("top", "20px");
-    // Mainkan suara koin biar dia sadar ada notif
-    soundScore.play();
+    soundScore.play(); // Mainkan suara koin biar dia sadar ada notif
     
     // Sembunyikan lagi setelah 4 detik
     setTimeout(function() {
@@ -124,7 +139,9 @@ function spawnFloatingScore() {
 }
 
 function shakeScreen() {
-    $("#gamecontainer").transition({ x: '-10px', y: '5px' }, 50)
+    // FIX BUG LAYAR MENGECIL PAS MATI:
+    // Diganti menjadi $("#gamescreen") biar efek getar ga numpuk dan ngerusak ukuran scaleGame()
+    $("#gamescreen").transition({ x: '-10px', y: '5px' }, 50)
            .transition({ x: '10px', y: '-5px' }, 50)
            .transition({ x: '-10px', y: '5px' }, 50)
            .transition({ x: '10px', y: '-5px' }, 50)
@@ -132,12 +149,8 @@ function shakeScreen() {
 }
 
 function updateSkyColor() {
-    var sky = $("#sky");
-    if (score < 5) sky.css('background-color', '#71c5cf'); 
-    else if (score < 10) sky.css('background-color', '#ff9a9e'); 
-    else if (score < 15) sky.css('background-color', '#4a69bd'); 
-    else sky.css('background-color', '#1e272e'); 
-    sky.css('transition', 'background-color 2s ease');
+    // FIX BUG WARNA LANGIT NUMPUK:
+    // Dikosongin supaya warna langit stabil ngikutin CSS Dark Mode / Light Mode di flapy.html
 }
 
 // =========================================================================================
@@ -206,7 +219,7 @@ function startGame() {
    $("#splash").stop(); $("#splash").transition({ opacity: 0 }, 500, 'ease');
    setBigScore();
    
-   playBGM(); // PUTAR LAGU BGM
+   playBGM(); // Kosong (Aman gak numpuk)
 
    if (debugmode) $(".boundingbox").show();
 
