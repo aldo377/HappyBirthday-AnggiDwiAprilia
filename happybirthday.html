@@ -189,45 +189,46 @@
         #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999998; }
 
         /* ==========================================================================
-           13. DESKTOP MODE (MANUAL TOGGLE)
+           13. OTOMATIS RESPONSIVE DESKTOP/LAPTOP (WIDESCREEN AUTO-DETECT)
            ========================================================================== */
-        body.desktop-mode .app-container { 
-            max-width: 1000px; 
-            border-radius: 20px; 
-            height: 95vh; 
-            border: var(--border-thick) solid var(--border-color); 
+        @media screen and (min-width: 768px) {
+            .app-container { 
+                max-width: 1000px; 
+                border-radius: 20px; 
+                height: 95vh; 
+                border: var(--border-thick) solid var(--border-color); 
+            }
+            .header { 
+                border-top-left-radius: 15px; 
+                border-top-right-radius: 15px; 
+            }
+            .nav-bar { 
+                border-bottom-left-radius: 15px; 
+                border-bottom-right-radius: 15px; 
+                width: calc(100% - 8px); 
+                left: 4px; 
+                bottom: 4px;
+            }
+            .story-slider { 
+                display: grid; 
+                grid-template-columns: 1fr 1fr; 
+                gap: 40px; 
+                padding: 40px 30px 120px; 
+            }
+            .menu-list { 
+                display: grid; 
+                grid-template-columns: 1fr 1fr; 
+                gap: 20px; 
+            }
+            .menu-list .btn-action, 
+            .menu-list button { 
+                margin-bottom: 0; 
+                height: 100%; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center;
+            }
         }
-        body.desktop-mode .header { 
-            border-top-left-radius: 15px; 
-            border-top-right-radius: 15px; 
-        }
-        body.desktop-mode .nav-bar { 
-            border-bottom-left-radius: 15px; 
-            border-bottom-right-radius: 15px; 
-            width: calc(100% - 8px); 
-            left: 4px; 
-            bottom: 4px;
-        }
-        body.desktop-mode .story-slider { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 40px; 
-            padding: 40px 30px 120px; 
-        }
-        body.desktop-mode .menu-list { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 20px; 
-        }
-        body.desktop-mode .menu-list .btn-action, 
-        body.desktop-mode .menu-list button { 
-            margin-bottom: 0; 
-            height: 100%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-        }
-
     </style>
 </head>
 <body>
@@ -254,7 +255,7 @@
           <p>Sudah siap baca ceritanya?</p>
         </div>
         <div style="display: flex; gap: 15px; align-items: center;">
-            <div id="layout-btn" onclick="toggleLayout()" style="font-size: 2.2rem; cursor: pointer; filter: drop-shadow(3px 3px 0px var(--accent-blue)); animation: float 3s ease-in-out infinite reverse; transition: 0.2s;" title="Ubah Tampilan">📱</div>
+            <!-- Tombol Ubah Tampilan HP/PC Sengaja Dihapus Sesuai Request -->
             <div class="header-icon" id="cheat-btn">🎁</div>
         </div>
       </div>
@@ -345,18 +346,8 @@
     setTimeout(hideSplashScreen, 5000); // Pasti hilang max 5 detik walaupun file belum kelar
 
     // =========================================================================
-    // TOGGLE DESKTOP / MOBILE MODE
+    // FUNGSI TOGGLE MANUAL DIHAPUS (Sekarang pakai media queries otomatis)
     // =========================================================================
-    function toggleLayout() {
-        const btn = document.getElementById('layout-btn');
-        document.body.classList.toggle('desktop-mode');
-        
-        if (document.body.classList.contains('desktop-mode')) {
-            btn.innerText = '🖥️'; // Logo PC
-        } else {
-            btn.innerText = '📱'; // Logo HP
-        }
-    }
     
     // =========================================================================
     // AUDIO AUTOPLAY ON FIRST CLICK
@@ -578,7 +569,7 @@
     }
     
     document.getElementById('main-container').addEventListener('pointerdown', function(eventSentuhan) { 
-        if(eventSentuhan.target.tagName === 'A' || eventSentuhan.target.tagName === 'BUTTON' || eventSentuhan.target.id === 'cheat-btn' || eventSentuhan.target.id === 'layout-btn' || eventSentuhan.target.id === 'halo-sayang') return; 
+        if(eventSentuhan.target.tagName === 'A' || eventSentuhan.target.tagName === 'BUTTON' || eventSentuhan.target.id === 'cheat-btn' || eventSentuhan.target.id === 'halo-sayang') return; 
         let titikX = eventSentuhan.clientX || (eventSentuhan.touches && eventSentuhan.touches[0].clientX); let titikY = eventSentuhan.clientY || (eventSentuhan.touches && eventSentuhan.touches[0].clientY); 
         if (titikX && titikY) { let jumlahLedakan = Math.floor(Math.random() * 4) + 5; for(let i = 0; i < jumlahLedakan; i++) { daftarPartikelLedakan.push(new PartikelLedakan(titikX, titikY)); } } 
     });
