@@ -67,14 +67,14 @@
         @keyframes pulseText { from { opacity: 0.5; transform: translateY(0); } to { opacity: 1; transform: translateY(-5px); } }
 
         /* ==========================================================================
-           3. CONTAINER UTAMA (UKURAN HP)
+           3. CONTAINER UTAMA (UKURAN HP DEFAULT)
            ========================================================================== */
         .app-container {
             width: 100%; max-width: 480px; height: 100%; background: #ffffff; 
             position: relative; overflow-y: auto; overflow-x: hidden;
             border-left: var(--border-thick) solid var(--border-color); 
             border-right: var(--border-thick) solid var(--border-color);
-            display: flex; flex-direction: column;
+            display: flex; flex-direction: column; transition: all 0.4s ease;
         }
         .app-container::-webkit-scrollbar { display: none; }
 
@@ -113,12 +113,16 @@
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         /* List Aturan */
+        .rules-grid { display: flex; flex-direction: column; gap: 25px; }
+
         .rule-card {
             border: var(--border-thick) solid var(--border-color);
-            border-radius: 16px; padding: 20px; margin-bottom: 25px;
+            border-radius: 16px; padding: 20px;
             box-shadow: 6px 6px 0px var(--border-color);
             position: relative; background: #fff;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
+        .rule-card:hover { transform: translateY(-3px); box-shadow: 8px 8px 0px var(--border-color); }
         
         .rule-card .rule-num {
             position: absolute; top: -15px; left: -10px;
@@ -167,6 +171,46 @@
 
         .footer-note { text-align: center; font-size: 0.75rem; font-weight: 700; color: #999; margin-top: 30px; text-transform: uppercase; }
 
+        /* ==========================================================================
+           7. OTOMATIS RESPONSIVE DESKTOP/LAPTOP (WIDESCREEN AUTO-DETECT)
+           ========================================================================== */
+        @media screen and (min-width: 768px) {
+            .app-container { 
+                max-width: 1000px; 
+                border-radius: 20px; 
+                height: 95vh; 
+                border: var(--border-thick) solid var(--border-color); 
+            }
+            .header { 
+                border-top-left-radius: 15px; 
+                border-top-right-radius: 15px; 
+            }
+            .rules-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            .rule-card {
+                height: 100%;
+            }
+            /* Bikin rule ke-5 ada di tengah sendirian kalau jumlahnya ganjil */
+            .rule-card:last-child:nth-child(odd) {
+                grid-column: 1 / -1;
+                max-width: 50%;
+                margin: 0 auto;
+            }
+            .action-box {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 20px;
+            }
+            .action-box .brutal-btn {
+                margin-top: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -193,40 +237,43 @@
                 <p style="font-weight: 600; color: #555; margin-top: 5px;">Selesaikan semuanya sebelum memulai kado utama.</p>
             </div>
 
-            <div class="rule-card bg-pink">
-                <div class="rule-num">1</div>
-                <h3>BACA SEMUANYA!</h3>
-                <p>Wajib membaca semua petunjuk ini dari awal sampai akhir agar tidak terjadi kesalahan saat mencoba *login* ke kado utamamu.</p>
-            </div>
+            <!-- Bungkus kotak-kotak dengan rules-grid agar rapi di Laptop -->
+            <div class="rules-grid">
+                <div class="rule-card bg-pink">
+                    <div class="rule-num">1</div>
+                    <h3>BACA SEMUANYA!</h3>
+                    <p>Wajib membaca semua petunjuk ini dari awal sampai akhir agar tidak terjadi kesalahan saat mencoba *login* ke kado utamamu.</p>
+                </div>
 
-            <div class="rule-card bg-blue">
-                <div class="rule-num">2</div>
-                <h3>Misi 1: Flappy Bird 🐦</h3>
-                <p>Mainkan Misi 1 (Terbang). Hindari pipa dan capai skor tertentu. Nanti bakal muncul pop-up berisi <strong>Clue Username</strong> kamu.</p>
-            </div>
+                <div class="rule-card bg-blue">
+                    <div class="rule-num">2</div>
+                    <h3>Misi 1: Flappy Bird 🐦</h3>
+                    <p>Mainkan Misi 1 (Terbang). Hindari pipa dan capai skor tertentu. Nanti bakal muncul pop-up berisi <strong>Clue Username</strong> kamu.</p>
+                </div>
 
-            <div class="rule-card bg-yellow">
-                <div class="rule-num">3</div>
-                <h3>Misi 2: Game 2048 🧩</h3>
-                <p>Mainkan Misi 2 (Puzzle). Gabungkan kotak-kotak angka sampai kamu menemukan <strong>Clue Kode Rahasia (Password)</strong> di dalamnya.</p>
-            </div>
+                <div class="rule-card bg-yellow">
+                    <div class="rule-num">3</div>
+                    <h3>Misi 2: Game 2048 🧩</h3>
+                    <p>Mainkan Misi 2 (Puzzle). Gabungkan kotak-kotak angka sampai kamu menemukan <strong>Clue Kode Rahasia (Password)</strong> di dalamnya.</p>
+                </div>
 
-            <div class="rule-card bg-green">
-                <div class="rule-num">4</div>
-                <h3>JANGAN LUPA SCREENSHOT 📸</h3>
-                <p>Kalau kamu udah dapat clue-nya, <strong>Wajib Screenshot!</strong> Biar kamu nggak lupa pas mau masukin sandi di halaman depan.</p>
-            </div>
+                <div class="rule-card bg-green">
+                    <div class="rule-num">4</div>
+                    <h3>JANGAN LUPA SCREENSHOT 📸</h3>
+                    <p>Kalau kamu udah dapat clue-nya, <strong>Wajib Screenshot!</strong> Biar kamu nggak lupa pas mau masukin sandi di halaman depan.</p>
+                </div>
 
-            <div class="rule-card" style="background: #eee;">
-                <div class="rule-num">5</div>
-                <h3>SALAH? MENGULANG! ☠️</h3>
-                <p>Jika *Username* dan *Kata Sandi* yang kamu masukkan salah, silakan main ulang gamenya dari awal buat nyari clue-nya lagi wleee 😜.</p>
+                <div class="rule-card" style="background: #eee;">
+                    <div class="rule-num">5</div>
+                    <h3>SALAH? MENGULANG! ☠️</h3>
+                    <p>Jika *Username* dan *Kata Sandi* yang kamu masukkan salah, silakan main ulang gamenya dari awal buat nyari clue-nya lagi wleee 😜.</p>
+                </div>
             </div>
 
             <div class="action-box">
-                <a href="flapy.html" class="brutal-btn btn-game1 ripple-btn">🎮 Mulai Misi 1 (Flappy)</a>
-                <a href="200408.html" class="brutal-btn btn-game2 ripple-btn">🧩 Mulai Misi 2 (2048)</a>
-                <a href="index.html" class="brutal-btn btn-login ripple-btn">🚪 Kembali Ke Halaman Login</a>
+                <a href="flapy.html" class="brutal-btn btn-game1 ripple-btn">🎮 Mulai Misi 1</a>
+                <a href="200408.html" class="brutal-btn btn-game2 ripple-btn">🧩 Mulai Misi 2</a>
+                <a href="index.html" class="brutal-btn btn-login ripple-btn">🚪 Kembali Ke Login</a>
             </div>
 
             <p class="footer-note">Dibuat dengan ❤️ oleh Orang Ganteng</p>
@@ -241,7 +288,12 @@
             }, 1200); // Muncul 1.2 detik biar keren
         });
 
-        // 2. Efek Ripple (Gelombang Air) pada tombol bawah
+        // Fallback: Paksa loading hilang maksimal setelah 5 detik
+        setTimeout(function() {
+            document.getElementById('splash-screen').classList.add('hidden');
+        }, 5000);
+
+        // 2. Efek Ripple (Gelombang Air) pada tombol
         document.querySelectorAll('.ripple-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 let rect = this.getBoundingClientRect();
