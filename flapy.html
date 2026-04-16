@@ -40,7 +40,7 @@
             overflow: hidden;
         }
 
-        /* MEMATIKAN FITUR SIANG-MALAM DARI MAIN.JS (Kunci warna langit ke tema) */
+        /* Kunci warna langit ke tema */
         #sky { background-color: transparent !important; transition: background-color 0.3s ease !important; }
 
         /* ==========================================================================
@@ -53,7 +53,7 @@
         @keyframes floatUp { to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
 
         /* ==========================================================================
-           3. PANEL KONTROL UI (SAMA KAYA INDEX & STORY)
+           3. PANEL KONTROL UI
            ========================================================================== */
         .control-panel { position: fixed; top: 15px; left: 15px; z-index: 10000; display: flex; flex-direction: column; gap: 10px; }
         .brutal-btn-small {
@@ -181,11 +181,32 @@
 
         #custom-footer { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); width: 100%; text-align: center; z-index: 9999; pointer-events: none; }
         #custom-footer p { margin: 0; color: var(--text-color); opacity: 0.7; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;}
+
+        /* ==========================================================================
+           8. DESKTOP MODE (MODE PC) - LAYAR GAME MENGECIL KE TENGAH
+           ========================================================================== */
+        body.desktop-mode #gameWrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+        body.desktop-mode #gamecontainer {
+            position: relative;
+            transform-origin: center center !important;
+            border: 6px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 15px 15px 0px var(--border-color);
+            overflow: hidden;
+            background-color: #71c5cf; /* Default flappy sky */
+        }
+        body.dark-mode.desktop-mode #gamecontainer { background-color: #2d2d2d; }
     </style>
 </head>
 <body class="light-mode">
 
-    <!-- AUDIO UTAMA (Menggantikan auto-play lama biar gak double sama main.js nanti) -->
+    <!-- AUDIO UTAMA (Menggantikan auto-play lama) -->
     <audio id="bg-audio" loop preload="auto">
         <source src="music/menang.mp3" type="audio/mpeg" />
     </audio>
@@ -203,6 +224,7 @@
 
     <!-- CONTROL PANEL (KIRI ATAS) -->
     <div class="control-panel">
+        <button id="layout-btn" class="brutal-btn-small ripple-btn" onclick="toggleLayout()">📱 HP</button>
         <button id="musicToggle" class="brutal-btn-small ripple-btn" onclick="toggleMusic()">🎵 OFF</button>
         <button id="lite-mode-btn" class="brutal-btn-small ripple-btn" onclick="toggleLiteMode()">⚡ ANTI-LAG</button>
         <button class="brutal-btn-small ripple-btn" onclick="toggleDarkMode()">🌓</button>
@@ -287,28 +309,21 @@
         });
 
         // =========================================================================
-        // 2. KONTROL AUDIO & MODE (SAMA DENGAN STORY & INDEX)
+        // 2. KONTROL AUDIO & MODE 
         // =========================================================================
-        // Karena main.js nge-load lagu dari Buzz.js, kita akan kontrol main.js pake tombol ini
-        // (Nanti di main.js kamu hapus aja fungsi autoplay-nya pas aku kasih filenya)
         const bgAudio = document.getElementById('bg-audio');
         const musicBtn = document.getElementById('musicToggle');
         let isMusicPlaying = false;
         
         function toggleMusic() {
             if (isMusicPlaying) {
-                // Matiin audio HTML
                 bgAudio.pause(); 
-                // Matiin audio dari main.js (Buzz.js) kalo ada
                 try { stopBGM(); } catch(e){} 
-                
                 musicBtn.textContent = '🎵 OFF'; 
                 musicBtn.classList.add('music-off');
             } else {
-                // Nyalain audio HTML
                 bgAudio.volume = 0.5; 
                 bgAudio.play().catch(e => console.log("Audio diblokir"));
-                
                 musicBtn.textContent = '🎵 ON'; 
                 musicBtn.classList.remove('music-off');
             }
@@ -317,8 +332,37 @@
 
         function toggleDarkMode() { 
             document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
+        }
+        if(localStorage.getItem('dark-mode') === 'true') document.body.classList.add('dark-mode');
+
+        // =========================================================================
+        // 3. TOGGLE DESKTOP / MOBILE LAYOUT
+        // =========================================================================
+        function toggleLayout() {
+            const btn = document.getElementById('layout-btn');
+            document.body.classList.toggle('desktop-mode');
+            
+            if (document.body.classList.contains('desktop-mode')) {
+                btn.innerText = '🖥️ PC'; 
+                localStorage.setItem('layout-mode', 'desktop');
+            } else {
+                btn.innerText = '📱 HP'; 
+                localStorage.setItem('layout-mode', 'mobile');
+            }
+            // Panggil scaleGame() dari main.js biar ukurannya langsung beradaptasi
+            if(typeof scaleGame === 'function') scaleGame();
         }
 
+        // Cek Cache saat halaman dimuat
+        if(localStorage.getItem('layout-mode') === 'desktop') {
+            document.body.classList.add('desktop-mode');
+            document.getElementById('layout-btn').innerText = '🖥️ PC';
+        }
+
+        // =========================================================================
+        // 4. LITE MODE (ANTI-LAG)
+        // =========================================================================
         let isLiteMode = false;
         const canvasEl = document.getElementById('bg-canvas');
         function toggleLiteMode() {
@@ -332,7 +376,7 @@
         }
 
         // =========================================================================
-        // 3. LOGIKA MENU 3 TITIK (DROPDOWN)
+        // 5. MENU 3 TITIK (DROPDOWN)
         // =========================================================================
         function toggleMenu() {
             document.getElementById("myDropdown").classList.toggle("show");
@@ -350,7 +394,7 @@
         }
 
         // =========================================================================
-        // 4. EFEK VISUAL BACKGROUND (CANVAS SPARKS & FLOATING EMOJI)
+        // 6. EFEK VISUAL BACKGROUND (CANVAS SPARKS & FLOATING EMOJI)
         // =========================================================================
         const floatingBg = document.getElementById('floating-bg');
         const emos = ['❤️', '✨', '🐦', '🔥', '💖', '🍿', '🙄'];
