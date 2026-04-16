@@ -148,13 +148,38 @@
         .gallery-card.is-focused { transform: scale(1) rotateY(0deg); opacity: 1; box-shadow: 8px 8px 0px var(--border-color); z-index: 10; pointer-events: auto;}
         .gallery-card.is-focused img { transform: scale(1.05); }
 
-        /* Desktop Mode */
-        body.desktop-mode .story-container { max-width: 1100px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 30px 30px 100px; }
-        body.desktop-mode .chapter-badge, body.desktop-mode .chapter-intro { grid-column: 1 / -1; text-align: center; }
-        body.desktop-mode .chapter-intro { max-width: 700px; margin: 0 auto 40px; }
-        body.desktop-mode .scene-card { margin-bottom: 0; height: 100%; }
-        body.desktop-mode .divider { display: none; }
-        body.desktop-mode .footer-nav, body.desktop-mode .gallery-wrapper { grid-column: 1 / -1; margin-top: 40px; }
+        /* ==========================================================================
+           9. OTOMATIS RESPONSIVE DESKTOP/LAPTOP (WIDESCREEN AUTO-DETECT)
+           ========================================================================== */
+        @media screen and (min-width: 768px) {
+            .story-container {
+                max-width: 1100px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                padding: 30px 30px 100px;
+            }
+            .chapter-badge,
+            .chapter-intro {
+                grid-column: 1 / -1; 
+                text-align: center;
+            }
+            .chapter-intro {
+                max-width: 700px;
+                margin: 0 auto 40px;
+            }
+            .scene-card {
+                margin-bottom: 0; /* Reset margin karena udah pakai gap di grid */
+                height: 100%; /* Biar tingginya sama rata */
+            }
+            .divider {
+                display: none; /* Sembunyiin titik-titik pemisah kalau lagi mode grid biar rapi */
+            }
+            .footer-nav, .gallery-wrapper {
+                grid-column: 1 / -1;
+                margin-top: 40px;
+            }
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -172,9 +197,9 @@
         <a href="happybirthday.html" class="back-btn">🏠</a>
         <div class="header-title" id="typewriter-title"></div>
         <div class="control-btns">
-            <button class="ui-btn" onclick="toggleLayout()" id="layout-btn" title="Ubah Tampilan">📱</button>
-            <button class="ui-btn" onclick="toggleMusic()" id="music-btn">🎵</button>
-            <button class="ui-btn" onclick="toggleDarkMode()">🌓</button>
+            <!-- Tombol HP/PC Dihapus Karena Layar Udah Auto-Responsive -->
+            <button class="ui-btn ripple-btn" onclick="toggleMusic()" id="music-btn" title="Puter Musik">🎵</button>
+            <button class="ui-btn ripple-btn" onclick="toggleDarkMode()" title="Ganti Tema">🌓</button>
         </div>
     </header>
 
@@ -744,18 +769,7 @@
             }
         }
 
-        // 11. LAYOUT TOGGLE (DESKTOP/MOBILE)
-        function toggleLayout() {
-            const btn = document.getElementById('layout-btn');
-            document.body.classList.toggle('desktop-mode');
-            if (document.body.classList.contains('desktop-mode')) {
-                btn.innerText = '🖥️'; 
-            } else {
-                btn.innerText = '📱'; 
-            }
-        }
-
-        // 12. TOMBOL LANJUT KE HBD (Simpan Cache & Redirect)
+        // 11. TOMBOL LANJUT KE HBD (Simpan Cache & Redirect)
         function lanjutKeKado() {
             localStorage.setItem('chapter2_completed', 'true');
             const btn = document.getElementById('btn-lanjut');
@@ -765,7 +779,7 @@
             setTimeout(() => { window.location.href = 'happybirthday.html'; }, 900);
         }
 
-        // 13. FITUR GETAR (VIBRATE) SAAT SCENE DIKLIK
+        // 12. FITUR GETAR (VIBRATE) SAAT SCENE DIKLIK
         function triggerVibrate(element) {
             if (navigator.vibrate) { navigator.vibrate(50); }
             element.classList.remove('geter-aktif');
@@ -773,7 +787,7 @@
             element.classList.add('geter-aktif');
         }
 
-        // 14. LOGIKA GALERI SWIPE (DRAG & ZOOM EFEK)
+        // 13. LOGIKA GALERI SWIPE (DRAG & ZOOM EFEK)
         const slider = document.getElementById('gallery-track');
         let isDown = false; let startX; let scrollLeft;
 
