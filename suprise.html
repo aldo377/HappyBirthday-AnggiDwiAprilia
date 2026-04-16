@@ -2,89 +2,273 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kejutan Spesial! 🎁</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ciee Ketemu! 🎁</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        /* CSS RESET & TEMPLATE GELAP ESTETIK */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        /* ==========================================================================
+           1. CSS VARIABLES (TEMA NEO-BRUTALISM)
+           ========================================================================== */
+        :root {
+            --bg-color: #f8f9fa;       
+            --border-color: #111111;   
+            --accent-pink: #ff6b8a;    
+            --accent-blue: #4facfe;    
+            --accent-green: #ccff00;   
+            --accent-yellow: #ffd166;
+            --accent-purple: #c299fc;  
+            --border-thick: 4px;       
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+
         body {
-            background: #1a2e45; /* Warna biru dongker tema kamu */
-            color: white;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            overflow: hidden;
+            background-color: var(--bg-color); color: var(--border-color);
+            overflow: hidden; height: 100vh; height: 100dvh;
+            display: flex; justify-content: center; align-items: center;
             position: relative;
         }
 
-        /* Latar Belakang Bintang */
-        body::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background-image:
-                radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px),
-                radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 60px 60px, 30px 30px;
-            background-position: 0 0, 15px 15px; pointer-events: none; z-index: -1;
+        /* ==========================================================================
+           2. SPLASH SCREEN (LOADING)
+           ========================================================================== */
+        #splash-screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color); z-index: 9999999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        #splash-screen.hidden { opacity: 0; transform: scale(1.1); pointer-events: none; }
+
+        .loader-box {
+            width: 80px; height: 80px; border: var(--border-thick) solid var(--border-color);
+            background: var(--accent-pink);
+            animation: spinBrutal 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 35px;
+        }
+        @keyframes spinBrutal {
+            0% { transform: rotate(0deg) scale(1); background: var(--accent-pink); }
+            50% { transform: rotate(180deg) scale(1.2); background: var(--accent-yellow); }
+            100% { transform: rotate(360deg) scale(1); background: var(--accent-purple); }
+        }
+        .splash-text { 
+            font-size: 1.2rem; font-weight: 900; text-transform: uppercase; 
+            letter-spacing: 2px; color: var(--border-color); 
+            animation: pulseText 1.5s infinite alternate; 
+            background: #fff; padding: 5px 15px; border: 3px solid var(--border-color);
+            box-shadow: 4px 4px 0px var(--border-color); transform: rotate(-2deg);
+        }
+        @keyframes pulseText { from { transform: rotate(-2deg) scale(1); } to { transform: rotate(-2deg) scale(1.05); } }
+
+        /* ==========================================================================
+           3. BACKGROUND CANVAS & EMOJI
+           ========================================================================== */
+        .bg-pattern {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -4;
+            background-image: radial-gradient(var(--border-color) 1.5px, transparent 1.5px);
+            background-size: 35px 35px; opacity: 0.1;
+        }
+        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -2; }
+        #floating-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -3; overflow: hidden; }
+        .float-emoji { position: absolute; bottom: -50px; font-size: 1.8rem; opacity: 0.4; animation: floatUp linear forwards; }
+        @keyframes floatUp { to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
+
+        /* ==========================================================================
+           4. KARTU KEJUTAN (RESPONSIVE)
+           ========================================================================== */
+        .app-container {
+            width: 100%; max-width: 450px; padding: 20px; z-index: 10;
+            display: flex; flex-direction: column; justify-content: center;
         }
 
-        /* KOTAK KEJUTAN */
-        .surprise-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px dashed #ffd166;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            animation: appear 0.6s ease-out;
+        .brutal-card {
+            background: #ffffff; border: var(--border-thick) solid var(--border-color);
+            border-radius: 20px; padding: 35px 25px; text-align: center;
+            box-shadow: 15px 15px 0px var(--border-color); position: relative;
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        @keyframes popIn { from { opacity: 0; transform: translateY(50px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        @keyframes appear { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .emoji { font-size: 5rem; display: block; margin-bottom: 20px; animation: bounce 2s infinite; }
-        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
-
-        h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
-        p { font-size: 0.9rem; line-height: 1.8; color: rgba(255,255,255,0.8); }
-        .highlight { color: #ff6b8a; font-weight: 600; }
-
-        /* TOMBOL KEMBALI KE HOME */
-        .btn-home {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 25px;
-            background: linear-gradient(135deg, #e8507a, #c0254e);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(200, 40, 80, 0.4);
-            transition: 0.2s;
+        /* Ilustrasi Baju + NFC */
+        .illustration-box {
+            width: 100%; height: 200px; background: var(--accent-blue);
+            border: 3px solid var(--border-color); border-radius: 15px; margin-bottom: 25px;
+            display: flex; justify-content: center; align-items: center; overflow: hidden;
+            box-shadow: inset 0px 0px 20px rgba(0,0,0,0.1);
         }
-        .btn-home:active { transform: scale(0.95); }
+        .illustration-box svg { width: 90%; height: 90%; animation: floatSvg 3s infinite ease-in-out; }
+        @keyframes floatSvg { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
+        .brutal-card h1 { font-size: 2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; color: var(--text-color); line-height: 1.1; }
+        .brutal-card p { font-size: 0.95rem; font-weight: 600; color: #444; margin-bottom: 25px; line-height: 1.6; }
+        .highlight { background: var(--accent-yellow); padding: 0 5px; font-weight: 800; border-radius: 4px; color: #111; box-shadow: 2px 2px 0 #111;}
+
+        /* ==========================================================================
+           5. TOMBOL KEMBALI
+           ========================================================================== */
+        .btn-action {
+            display: block; width: 100%; padding: 18px; background: var(--accent-green);
+            color: var(--border-color); text-decoration: none; border-radius: 12px; 
+            font-weight: 900; font-size: 1.1rem; border: var(--border-thick) solid var(--border-color);
+            box-shadow: 6px 6px 0px var(--border-color); text-transform: uppercase;
+            transition: 0.2s; position: relative; overflow: hidden;
+        }
+        .btn-action:active { transform: translate(6px, 6px); box-shadow: 0px 0px 0px transparent; }
+
+        .ripple { position: absolute; border-radius: 50%; transform: scale(0); animation: rippleAnim 0.6s linear; background-color: rgba(255,255,255,0.7); pointer-events: none; }
+        @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+        /* WIDESCREEN AUTO-DETECT */
+        @media screen and (min-width: 768px) {
+            .app-container { max-width: 550px; }
+            .brutal-card { padding: 50px 40px; }
+            .brutal-card h1 { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="surprise-box">
-        <span class="emoji">👕</span>
-        <h1>Kejutan Berhasil!</h1>
-        <p>
-            Wah, Anggie nemu NFC rahasia di baju! 😂<br>
-            Nggak ada kado spesial di sini, cuma mau bilang:<br>
-            <span class="highlight">"Aku Sayang Banget Sama Kamu, Anggie."</span><br>
-            Happy Birthday, Princess! ✨
-        </p>
-        
-        <a href="happybirthday.html" class="btn-home">Balik ke Kado ➡️</a>
+    <div id="splash-screen">
+        <div class="loader-box"></div>
+        <div class="splash-text">Membaca NFC...</div>
     </div>
 
+    <div class="bg-pattern"></div>
+    <div id="floating-bg"></div>
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="app-container">
+        <div class="brutal-card">
+            
+            <!-- ILUSTRASI BAJU & NFC -->
+            <div class="illustration-box">
+                <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="320" height="200" fill="#4facfe"/>
+                    
+                    <!-- Baju -->
+                    <path d="M100 40 L220 40 L260 90 L230 110 L210 80 L210 180 L110 180 L110 80 L90 110 L60 90 Z" fill="#ffd166" stroke="#111" stroke-width="5" stroke-linejoin="round"/>
+                    
+                    <!-- Kerah Baju -->
+                    <path d="M130 40 Q160 70 190 40" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+                    
+                    <!-- Logo Love -->
+                    <path d="M160 110 C 160 110 140 90 140 75 C 140 60 160 60 160 75 C 160 60 180 60 180 75 C 180 90 160 110 160 110 Z" fill="#ff6b8a" stroke="#111" stroke-width="3"/>
+                    
+                    <!-- Chip NFC Berkedip -->
+                    <circle cx="160" cy="145" r="15" fill="#ccff00" stroke="#111" stroke-width="3"/>
+                    <text x="160" y="149" text-anchor="middle" font-size="10" font-weight="900" fill="#111">NFC</text>
+                    
+                    <!-- Gelombang Sinyal -->
+                    <path d="M130 145 A 30 30 0 0 1 130 120" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.8">
+                        <animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite" />
+                    </path>
+                    <path d="M115 155 A 45 45 0 0 1 115 110" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.6">
+                        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.2s" repeatCount="indefinite" />
+                    </path>
+                    <path d="M190 145 A 30 30 0 0 0 190 120" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.8">
+                        <animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite" />
+                    </path>
+                    <path d="M205 155 A 45 45 0 0 0 205 110" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.6">
+                        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.2s" repeatCount="indefinite" />
+                    </path>
+                </svg>
+            </div>
+
+            <h1>CIEE KETEMU! 🎉</h1>
+            <p>Wahhh, ketahuan deh! Pinter banget sih princess aku bisa nemuin tag NFC rahasia di baju ini. 🧐🔎</p>
+            <p>Sengaja ditaruh di sini biar surprise. Nggak ada kado fisik di halaman ini, cuma mau bilang: <span class="highlight">"Aku Sayang Banget Sama Kamu!"</span> ❤️✨</p>
+
+            <a href="index.html" class="btn-action ripple-btn">🚪 KEMBALI KE LOGIN</a>
+        </div>
+    </div>
+
+    <script>
+        // 1. LOGIKA SPLASH SCREEN
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').classList.add('hidden');
+            }, 1200); 
+        });
+        setTimeout(() => { document.getElementById('splash-screen').classList.add('hidden'); }, 5000);
+
+        // 2. RIPPLE EFFECT TOMBOL
+        document.querySelectorAll('.ripple-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                let rect = this.getBoundingClientRect();
+                let x = e.clientX - rect.left;
+                let y = e.clientY - rect.top;
+                let ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                ripple.style.left = `${x}px`; ripple.style.top = `${y}px`;
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // 3. FLOATING EMOJI BACKGROUND
+        const floatingBg = document.getElementById('floating-bg');
+        const emos = ['👕', '✨', '🔎', '❤️', '👀', '📱'];
+        function createFloatingEmoji() {
+            const el = document.createElement('div');
+            el.classList.add('float-emoji');
+            el.innerText = emos[Math.floor(Math.random() * emos.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = Math.random() * 4 + 4 + 's';
+            floatingBg.appendChild(el);
+            setTimeout(() => { el.remove(); }, 8000);
+        }
+        setInterval(createFloatingEmoji, 800);
+
+        // 4. KANVAS PARTIKEL LEDAKAN (Kalau Layar Diklik)
+        const canvas = document.getElementById('bg-canvas'); 
+        const ctx = canvas.getContext('2d');
+        let sparks = []; const colors = ['#ff6b8a', '#4facfe', '#ffd166', '#ccff00', '#c299fc'];
+        
+        function initCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        
+        class Spark { 
+            constructor(x, y) { 
+                this.x = x; this.y = y; this.size = Math.random() * 12 + 6; 
+                this.speedX = (Math.random() - 0.5) * 15; this.speedY = (Math.random() - 0.5) * 15; 
+                this.life = 1.0; this.decay = Math.random() * 0.03 + 0.02; 
+                this.color = colors[Math.floor(Math.random() * colors.length)]; 
+                this.angle = Math.random() * 360;
+            } 
+            update() { 
+                this.x += this.speedX; this.y += this.speedY; 
+                this.life -= this.decay; this.angle += 8;
+            } 
+            draw() { 
+                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.angle * Math.PI / 180);
+                ctx.globalAlpha = Math.max(0, this.life); ctx.fillStyle = this.color; 
+                ctx.strokeStyle = '#111'; ctx.lineWidth = 2; ctx.beginPath(); 
+                ctx.rect(-this.size/2, -this.size/2, this.size, this.size); 
+                ctx.fill(); ctx.stroke(); ctx.restore(); 
+            } 
+        }
+        
+        window.addEventListener('pointerdown', (e) => { 
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return; 
+            let x = e.clientX || (e.touches && e.touches[0].clientX); 
+            let y = e.clientY || (e.touches && e.touches[0].clientY);
+            if (x && y) { for(let i=0; i<12; i++) sparks.push(new Spark(x, y)); }
+        });
+        
+        function animate() { 
+            ctx.clearRect(0,0,canvas.width, canvas.height); 
+            for (let i = sparks.length - 1; i >= 0; i--) { 
+                sparks[i].update(); sparks[i].draw(); 
+                if (sparks[i].life <= 0) sparks.splice(i, 1); 
+            } 
+            requestAnimationFrame(animate); 
+        } 
+        
+        window.addEventListener('resize', initCanvas); 
+        initCanvas(); animate();
+    </script>
 </body>
 </html>
