@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IG Story Preview ✨</title>
+    <title>Preview Aesthetic Kado 🎁</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,285 +25,298 @@
             --border-thick: 3px;       
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent;}
 
-        /* Background luar (Desktop) */
+        /* Background Full Screen */
         body {
-            background-color: #1a1a1a; 
+            background-color: var(--bg-color); 
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh; overflow: hidden;
-            background-image: radial-gradient(#444 2px, transparent 2px);
+            background-image: radial-gradient(var(--border-color) 2px, transparent 2px);
             background-size: 30px 30px;
         }
 
         /* ==========================================================================
-           2. IG STORY FRAME (UKURAN HP 9:16)
+           2. CANVAS & PARTICLES
            ========================================================================== */
-        .story-wrapper {
-            width: 100%; max-width: 400px; aspect-ratio: 9/16; max-height: 95vh;
-            background: var(--bg-color); position: relative;
-            border-radius: 35px; overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 0 8px #000;
-            display: flex; flex-direction: column;
-            background-image: radial-gradient(var(--border-color) 1.5px, transparent 1.5px);
-            background-size: 20px 20px;
+        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        
+        .floating-emojis { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: hidden; }
+        .float-emo { position: absolute; bottom: -50px; font-size: 2rem; opacity: 0.5; animation: floatUp linear forwards; filter: drop-shadow(2px 2px 0px #000);}
+        @keyframes floatUp { to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
+
+        /* ==========================================================================
+           3. WADAH UTAMA (UKURAN HP UNTUK IG STORY)
+           ========================================================================== */
+        .story-container {
+            width: 100%; max-width: 450px; height: 100vh; height: 100dvh;
+            position: relative; z-index: 10;
+            display: flex; flex-direction: column; overflow: hidden;
         }
 
         /* ==========================================================================
-           3. IG STORY HEADER (PROFIL)
+           4. SELOTIP MARQUEE
            ========================================================================== */
-        .ig-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 20px 20px 10px; z-index: 50; position: relative;
-        }
-        .ig-profile { display: flex; align-items: center; gap: 10px; }
-        .ig-avatar {
-            width: 35px; height: 35px; border-radius: 50%; background: var(--accent-blue);
-            border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center;
-            font-size: 1.2rem; overflow: hidden;
-        }
-        .ig-username { font-size: 0.85rem; font-weight: 700; color: var(--border-color); text-shadow: 1px 1px 0px #fff; }
-        .ig-time { font-size: 0.8rem; font-weight: 600; color: #666; margin-left: 5px; }
-        .ig-dots { font-weight: 900; letter-spacing: 2px; color: var(--border-color); }
-
-        .ig-progress-bar {
-            position: absolute; top: 10px; left: 15px; right: 15px;
-            height: 3px; background: rgba(0,0,0,0.2); border-radius: 3px; display: flex; gap: 4px; z-index: 50;
-        }
-        .ig-progress-segment { flex: 1; background: rgba(0,0,0,0.1); border-radius: 3px; }
-        .ig-progress-fill { height: 100%; background: var(--border-color); width: 100%; border-radius: 3px; }
-
-        /* ==========================================================================
-           4. RUSUH SCRAPBOOK LAYOUT (ABSOLUTE POSITIONING)
-           ========================================================================== */
-        .scrapbook-container {
-            flex: 1; position: relative; overflow: hidden; width: 100%; height: 100%;
-        }
-
-        /* Selotip Kuning Miring (Marquee) */
         .tape-marquee {
-            position: absolute; top: 35%; left: -20%; width: 150%;
+            position: absolute; top: 15%; left: -20%; width: 150%;
             background: var(--accent-yellow); color: var(--border-color);
-            border-top: var(--border-thick) solid var(--border-color);
-            border-bottom: var(--border-thick) solid var(--border-color);
-            font-weight: 900; font-size: 1.2rem; text-transform: uppercase;
-            padding: 8px 0; transform: rotate(-10deg); z-index: 5;
-            box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-            white-space: nowrap; overflow: hidden;
+            border-top: 4px solid var(--border-color); border-bottom: 4px solid var(--border-color);
+            font-weight: 900; font-size: 1.5rem; text-transform: uppercase;
+            padding: 10px 0; transform: rotate(-15deg); z-index: 5;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.2); white-space: nowrap; overflow: hidden;
         }
-        .tape-content { display: inline-block; animation: marquee 8s linear infinite; letter-spacing: 2px; }
+        .tape-content { display: inline-block; animation: marquee 10s linear infinite; letter-spacing: 3px; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* General Card Style */
+        /* ==========================================================================
+           5. KARTU-KARTU SCRAPBOOK (BISA DIKLIK SEMUA)
+           ========================================================================== */
         .s-card {
-            position: absolute; background: #fff;
+            position: absolute; background: #fff; text-decoration: none; color: var(--border-color);
             border: var(--border-thick) solid var(--border-color);
-            box-shadow: 6px 6px 0px var(--border-color);
-            border-radius: 12px; padding: 12px;
-            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0; transform-origin: center;
+            box-shadow: 6px 6px 0px var(--border-color); border-radius: 15px; padding: 15px;
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, floatAnim var(--float-dur) ease-in-out infinite alternate;
+            opacity: 0; transform-origin: center; cursor: pointer; transition: 0.2s;
         }
+        .s-card:active { transform: scale(0.95) !important; box-shadow: 0px 0px 0px transparent !important; }
+
         @keyframes popIn { 
             0% { opacity: 0; transform: scale(0.5) rotate(0deg); } 
             100% { opacity: 1; transform: scale(1) rotate(var(--rot)); } 
         }
+        @keyframes floatAnim {
+            0% { margin-top: 0px; }
+            100% { margin-top: -15px; }
+        }
 
-        /* 1. KARTU LOGIN (Kiri Atas) */
+        /* 1. KARTU LOGIN HERO (Tengah Atas) -> index.html */
         .card-login {
-            top: 2%; left: 5%; width: 55%; background: var(--accent-pink);
-            --rot: -4deg; z-index: 10; animation-delay: 0.1s; text-align: center;
+            top: 5%; left: 5%; width: 75%; background: var(--accent-pink);
+            --rot: -4deg; --float-dur: 3s; z-index: 10; animation-delay: 0.1s; text-align: center;
         }
-        .card-login h1 { font-size: 1.1rem; font-weight: 900; line-height: 1.1; text-transform: uppercase;}
-        .card-login p { font-size: 0.65rem; font-weight: 700; color: #fff; margin-top: 5px; text-shadow: 1px 1px 0 #000;}
+        .card-login h1 { font-size: 1.6rem; font-weight: 900; line-height: 1.1; text-transform: uppercase; text-shadow: 2px 2px 0px #fff;}
+        .card-login p { font-size: 0.8rem; font-weight: 800; color: #111; margin-top: 5px; background: #fff; border: 2px solid #111; border-radius: 5px; display: inline-block; padding: 2px 10px;}
 
-        /* 2. POLAROID FOTO 1 (Kanan Atas) */
-        .card-polaroid1 {
-            top: 8%; right: 5%; width: 45%; background: #fff; padding: 8px 8px 25px 8px;
-            --rot: 6deg; z-index: 8; animation-delay: 0.2s;
+        /* 2. KARTU FLAPPY (Kiri Tengah) -> flapy.html */
+        .card-flappy {
+            top: 25%; left: -2%; width: 55%; background: var(--accent-blue);
+            --rot: 6deg; --float-dur: 3.5s; z-index: 12; animation-delay: 0.2s; display: flex; align-items: center; gap: 10px;
         }
-        .card-polaroid1 img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 2px solid var(--border-color); border-radius: 4px; background: var(--accent-blue);}
-        .polaroid-text { position: absolute; bottom: 5px; left: 0; width: 100%; text-align: center; font-size: 0.7rem; font-weight: 800; font-family: monospace;}
+        .card-flappy .icon { font-size: 2.5rem; filter: drop-shadow(2px 2px 0px #000); }
+        .card-flappy h3 { font-size: 1rem; font-weight: 900; text-transform: uppercase; line-height: 1.1;}
 
-        /* Selotip polaroid 1 */
-        .mini-tape {
-            position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-5deg);
-            width: 50px; height: 15px; background: rgba(255, 255, 255, 0.7);
-            border: 1px solid #ccc; z-index: 15; backdrop-filter: blur(2px);
+        /* 3. KARTU 2048 (Bawah Flappy) -> 200408.html */
+        .card-2048 {
+            top: 38%; left: 5%; width: 55%; background: var(--accent-green);
+            --rot: -5deg; --float-dur: 4s; z-index: 11; animation-delay: 0.3s; display: flex; align-items: center; gap: 10px;
         }
+        .card-2048 .icon { font-size: 2.5rem; filter: drop-shadow(2px 2px 0px #000); }
+        .card-2048 h3 { font-size: 1rem; font-weight: 900; text-transform: uppercase; line-height: 1.1;}
 
-        /* 3. GAME MISSIONS (Kiri Tengah) */
-        .card-games {
-            top: 22%; left: -5%; width: 48%; background: var(--accent-green);
-            --rot: 8deg; z-index: 12; animation-delay: 0.3s;
+        /* 4. POLAROID BONCENGAN (Kanan) -> story1.html */
+        .card-polaroid {
+            top: 20%; right: -5%; width: 45%; background: #fff; padding: 10px 10px 30px 10px;
+            --rot: 12deg; --float-dur: 3.2s; z-index: 15; animation-delay: 0.4s;
         }
-        .game-item { display: flex; align-items: center; gap: 8px; margin-bottom: 5px;}
-        .game-item:last-child { margin-bottom: 0; }
-        .game-icon { font-size: 1.5rem; filter: drop-shadow(2px 2px 0px #000);}
-        .game-text { font-size: 0.7rem; font-weight: 900; text-transform: uppercase;}
+        .card-polaroid img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border: 3px solid var(--border-color); border-radius: 6px; background: #ddd;}
+        .polaroid-text { position: absolute; bottom: 8px; left: 0; width: 100%; text-align: center; font-size: 0.8rem; font-weight: 900; font-family: monospace; text-transform: uppercase;}
+        .mini-tape { position: absolute; top: -12px; left: 50%; transform: translateX(-50%) rotate(-8deg); width: 60px; height: 20px; background: rgba(255, 255, 255, 0.8); border: 2px solid #ccc; z-index: 20; backdrop-filter: blur(2px); box-shadow: 2px 2px 5px rgba(0,0,0,0.1);}
 
-        /* 4. BUBBLE CHAT (Kanan Tengah - Overlapping) */
+        /* 5. CHAT RECEH BUBBLE (Tengah Overlap) -> happybirthday.html */
         .card-chat {
-            top: 38%; right: 2%; width: 65%; background: #f0f0f0;
-            --rot: -3deg; z-index: 20; animation-delay: 0.5s; padding: 10px;
+            top: 52%; right: 5%; width: 75%; background: #f0f0f0;
+            --rot: -2deg; --float-dur: 3.8s; z-index: 20; animation-delay: 0.5s; padding: 15px;
         }
-        .card-chat h3 { font-size: 0.65rem; font-weight: 900; color: var(--accent-purple); margin-bottom: 8px; text-transform: uppercase;}
-        .chat-bubble { padding: 5px 8px; border-radius: 8px; font-size: 0.65rem; font-weight: 700; border: 2px solid var(--border-color); margin-bottom: 5px; width: fit-content; max-width: 90%; line-height: 1.3;}
-        .chat-left { background: var(--accent-blue); color: #fff; border-bottom-left-radius: 0; }
-        .chat-right { background: #fff; align-self: flex-end; margin-left: auto; border-bottom-right-radius: 0; }
+        .card-chat h3 { font-size: 0.8rem; font-weight: 900; color: var(--accent-purple); margin-bottom: 10px; text-transform: uppercase; border-bottom: 2px dashed #ccc; padding-bottom: 5px;}
+        .chat-bubble { padding: 8px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; border: 3px solid var(--border-color); margin-bottom: 8px; width: fit-content; max-width: 90%; line-height: 1.3;}
+        .chat-left { background: var(--accent-yellow); color: #111; border-bottom-left-radius: 0; box-shadow: 2px 2px 0px #111;}
+        .chat-right { background: #fff; align-self: flex-end; margin-left: auto; border-bottom-right-radius: 0; box-shadow: 2px 2px 0px #111;}
 
-        /* 5. POLAROID FOTO 2 (Kiri Bawah) */
-        .card-polaroid2 {
-            top: 52%; left: 3%; width: 45%; background: #fff; padding: 8px 8px 25px 8px;
-            --rot: -8deg; z-index: 15; animation-delay: 0.6s;
-        }
-        .card-polaroid2 img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border: 2px solid var(--border-color); border-radius: 4px; background: var(--accent-orange);}
-
-        /* 6. FOLDER CHAPTER 1-3 (Kanan Bawah) */
+        /* 6. LIST CHAPTER (Kiri Bawah) */
         .card-chapters {
-            top: 65%; right: -2%; width: 55%; background: var(--accent-purple);
-            --rot: 5deg; z-index: 18; animation-delay: 0.7s; text-align: center;
+            top: 70%; left: 2%; width: 50%; background: var(--accent-purple);
+            --rot: 4deg; --float-dur: 4.2s; z-index: 18; animation-delay: 0.6s; text-align: center;
         }
-        .ch-box { background: #fff; border: 2px solid #111; padding: 5px; font-size: 0.7rem; font-weight: 900; border-radius: 6px; margin-bottom: 5px; box-shadow: 2px 2px 0 #111;}
+        .ch-box { background: #fff; border: 3px solid #111; padding: 8px; font-size: 0.8rem; font-weight: 900; border-radius: 8px; margin-bottom: 8px; box-shadow: 3px 3px 0 #111; transition: 0.2s;}
+        .ch-box:hover { background: var(--accent-yellow); transform: scale(1.05);}
 
-        /* 7. NFC TAG STICKER (Tengah Bawah) */
+        /* 7. NFC TAG (Tengah Paling Bawah) -> suprise.html */
         .card-nfc {
-            bottom: 2%; left: 50%; transform: translateX(-50%) rotate(0deg);
-            width: 80%; background: #111; color: #fff;
-            --rot: 0deg; z-index: 30; animation-delay: 0.9s; 
+            bottom: 3%; left: 50%; transform: translateX(-50%) rotate(0deg);
+            width: 85%; background: #111; color: #fff;
+            --rot: 0deg; --float-dur: 2.8s; z-index: 30; animation-delay: 0.8s; 
             display: flex; align-items: center; justify-content: space-between;
-            border-radius: 50px; padding: 10px 20px;
+            border-radius: 50px; padding: 15px 25px; border: 4px solid var(--accent-green);
+            box-shadow: 0px 10px 20px rgba(204, 255, 0, 0.3);
         }
-        .card-nfc span { font-size: 0.85rem; font-weight: 900; letter-spacing: 1px; }
-        .nfc-icon { color: var(--accent-green); font-size: 1.5rem; animation: pulse 1s infinite;}
+        .card-nfc span { font-size: 1rem; font-weight: 900; letter-spacing: 2px; }
+        .nfc-icon { color: var(--accent-green); font-size: 1.8rem; animation: pulse 1s infinite;}
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        /* Stiker Hiasan (Stars, Emojis) */
-        .sticker { position: absolute; font-size: 2rem; z-index: 25; filter: drop-shadow(2px 2px 0px #000); animation: popIn 0.5s forwards; opacity: 0;}
-        .st-1 { top: 15%; left: 45%; animation-delay: 1s; --rot: 15deg; }
-        .st-2 { top: 48%; left: -2%; animation-delay: 1.1s; --rot: -20deg; font-size: 2.5rem;}
-        .st-3 { top: 60%; right: 35%; animation-delay: 1.2s; --rot: 10deg; }
+        /* Stiker Hiasan (Bintang, Lope, Boom) */
+        .sticker { position: absolute; font-size: 3rem; z-index: 25; filter: drop-shadow(3px 3px 0px #000); animation: popIn 0.5s forwards, floatAnim 3s ease-in-out infinite alternate; opacity: 0; pointer-events: none;}
+        .st-1 { top: 18%; left: 45%; animation-delay: 1s; --rot: 15deg; --float-dur: 2.5s;}
+        .st-2 { top: 48%; left: -2%; animation-delay: 1.1s; --rot: -20deg; font-size: 3.5rem; --float-dur: 3.1s;}
+        .st-3 { top: 62%; right: 35%; animation-delay: 1.2s; --rot: 10deg; font-size: 2.5rem; --float-dur: 2.9s;}
 
-        /* ==========================================================================
-           5. IG STORY FOOTER (REPLY BOX)
-           ========================================================================== */
-        .ig-footer {
-            padding: 10px 20px 25px; display: flex; align-items: center; gap: 15px;
-            background: var(--bg-color); z-index: 50; position: relative;
-        }
-        .ig-reply-box {
-            flex: 1; border: 2px solid var(--border-color); border-radius: 30px;
-            padding: 10px 20px; font-size: 0.8rem; font-weight: 600; color: #888;
-            background: #fff; box-shadow: 2px 2px 0px var(--border-color);
-        }
-        .ig-action-icon {
-            font-size: 1.5rem; filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.2)); cursor: pointer;
+        /* Tulisan "Klik Apapun" */
+        .hint-text {
+            position: absolute; top: 1%; width: 100%; text-align: center;
+            font-size: 0.8rem; font-weight: 900; color: #111; background: var(--accent-yellow);
+            padding: 5px; border-bottom: 3px solid #111; z-index: 100; text-transform: uppercase;
         }
 
-        /* Watermark di luar HP */
-        .watermark { position: absolute; bottom: 20px; right: 30px; color: #fff; font-size: 0.8rem; font-weight: 700; opacity: 0.5; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-    <!-- Watermark biar ketahuan buatan siapa pas di-SS di PC -->
-    <div class="watermark">Designed by Orang Ganteng 💻❤️</div>
+    <!-- CANVAS BACKGROUND (BINTANG & KONFETI) -->
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- EMOJI MELAYANG -->
+    <div class="floating-emojis" id="floating-emojis"></div>
 
-    <div class="story-wrapper">
-        <!-- Progress Bar Atas IG -->
-        <div class="ig-progress-bar">
-            <div class="ig-progress-segment"><div class="ig-progress-fill"></div></div>
-            <div class="ig-progress-segment"></div>
-            <div class="ig-progress-segment"></div>
-            <div class="ig-progress-segment"></div>
+    <div class="hint-text">✨ KLIK KOTAK MANAPUN UNTUK MEMBUKA ✨</div>
+
+    <div class="story-container">
+        
+        <!-- PITA KUNING (MARQUEE) -->
+        <div class="tape-marquee">
+            <div class="tape-content">
+                HBD PRINCESS • 200408 • A SPECIAL DAY • KLIK KOTAKNYA • HBD PRINCESS • 200408 • 
+            </div>
         </div>
 
-        <!-- Header IG -->
-        <div class="ig-header">
-            <div class="ig-profile">
-                <div class="ig-avatar">👦🏻</div>
-                <div class="ig-username">aldo.leo <span class="ig-time">1m</span></div>
-            </div>
-            <div class="ig-dots">•••</div>
+        <!-- 1. KARTU LOGIN -> index.html -->
+        <a href="index.html" class="s-card card-login">
+            <h1>A Special Day For Princess</h1>
+            <p>🌐 Buka Website Utama</p>
+        </a>
+
+        <!-- 2. POLAROID -> story1.html -->
+        <a href="story1.html" class="s-card card-polaroid">
+            <div class="mini-tape"></div>
+            <!-- Menggunakan foto dari memori -->
+            <img src="img/foto2.jpg" alt="Memori" onerror="this.outerHTML='<div style=\'width:100%; aspect-ratio:4/5; background:var(--accent-orange); border:3px solid #111; display:flex; justify-content:center; align-items:center; font-size:3rem;\'>📸</div>'">
+            <div class="polaroid-text">Awal Cerita</div>
+        </a>
+
+        <!-- 3. GAME FLAPPY -> flapy.html -->
+        <a href="flapy.html" class="s-card card-flappy">
+            <div class="icon">🐦</div>
+            <h3>Flapy Anggie</h3>
+        </a>
+
+        <!-- 4. GAME 2048 -> 200408.html -->
+        <a href="200408.html" class="s-card card-2048">
+            <div class="icon">🧩</div>
+            <h3>Mission 2048</h3>
+        </a>
+
+        <!-- 5. CHAT PREVIEW -> happybirthday.html -->
+        <a href="happybirthday.html" class="s-card card-chat">
+            <h3>💬 ASISTEN AI & CHAT</h3>
+            <div class="chat-bubble chat-left">do, kirim file nya fatim 🙏</div>
+            <div class="chat-bubble chat-right">Tidur aku 😐</div>
+            <div class="chat-bubble chat-left">Kangen ya? Ngaku aja lo.</div>
+        </a>
+
+        <!-- 6. CHAPTERS -> story3.html -->
+        <div class="s-card card-chapters">
+            <a href="story1.html" style="text-decoration:none; color:inherit;"><div class="ch-box">📖 CH 1: Awal</div></a>
+            <a href="story2.html" style="text-decoration:none; color:inherit;"><div class="ch-box">📖 CH 2: Receh</div></a>
+            <a href="story3.html" style="text-decoration:none; color:inherit;"><div class="ch-box" style="background: var(--accent-yellow);">👑 CH 3: Reason</div></a>
         </div>
 
-        <!-- RUSUH SCRAPBOOK CONTAINER -->
-        <div class="scrapbook-container">
-            
-            <!-- TAPE MARQUEE -->
-            <div class="tape-marquee">
-                <div class="tape-content">
-                    HBD PRINCESS • 200408 • A SPECIAL DAY • KLIK LINK DI BIO • HBD PRINCESS • 200408 • 
-                </div>
-            </div>
+        <!-- STIKER -->
+        <div class="sticker st-1">✨</div>
+        <div class="sticker st-2">🎁</div>
+        <div class="sticker st-3">🤫</div>
 
-            <!-- KARTU 1: LOGIN HERO -->
-            <div class="s-card card-login">
-                <h1>A Special Day For Princess</h1>
-                <p>Website Kado Ulang Tahun 🎂</p>
-            </div>
+        <!-- 7. NFC -> suprise.html -->
+        <a href="suprise.html" class="s-card card-nfc">
+            <span>NFC SURPRISE</span>
+            <div class="nfc-icon">📲</div>
+        </a>
 
-            <!-- KARTU 2: POLAROID 1 (Foto 1) -->
-            <div class="s-card card-polaroid1">
-                <div class="mini-tape"></div>
-                <!-- Menggunakan img/foto1.jpg, kasih div warna fallback kalau gambar gak keload -->
-                <img src="img/foto1.jpg" alt="Foto 1" onerror="this.outerHTML='<div style=\'width:100%; aspect-ratio:1/1; background:var(--accent-pink); border:2px solid #111; display:flex; justify-content:center; align-items:center; font-size:2rem;\'>📸</div>'">
-                <div class="polaroid-text">Awal Ketemu</div>
-            </div>
-
-            <!-- KARTU 3: GAMES -->
-            <div class="s-card card-games">
-                <div class="game-item">
-                    <div class="game-icon">🐦</div>
-                    <div class="game-text">Flapy Anggie</div>
-                </div>
-                <div class="game-item">
-                    <div class="game-icon">🧩</div>
-                    <div class="game-text">Mission 2048</div>
-                </div>
-            </div>
-
-            <!-- KARTU 4: CHAT PREVIEW -->
-            <div class="s-card card-chat">
-                <h3>💬 Asisten AI & Chat Receh</h3>
-                <div class="chat-bubble chat-left">do, kirim file nya fatim 🙏🙏</div>
-                <div class="chat-bubble chat-right">Tidur aku 😐</div>
-                <div class="chat-bubble chat-left">Kangen ya? Ngaku aja lo.</div>
-            </div>
-
-            <!-- KARTU 5: POLAROID 2 (Foto 2 / Boncengan) -->
-            <div class="s-card card-polaroid2">
-                <div class="mini-tape"></div>
-                <img src="img/foto2.jpg" alt="Foto 2" onerror="this.outerHTML='<div style=\'width:100%; aspect-ratio:4/5; background:var(--accent-blue); border:2px solid #111; display:flex; justify-content:center; align-items:center; font-size:2rem;\'>🛵</div>'">
-                <div class="polaroid-text">Boncengan</div>
-            </div>
-
-            <!-- KARTU 6: FOLDER STORY -->
-            <div class="s-card card-chapters">
-                <div class="ch-box">📖 CH 1: Awal Beraksi</div>
-                <div class="ch-box">📖 CH 2: Chat Receh</div>
-                <div class="ch-box" style="background: var(--accent-yellow);">👑 CH 3: The Reason</div>
-            </div>
-
-            <!-- STIKER DEKORASI -->
-            <div class="sticker st-1">✨</div>
-            <div class="sticker st-2">🎁</div>
-            <div class="sticker st-3">🤫</div>
-
-            <!-- KARTU 7: NFC -->
-            <div class="s-card card-nfc">
-                <span>NFC SCANNED</span>
-                <div class="nfc-icon">📲</div>
-            </div>
-
-        </div>
-
-        <!-- Footer IG -->
-        <div class="ig-footer">
-            <div class="ig-reply-box">Send message...</div>
-            <div class="ig-action-icon">❤️</div>
-            <div class="ig-action-icon">✈️</div>
-        </div>
     </div>
 
+    <script>
+        // =========================================================================
+        // 1. CANVAS PARTICLE SYSTEM (BACKGROUND ESTETIK)
+        // =========================================================================
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const colors = ['#ff6b8a', '#4facfe', '#ffd166', '#ccff00', '#c299fc'];
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            // Bikin banyak partikel bintang dan kotak ngambang
+            for(let i=0; i<40; i++) particles.push(new Particle());
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 8 + 3;
+                this.speedY = (Math.random() - 0.5) * 1.5;
+                this.speedX = (Math.random() - 0.5) * 1.5;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.angle = Math.random() * 360;
+                this.spin = (Math.random() - 0.5) * 5;
+            }
+            update() {
+                this.y -= this.speedY + 0.5; // Mengambang ke atas
+                this.x += this.speedX;
+                this.angle += this.spin;
+                // Reset kalau keluar layar
+                if(this.y < -20) { this.y = canvas.height + 20; this.x = Math.random() * canvas.width; }
+                if(this.x < -20) this.x = canvas.width + 20;
+                if(this.x > canvas.width + 20) this.x = -20;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.strokeStyle = '#111';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.rect(-this.size/2, -this.size/2, this.size, this.size);
+                ctx.fill(); ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateCanvas);
+        }
+        
+        window.addEventListener('resize', initCanvas);
+        initCanvas(); animateCanvas();
+
+        // =========================================================================
+        // 2. FLOATING EMOJI LOP-LOPE
+        // =========================================================================
+        const floatingBg = document.getElementById('floating-emojis');
+        const emos = ['❤️', '✨', '🎈', '💖', '🎉'];
+        function createFloatingEmoji() {
+            const el = document.createElement('div');
+            el.classList.add('float-emo');
+            el.innerText = emos[Math.floor(Math.random() * emos.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = Math.random() * 4 + 4 + 's';
+            floatingBg.appendChild(el);
+            setTimeout(() => { el.remove(); }, 8000);
+        }
+        setInterval(createFloatingEmoji, 600);
+
+    </script>
 </body>
 </html>
