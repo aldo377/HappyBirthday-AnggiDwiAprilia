@@ -146,38 +146,40 @@
         .divider { text-align: center; margin: -20px 0 30px; font-size: 1.2rem; opacity: 0.4; letter-spacing: 8px; }
 
         /* ==========================================================================
-           12. DESKTOP MODE (MANUAL TOGGLE)
+           12. OTOMATIS RESPONSIVE DESKTOP/LAPTOP (WIDESCREEN AUTO-DETECT)
            ========================================================================== */
-        body.desktop-mode .story-container {
-            max-width: 1100px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            padding: 30px 30px 100px;
-        }
-        body.desktop-mode .chapter-badge,
-        body.desktop-mode .chapter-intro {
-            grid-column: 1 / -1; 
-            text-align: center;
-        }
-        body.desktop-mode .chapter-intro {
-            max-width: 700px;
-            margin: 0 auto 40px;
-        }
-        body.desktop-mode .scene-card {
-            margin-bottom: 0; /* Reset margin karena udah pakai gap di grid */
-            height: 100%; /* Biar tingginya sama rata */
-        }
-        body.desktop-mode .divider {
-            display: none; /* Sembunyiin titik-titik pemisah kalau lagi mode grid biar rapi */
-        }
-        body.desktop-mode .footer-nav {
-            grid-column: 1 / -1;
-            margin-top: 40px;
+        @media screen and (min-width: 768px) {
+            .story-container {
+                max-width: 1100px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                padding: 30px 30px 100px;
+            }
+            .chapter-badge,
+            .chapter-intro {
+                grid-column: 1 / -1; 
+                text-align: center;
+            }
+            .chapter-intro {
+                max-width: 700px;
+                margin: 0 auto 40px;
+            }
+            .scene-card {
+                margin-bottom: 0; /* Reset margin karena udah pakai gap di grid */
+                height: 100%; /* Biar tingginya sama rata */
+            }
+            .divider {
+                display: none; /* Sembunyiin titik-titik pemisah kalau lagi mode grid biar rapi */
+            }
+            .footer-nav, .gallery-wrapper {
+                grid-column: 1 / -1;
+                margin-top: 40px;
+            }
         }
 
         /* ==========================================================================
-           13. CSS UNTUK GALLERY SWIPE DI STORY1
+           13. CSS UNTUK GALLERY SWIPE
            ========================================================================== */
         .swipe-indicator { background: var(--border-color); color: #fff; padding: 8px 15px; font-weight: 900; font-size: 0.7rem; border-radius: 20px; animation: bounceX 1.5s infinite; pointer-events: none;}
         @keyframes bounceX { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(10px); } }
@@ -219,16 +221,16 @@
         <a href="happybirthday.html" class="back-btn">🏠</a>
         <div class="header-title" id="typewriter-title"></div>
         <div class="control-btns">
-            <button class="ui-btn" onclick="toggleLayout()" id="layout-btn" title="Ubah Tampilan">📱</button>
-            <button class="ui-btn" onclick="toggleMusic()" id="music-btn">🎵</button>
-            <button class="ui-btn" onclick="toggleDarkMode()">🌓</button>
+            <!-- Tombol Ubah Tampilan HP/PC Sengaja Dihapus -->
+            <button class="ui-btn ripple-btn" onclick="toggleMusic()" id="music-btn" title="Memutar Musik">🎵</button>
+            <button class="ui-btn ripple-btn" onclick="toggleDarkMode()" title="Ubah Tema Warna">🌓</button>
         </div>
     </header>
 
     <div class="story-container">
 
         <div class="chapter-badge">📖 Chapter 1</div>
-        <p class="chapter-intro">Kelas 1–2 SMAN 1 Kraksaan. Dari orang asing sampai nggak bisa nggak nyadar satu sama lain "Jika ada Yang Di Lebihkan MohonMaaf".</p>
+        <p class="chapter-intro">Kelas 1–2 SMAN 1 Kraksaan. Dari orang asing sampai nggak bisa nggak nyadar satu sama lain "Jika ada Yang Di Lebihkan Mohon Maaf".</p>
 
         <div class="scene-card">
             <div class="scene-num">01</div>
@@ -777,7 +779,7 @@
 
         <div class="divider">• • •</div>
 
-        <div class="scene-card" style="padding: 0; background: transparent; border: none; box-shadow: none; transform: none; opacity: 1;">
+        <div class="scene-card gallery-wrapper" style="padding: 0; background: transparent; border: none; box-shadow: none; transform: none; opacity: 1;">
             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
                 <div>
                     <p style="font-weight: 800; color: var(--accent-pink); font-size: 0.8rem; letter-spacing: 2px;">MORE MEMORIES</p>
@@ -908,17 +910,8 @@
             setTimeout(() => { window.location.href = 'happybirthday.html'; }, 900);
         }
         
-        // 12. LAYOUT TOGGLE (DESKTOP/MOBILE)
-        function toggleLayout() {
-            const btn = document.getElementById('layout-btn');
-            document.body.classList.toggle('desktop-mode');
-            
-            if (document.body.classList.contains('desktop-mode')) {
-                btn.innerText = '🖥️'; // Logo PC
-            } else {
-                btn.innerText = '📱'; // Logo HP
-            }
-        }
+        // 12. LAYOUT TOGGLE (DESKTOP/MOBILE) Dihapus
+
         // 13. LOGIKA GALERI SWIPE (DRAG & ZOOM EFEK)
         const slider = document.getElementById('gallery-track');
         let isDown = false; let startX; let scrollLeft;
