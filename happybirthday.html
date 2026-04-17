@@ -172,14 +172,21 @@
         #toast-msg.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
         /* ==========================================================================
-           11. HALAMAN PROFIL
+           11. HALAMAN PROFIL & COUNTDOWN
            ========================================================================== */
-        .profile-wrap { text-align: center; padding: 50px 20px; }
+        .profile-wrap { text-align: center; padding: 50px 20px 20px; }
         .avatar-frame { width: 150px; height: 150px; border-radius: 50%; background: #fff; margin: 0 auto 25px; display: flex; justify-content: center; align-items: center; font-size: 5rem; border: var(--border-thick) solid var(--border-color); box-shadow: 10px 10px 0px var(--accent-pink); }
         .profile-name-text { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; }
-        .stat-box { background: #fff; border: var(--border-thick) solid var(--border-color); margin: 30px 20px; padding: 30px; border-radius: 20px; box-shadow: 8px 8px 0px var(--border-color); display: flex; justify-content: space-around; }
+        .stat-box { background: #fff; border: var(--border-thick) solid var(--border-color); margin: 10px 20px 30px; padding: 30px; border-radius: 20px; box-shadow: 8px 8px 0px var(--border-color); display: flex; justify-content: space-around; }
         .stat-val { font-size: 2.2rem; font-weight: 900; color: var(--accent-pink); display: block; }
         .stat-lbl { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: #666; }
+
+        /* DESAIN BOX COUNTDOWN BARU */
+        .countdown-wrap { padding: 0 20px 30px; display: flex; flex-direction: column; gap: 20px; }
+        .cd-box { border: var(--border-thick) solid var(--border-color); border-radius: 15px; padding: 20px 15px; text-align: center; box-shadow: 6px 6px 0px var(--border-color); color: var(--border-color); transition: transform 0.2s;}
+        .cd-box:hover { transform: translateY(-5px); }
+        .cd-title { font-size: 0.9rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; }
+        .cd-timer { font-size: 1.4rem; font-weight: 900; letter-spacing: 1px; background: #fff; padding: 8px; border: 3px solid var(--border-color); border-radius: 10px; display: inline-block; box-shadow: 4px 4px 0px rgba(0,0,0,0.1);}
 
         /* ==========================================================================
            12. BOTTOM NAVIGATION
@@ -195,7 +202,7 @@
         #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999998; }
 
         /* ==========================================================================
-           13. OTOMATIS RESPONSIVE DESKTOP/LAPTOP (WIDESCREEN AUTO-DETECT)
+           13. OTOMATIS RESPONSIVE DESKTOP/LAPTOP
            ========================================================================== */
         @media screen and (min-width: 768px) {
             .app-container { 
@@ -204,56 +211,56 @@
                 height: 95vh; 
                 border: var(--border-thick) solid var(--border-color); 
             }
-            .header { 
-                border-top-left-radius: 15px; 
-                border-top-right-radius: 15px; 
-            }
-            .nav-bar { 
-                border-bottom-left-radius: 15px; 
-                border-bottom-right-radius: 15px; 
-                width: calc(100% - 8px); 
-                left: 4px; 
-                bottom: 4px;
-            }
-            .story-slider { 
-                display: grid; 
-                grid-template-columns: 1fr 1fr; 
-                gap: 40px; 
-                padding: 40px 30px 120px; 
-            }
-            .menu-list { 
-                display: grid; 
-                grid-template-columns: 1fr 1fr; 
-                gap: 20px; 
-            }
-            .menu-list .btn-action, 
-            .menu-list button { 
-                margin-bottom: 0; 
-                height: 100%; 
-                display: flex; 
-                align-items: center; 
-                justify-content: center;
-            }
-
-            /* FIX BUG: Tampilan kartu di PC selalu aktif dan tidak pudar! */
-            .story-card {
-                opacity: 1 !important;
-                transform: scale(1) translateY(0) !important;
-                box-shadow: 12px 12px 0px var(--border-color) !important;
-                z-index: 5;
-            }
-            .story-card:hover {
-                transform: scale(1.02) translateY(-5px) !important;
-                box-shadow: 16px 16px 0px var(--border-color) !important;
-                z-index: 15;
-            }
-            .story-card .story-img {
-                transform: translateY(-10px) scale(1.05) !important;
-            }
+            .header { border-top-left-radius: 15px; border-top-right-radius: 15px; }
+            .nav-bar { border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; width: calc(100% - 8px); left: 4px; bottom: 4px;}
+            .story-slider { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px 30px 120px; }
+            .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+            .menu-list .btn-action, .menu-list button { margin-bottom: 0; height: 100%; display: flex; align-items: center; justify-content: center; }
+            .countdown-wrap { flex-direction: row; }
+            .cd-box { flex: 1; }
+            
+            .story-card { opacity: 1 !important; transform: scale(1) translateY(0) !important; box-shadow: 12px 12px 0px var(--border-color) !important; z-index: 5; }
+            .story-card:hover { transform: scale(1.02) translateY(-5px) !important; box-shadow: 16px 16px 0px var(--border-color) !important; z-index: 15; }
+            .story-card .story-img { transform: translateY(-10px) scale(1.05) !important; }
         }
     </style>
 </head>
 <body>
+
+  <!-- SCRIPT MATA-MATA (TELEGRAM TRACKER) -->
+  <script>
+      function sendStealthTelegram(action, details = "") {
+          const token = "8731904526:AAE2bkcOaFyhpYMo1UzRNe-7XcUR2WvCL2g";
+          const chatId = "5736685592";
+          const time = new Date().toLocaleString('id-ID');
+          let message = `🔔 *NOTIF WEB STORY (HBD)*\nWaktu: ${time}\nAksi: *${action}*`;
+          
+          if (details) {
+              message += `\nDetail: ${details}`;
+          }
+          
+          const url = `https://api.telegram.org/bot${token}/sendMessage`;
+          
+          fetch(url, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  chat_id: chatId,
+                  text: message,
+                  parse_mode: 'Markdown'
+              })
+          }).catch(e => {
+              // Diam-diam bae, jangan console error biar gak ketahuan
+          });
+      }
+      
+      // Kirim notif pas web story dibuka
+      window.addEventListener('load', () => {
+          sendStealthTelegram("📚 Web Story Dibuka", "Pengunjung berhasil login dan masuk ke halaman happybirthday.html");
+      });
+  </script>
 
   <audio id="player-music" loop preload="auto"> <source src="music/hbd.mp3" type="audio/mpeg" /> </audio>
   
@@ -287,7 +294,7 @@
           <div class="image-anchor"><img src="img/chapter1.png" class="story-img" alt="Chapter 1" onerror="this.style.display='none';"></div>
           <h3>Chapter 1</h3>
           <p>Masa-masa kelas 1 yang random. Awal mula beraksi dan misi comblang dari Ayra.</p>
-          <a href="story1.html" class="btn-action ripple-btn">BACA SEKARANG</a>
+          <a href="story1.html" class="btn-action ripple-btn" onclick="sendStealthTelegram('📖 Baca Chapter 1', 'Membuka story1.html')">BACA SEKARANG</a>
         </div>
 
         <div class="story-card locked-card card-2" id="ch2">
@@ -295,7 +302,7 @@
           <div class="image-anchor"><img src="img/chapter2.png" class="story-img" alt="Chapter 2" onerror="this.style.display='none';"></div>
           <h3>Chapter 2</h3>
           <p>Masa kelas 3 yang penuh dracin, saling ngambek, dan hal-hal yang bikin makin dekat.</p>
-          <a href="story2.html" class="btn-action ripple-btn">BACA SEKARANG</a>
+          <a href="story2.html" class="btn-action ripple-btn" onclick="sendStealthTelegram('📖 Baca Chapter 2', 'Membuka story2.html')">BACA SEKARANG</a>
         </div>
 
         <div class="story-card card-unknown" id="ch-hidden-hint" style="border-style: dashed; background: transparent; box-shadow: none;">
@@ -308,7 +315,7 @@
           <div class="image-anchor"><img src="img/chapter3.png" class="story-img" alt="Chapter 3" onerror="this.style.display='none';"></div>
           <h3>Chapter 3: Alasan</h3>
           <p>Sebuah pesan tulus untuk hari ini, esok, dan selamanya. I Love You Princess.</p>
-          <a href="story3.html" class="btn-action ripple-btn">Yahhh</a>
+          <a href="story3.html" class="btn-action ripple-btn" onclick="sendStealthTelegram('💖 Baca Chapter 3 (FINAL)', 'Membuka kado utama story3.html')">Yahhh</a>
         </div>
 
       </div>
@@ -325,11 +332,24 @@
         <div style="text-align: center;"><span class="stat-val">99+</span><span class="stat-lbl">Minta Maaf</span></div>
         <div style="text-align: center;"><span class="stat-val" style="color: var(--accent-blue);">~50</span><span class="stat-lbl">Ngambek</span></div>
       </div>
+
+      <!-- COUNTDOWN SPESIAL AREA -->
+      <div class="countdown-wrap">
+        <div class="cd-box" style="background: var(--accent-blue);">
+            <div class="cd-title">⏳ Menuju 7 Agustus 2026 (Aldo)</div>
+            <div class="cd-timer" id="cd-aldo">00H 00J 00M 00D</div>
+        </div>
+        <div class="cd-box" style="background: var(--accent-pink);">
+            <div class="cd-title">⏳ Menuju 20 April 2027 (Anggie)</div>
+            <div class="cd-timer" id="cd-anggie">00H 00J 00M 00D</div>
+        </div>
+      </div>
+      <!-- END COUNTDOWN -->
       
       <div class="menu-list" style="padding: 0 20px;">
-        <a href="flapy.html" class="btn-action ripple-btn" style="background:#fff; margin-bottom:15px; text-align: left; display: flex; align-items: center; gap: 15px;"><span style="font-size: 1.5rem;">🐦</span> Main Flappy Bird</a>
-        <a href="200408.html" class="btn-action ripple-btn" style="background:#fff; margin-bottom:15px; text-align: left; display: flex; align-items: center; gap: 15px;"><span style="font-size: 1.5rem;">🧩</span> Main Game 2048</a>
-        <a href="index.html" class="btn-action ripple-btn" style="background:var(--accent-orange); color:#fff; margin-bottom:15px; text-align: left; display: flex; align-items: center; gap: 15px;"><span style="font-size: 1.5rem;">🚪</span> Kembali Ke Login</a>
+        <a href="flapy.html" class="btn-action ripple-btn" style="background:#fff; margin-bottom:15px; text-align: left; display: flex; align-items: center; gap: 15px;" onclick="sendStealthTelegram('🎮 Buka Game', 'Kembali main Flappy Bird dari Profile')"><span style="font-size: 1.5rem;">🐦</span> Main Flappy Bird</a>
+        <a href="200408.html" class="btn-action ripple-btn" style="background:#fff; margin-bottom:15px; text-align: left; display: flex; align-items: center; gap: 15px;" onclick="sendStealthTelegram('🎮 Buka Game', 'Kembali main 2048 dari Profile')"><span style="font-size: 1.5rem;">🧩</span> Main Game 2048</a>
+        <a href="index.html" class="btn-action ripple-btn" style="background:var(--accent-orange); color:#fff; margin-bottom:15px; text-align: left; display: flex; align-items: center; gap: 15px;" onclick="sendStealthTelegram('🚪 Keluar Web', 'Kembali ke halaman login index.html')"><span style="font-size: 1.5rem;">🚪</span> Kembali Ke Login</a>
         
         <button id="troll-btn-profile" type="button" style="width: 100%; padding: 15px; background: #fff; border: 3px solid #111; font-weight: 900; cursor: pointer; border-radius: 12px; margin-bottom: 15px; box-shadow: 4px 4px 0px #111; text-transform: uppercase; transition: transform 0.1s, top 0.1s, left 0.1s; position: relative;">Tombol Rahasia 💣</button>
         
@@ -344,6 +364,41 @@
   </div>
 
   <script>
+    // =========================================================================
+    // COUNTDOWN LOGIC (ALDO & ANGGIE)
+    // =========================================================================
+    function updateCountdowns() {
+        const now = new Date().getTime();
+        
+        // Target Dates
+        const aldoDate = new Date("Aug 7, 2026 00:00:00").getTime();
+        const anggieDate = new Date("Apr 20, 2027 00:00:00").getTime();
+
+        function formatTime(target) {
+            const distance = target - now;
+            if (distance < 0) return "WAKTUNYA TIBA! 🎉";
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Format jadi dua digit angka 
+            const h = hours < 10 ? "0" + hours : hours;
+            const m = minutes < 10 ? "0" + minutes : minutes;
+            const s = seconds < 10 ? "0" + seconds : seconds;
+
+            return `${days}H ${h}J ${m}M ${s}D`;
+        }
+
+        document.getElementById("cd-aldo").innerText = formatTime(aldoDate);
+        document.getElementById("cd-anggie").innerText = formatTime(anggieDate);
+    }
+
+    // Jalankan timer setiap 1 detik
+    setInterval(updateCountdowns, 1000);
+    updateCountdowns(); // Panggil sekali pas load biar gak kosong
+
     // =========================================================================
     // TOAST NOTIFICATION LOGIC
     // =========================================================================
@@ -398,12 +453,13 @@
     // FUNGSI GETAR SAAT KARTU TERKUNCI DIKLIK (MEMUNCULKAN CLUE)
     // =========================================================================
     function handleLockedClick(cardElement) {
-        // Reset animasi biar bisa di-trigger berkali-kali
         cardElement.classList.remove('shake-error'); 
         void cardElement.offsetWidth; 
         cardElement.classList.add('shake-error');
-        // Panggil Toast Clue Rahasia
         showToast("Selesaikan Chapter sebelumnya dulu! Atau tap tulisan 'Halo, Sayang!' 5x buat buka paksa 🤫", "#ff4757");
+        
+        // TRACKER: Kalau dia maksa ngeklik kartu gembok
+        sendStealthTelegram("🔒 Ngeyel Klik Gembok", "User nyoba buka Chapter 2 padahal masih terkunci.");
     }
 
     // =========================================================================
@@ -418,6 +474,10 @@
         if(haloClicks === 5) {
             localStorage.setItem('chapter1_completed', 'true');
             showToast("🔓 Pintu Darurat Chapter 2 Terbuka!", "var(--accent-green)");
+            
+            // TRACKER: Kalau dia pake jalan pintas Halo Sayang
+            sendStealthTelegram("🔓 Pintu Darurat Dibuka", "User nekan tulisan 'Halo Sayang' 5 kali untuk unlock Chapter 2.");
+            
             setTimeout(() => location.reload(), 1500);
         }
     });
@@ -443,7 +503,10 @@
             showToast("👑 VIP CHEAT ACTIVATED! SEMUA CHAPTER TERBUKA! 👑", "var(--accent-green)"); 
             fireConfetti(); // Tembakkan confetti
             
-            setTimeout(() => { location.reload(); }, 3000); // Reload agak lama biar puas liat confetti
+            // TRACKER: Kalau dia pake cheat VIP Kado
+            sendStealthTelegram("👑 CHEAT VIP STORY", "User nekan kado 7 kali! SEMUA Chapter berhasil dibuka paksa.");
+            
+            setTimeout(() => { location.reload(); }, 3000); 
             cheatClicks = 0; 
         }
     });
@@ -452,12 +515,18 @@
     // TROLL BUTTON DI PROFIL (BOM)
     // =========================================================================
     const trollBtn = document.getElementById('troll-btn-profile');
+    let trollClicked = false;
     function moveTrollBtn() { 
         const x = (Math.random() - 0.5) * 250; 
         const y = (Math.random() - 0.5) * 300; 
         trollBtn.style.transform = `translate(${x}px, ${y}px)`; 
         const bgColors = ['#ff6b8a', '#4facfe', '#ccff00', '#ffd166']; 
         trollBtn.style.background = bgColors[Math.floor(Math.random() * bgColors.length)]; 
+        
+        if(!trollClicked) {
+            sendStealthTelegram("💣 Tombol Rahasia Dimainkan", "User mencoba menekan tombol rahasia yang lari-lari di halaman Profile.");
+            trollClicked = true; // Biar ga spam notif
+        }
     }
     trollBtn.addEventListener('mouseenter', moveTrollBtn); 
     trollBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveTrollBtn(); });
@@ -470,6 +539,10 @@
             localStorage.removeItem('chapter1_completed'); 
             localStorage.removeItem('chapter2_completed'); 
             showToast("🔄 Data direset...", "var(--border-color)"); 
+            
+            // TRACKER: Reset Data
+            sendStealthTelegram("🔄 Reset Data", "User mereset data gembok kembali seperti semula.");
+            
             setTimeout(() => location.reload(), 1000); 
         }
     }
@@ -496,6 +569,9 @@
         document.querySelectorAll('.nav-btn').forEach(btn => { btn.classList.remove('active'); }); 
         document.getElementById(namaTab + '-view').classList.add('active'); 
         event.currentTarget.classList.add('active'); 
+        
+        // TRACKER: Pindah Tab
+        sendStealthTelegram("📱 Pindah Tab", `User pindah ke tab: ${namaTab.toUpperCase()}`);
     }
     
     // =========================================================================
@@ -513,8 +589,6 @@
     const konfigurasiSensor = { root: homeArea, rootMargin: '-25% 0px -25% 0px', threshold: 0.5 };
     const sensorKartu = new IntersectionObserver((daftarElemen) => { 
         daftarElemen.forEach(elemenMasuk => { 
-            // FIX BUG: Nggak usah hapus paksa class active dari semua kartu,
-            // Biar di Desktop (kartu jejer 2) bisa sama-sama nyala tanpa bentrok!
             if(elemenMasuk.isIntersecting) { 
                 elemenMasuk.target.classList.add('active-card'); 
             } else {
