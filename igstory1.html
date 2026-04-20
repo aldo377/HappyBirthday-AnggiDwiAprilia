@@ -137,22 +137,7 @@
             97% { transform:translate(0); text-shadow:2px 2px 0 #fff; }
         }
 
-        /* ═══════════════════════════════════════════════════
-           POSISI KARTU — 5 KOLOM JELAS, TIDAK ADA YANG TIMPA
-           
-           KOLOM A : left  1%  — lebar 20%   → right batas ~21%
-           KOLOM B : left  22% — lebar 10%   → right batas ~32%
-           KOLOM C : left  33% — lebar 30%   → right batas ~63%
-           KOLOM D : right 17% — lebar 10%   → left  batas ~73%
-           KOLOM E : right 1%  — lebar 15%   → left  batas ~84%
-
-           BARIS 1 : top 4%  (kartu tinggi max ~40% dari container)
-           BARIS 2 : top 47% (kartu tinggi max ~15%)
-           BARIS 3 : top 65% (kartu tinggi max ~23%)
-           BARIS BOT: bottom 2.5%
-        ═══════════════════════════════════════════════════ */
-
-        /* [A1] LOGIN */
+        /* ═══ POSISI KARTU ═══ */
         .card-login {
             top:4%; left:1%; width:20%;
             background:var(--accent-blue); --rot:-4deg; --float-dur:3.2s; z-index:10; animation-delay:0.1s;
@@ -161,13 +146,12 @@
         .card-login h1 { font-size:0.95rem; font-weight:900; line-height:1.25; text-transform:uppercase; animation:glitch 5s infinite; letter-spacing:0.5px; }
         .card-login p  { font-size:0.6rem; font-weight:900; color:#111; margin-top:8px; background:#fff; border:3px solid #111; border-radius:6px; display:inline-block; padding:3px 10px; box-shadow:3px 3px 0 #111; }
 
-        /* [B1] POLAROID 3 — kosong */
         .card-polaroid3 {
             top:3%; left:22%; width:10%;
             background:#fff; padding:6px 6px 24px 6px; --rot:-7deg; --float-dur:4.5s; z-index:14; animation-delay:0.45s; border-radius:6px;
         }
 
-        /* [C1] CHAT */
+        /* ═══ CHAT STYLES ═══ */
         .card-chat {
             top:3%; left:33%; width:30%;
             background:#fafafa; --rot:-1.5deg; --float-dur:3.6s; z-index:20; animation-delay:0.5s; padding:11px;
@@ -181,25 +165,28 @@
         .chat-bubble { padding:4px 10px; border-radius:11px; font-size:0.67rem; font-weight:800; border:2.5px solid var(--border-color); width:fit-content; max-width:88%; line-height:1.3; }
         .chat-left  { background:var(--accent-yellow); color:#111; border-bottom-left-radius:0;  box-shadow:2px 2px 0 #111; }
         .chat-right { background:#fff; align-self:flex-end; border-bottom-right-radius:0; box-shadow:2px 2px 0 #111; }
+        
+        /* Tambahan CSS Nama di Chat */
+        .chat-name { font-size: 0.5rem; font-weight: 800; color: #555; margin-bottom: -2px; margin-top: 2px; }
+        .chat-name.left { align-self: flex-start; margin-left: 5px; }
+        .chat-name.right { align-self: flex-end; margin-right: 5px; }
+
         .chat-typing { display:flex; align-items:center; gap:4px; padding:4px 10px; background:#eee; border:2px solid #ccc; border-radius:20px; width:fit-content; margin-top:2px; }
         .dot-type { width:6px; height:6px; background:#999; border-radius:50%; animation:typingBounce 1s infinite; }
         .dot-type:nth-child(2){ animation-delay:0.2s; }
         .dot-type:nth-child(3){ animation-delay:0.4s; }
         @keyframes typingBounce { 0%,80%,100%{transform:scale(0.7);opacity:0.5} 40%{transform:scale(1.1);opacity:1} }
 
-        /* [D1] POLAROID 5 — kosong */
         .card-polaroid5 {
             top:3%; right:18%; width:10%;
             background:#fff; padding:6px 6px 24px 6px; --rot:13deg; --float-dur:5s; z-index:13; animation-delay:0.9s; border-radius:6px;
         }
 
-        /* [E1] POLAROID 1 → story1 */
         .card-polaroid1 {
             top:3%; right:1%; width:15%;
             background:#fff; padding:7px 7px 27px 7px; --rot:10deg; --float-dur:3.5s; z-index:15; animation-delay:0.35s; border-radius:6px;
         }
 
-        /* [A2] FLAPPY */
         .card-flappy {
             top:46%; left:1%; width:20%;
             background:var(--accent-pink); --rot:6deg; --float-dur:3.8s; z-index:12; animation-delay:0.2s;
@@ -210,13 +197,11 @@
         .card-flappy h3   { font-size:0.85rem; font-weight:900; text-transform:uppercase; line-height:1.1; }
         .card-flappy small{ font-size:0.6rem; display:block; font-weight:700; opacity:0.85; }
 
-        /* [E2] POLAROID 2 (Kado) → suprise */
         .card-polaroid2 {
             top:39%; right:1%; width:15%;
             background:#fff; padding:7px 7px 27px 7px; --rot:-10deg; --float-dur:3.8s; z-index:25; animation-delay:0.7s; border-radius:6px;
         }
 
-        /* [A3] 2048 */
         .card-2048 {
             top:66%; left:1%; width:20%;
             background:var(--accent-green); --rot:-5deg; --float-dur:4s; z-index:11; animation-delay:0.3s;
@@ -227,7 +212,6 @@
         .card-2048 h3   { font-size:0.85rem; font-weight:900; text-transform:uppercase; line-height:1.1; }
         .card-2048 small{ font-size:0.6rem; display:block; font-weight:700; opacity:0.85; }
 
-        /* [BC3] CHAPTERS */
         .card-chapters {
             top:63%; left:22%; width:27%;
             background:var(--accent-purple); --rot:4deg; --float-dur:4.2s; z-index:18; animation-delay:0.6s;
@@ -238,13 +222,11 @@
         .ch-box { background:#fff; border:3px solid #111; padding:6px 10px; font-size:0.7rem; font-weight:900; border-radius:8px; margin-bottom:5px; box-shadow:3px 3px 0 #111; transition:0.15s; display:block; text-decoration:none; color:#111; }
         .ch-box:hover { background:var(--accent-yellow); transform:translateX(4px) scale(1.02); box-shadow:5px 5px 0 #111; }
 
-        /* [E3] POLAROID 4 — kosong */
         .card-polaroid4 {
             top:65%; right:1%; width:15%;
             background:#fff; padding:7px 7px 27px 7px; --rot:8deg; --float-dur:3.9s; z-index:22; animation-delay:0.75s; border-radius:6px;
         }
 
-        /* [BOT] WEBSITE CARD */
         .card-website {
             bottom:2.5%; left:50%; transform:translateX(-50%) rotate(0deg);
             width:22%; background:#111; color:#fff; --rot:0deg; --float-dur:2.8s; z-index:30;
@@ -262,9 +244,10 @@
         .web-glow { color:var(--accent-green); font-size:1.5rem; animation:pulse 1.2s infinite; }
         @keyframes pulse { 0%,100%{transform:scale(1);filter:drop-shadow(0 0 4px var(--accent-green))} 50%{transform:scale(1.25);filter:drop-shadow(0 0 10px var(--accent-green))} }
 
-        /* ═══ POLAROID SHARED ═══ */
-        .card-polaroid1 img, .card-polaroid2 img { width:100%; aspect-ratio:1/1; object-fit:cover; border:3px solid var(--border-color); border-radius:4px; background:#ddd; }
-        .card-polaroid2 img { aspect-ratio:4/5; }
+        /* ═══ POLAROID SHARED UPDATE ═══ */
+        .card-polaroid1 img, .card-polaroid2 img, .card-polaroid3 img, .card-polaroid4 img, .card-polaroid5 img { width:100%; object-fit:cover; border:3px solid var(--border-color); border-radius:4px; background:#ddd; }
+        .card-polaroid1 img { aspect-ratio:1/1; }
+        .card-polaroid2 img, .card-polaroid3 img, .card-polaroid4 img, .card-polaroid5 img { aspect-ratio:4/5; }
         .polaroid-text { position:absolute; bottom:4px; left:0; width:100%; text-align:center; font-size:0.6rem; font-weight:900; font-family:'Space Mono',monospace; text-transform:uppercase; letter-spacing:1px; }
         .mini-tape { position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(-8deg);  width:50px; height:18px; background:rgba(255,255,255,0.9); border:2px solid #ccc; z-index:20; box-shadow:2px 2px 4px rgba(0,0,0,0.15); }
         .pol-tape2 { position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(12deg);  width:50px; height:18px; background:rgba(204,255,0,0.9);   border:2px solid #bbb; z-index:20; }
@@ -280,7 +263,7 @@
         }
         .polaroid-ph span { font-size:0.45rem; font-weight:900; font-family:'Space Mono',monospace; text-transform:uppercase; color:#ccc; text-align:center; line-height:1.4; }
 
-        /* ═══ STIKER — di celah kosong antar kolom ═══ */
+        /* ═══ STIKER ═══ */
         .sticker { position:absolute; z-index:26; filter:drop-shadow(4px 4px 0 #000); animation:popIn 0.6s forwards, floatAnim 3s ease-in-out infinite alternate; opacity:0; pointer-events:none; }
         .st-1  { top:4%;  left:42%;        animation-delay:0.95s; --rot: 18deg; --float-dur:2.5s; font-size:2.5rem; }
         .st-2  { top:42%; right:17%;       animation-delay:1.05s; --rot:-20deg; --float-dur:3.1s; font-size:2.8rem; }
@@ -325,7 +308,6 @@
         <div class="scanline"></div>
         <div class="hint-text">✨ KLIK KOTAK MANAPUN UNTUK BUKA ✨</div>
 
-        <!-- TIGA PITA MARQUEE -->
         <div class="tape-marquee">
             <div class="tape-content">HBD PRINCESS • 200408 • A SPECIAL DAY • KLIK KOTAKNYA • HBD PRINCESS • 200408 • A SPECIAL DAY • KLIK KOTAKNYA •&nbsp;</div>
         </div>
@@ -340,7 +322,6 @@
         <div class="starburst sb-2">✦</div>
         <div class="starburst sb-3">✦</div>
 
-        <!-- ROW 1 -->
         <a href="index.html" class="s-card card-login">
             <h1>Level Up Your Day With Our Website</h1>
             <p>🌐 Buka Website Utama</p>
@@ -348,33 +329,40 @@
 
         <a href="story2.html" class="s-card card-polaroid3">
             <div class="pol-tape3"></div>
-            <div class="polaroid-ph">📸<span>edit foto<br>di github</span></div>
+            <img src="img/tiga.jpg" alt="Momen 3" onerror="this.outerHTML='<div class=\'polaroid-ph\'>📸<span>error<br>gambar</span></div>'">
             <div class="polaroid-text">Momen 3</div>
         </a>
 
         <a href="happybirthday.html" class="s-card card-chat">
             <div class="chat-header">
                 <div class="chat-avatar">🤖</div>
-                <h3>💬 Chat & AI Asisten</h3>
+                <h3>💬 Chat Gigiek</h3>
                 <span>ONLINE 🟢</span>
             </div>
             <div class="chat-bubbles">
-                <div class="chat-bubble chat-left">do, kirim file pentas 🙏</div>
-                <div class="chat-bubble chat-right">Ada Di ibra 😐</div>
-                <div class="chat-bubble chat-left">OKE</div>
-                <div class="chat-bubble chat-right">btw happy birthday ya!! 🎂✨</div>
-                <div class="chat-bubble chat-left">MAKASIH DO!! 🥺💕 kamu inget!!</div>
-                <div class="chat-bubble chat-right">ya iyalah, udah gede sekarang 🎉😄</div>
-                <div class="chat-bubble chat-left">hush!! 😤 semua tau gitu</div>
-                <div class="chat-typing">
-                    <div class="dot-type"></div><div class="dot-type"></div><div class="dot-type"></div>
-                </div>
+                <span class="chat-name right">Aldo</span>
+                <div class="chat-bubble chat-right">kamu wawancara nya mau bareng ga?</div>
+                
+                <span class="chat-name right">Aldo</span>
+                <div class="chat-bubble chat-right">aku hari jumaat pulsek</div>
+                
+                <span class="chat-name left">Anggi</span>
+                <div class="chat-bubble chat-left">ini mau bareng apa gimana?</div>
+                
+                <span class="chat-name right">Aldo</span>
+                <div class="chat-bubble chat-right">jadi ga?</div>
+                
+                <span class="chat-name left">Anggi</span>
+                <div class="chat-bubble chat-left">aku gatau mau wawancara siapa</div>
+                
+                <span class="chat-name left">Anggi</span>
+                <div class="chat-bubble chat-left">desa mu dulu dah</div>
             </div>
         </a>
 
         <a href="suprise.html" class="s-card card-polaroid5">
             <div class="pol-tape5"></div>
-            <div class="polaroid-ph">📸<span>edit foto<br>di github</span></div>
+            <img src="img/foto_makan.jpg" alt="Spesial" onerror="this.outerHTML='<div class=\'polaroid-ph\'>📸<span>error<br>gambar</span></div>'">
             <div class="polaroid-text">Spesial</div>
         </a>
 
@@ -385,7 +373,6 @@
             <div class="polaroid-text">Awal Cerita</div>
         </a>
 
-        <!-- ROW 2 -->
         <a href="flapy.html" class="s-card card-flappy">
             <div class="icon">🐦</div>
             <div><h3>Flapy Anggie</h3><small>Berani coba? 😏</small></div>
@@ -398,7 +385,6 @@
             <div class="polaroid-text">KADO</div>
         </a>
 
-        <!-- ROW 3 -->
         <a href="200408.html" class="s-card card-2048">
             <div class="icon">🧩</div>
             <div><h3>Game 2048</h3><small>200408 🎂</small></div>
@@ -413,11 +399,10 @@
 
         <a href="story3.html" class="s-card card-polaroid4">
             <div class="pol-tape4"></div>
-            <div class="polaroid-ph">📸<span>edit foto<br>di github</span></div>
+            <img src="img/slide2.jpg" alt="Momen 4" onerror="this.outerHTML='<div class=\'polaroid-ph\'>📸<span>error<br>gambar</span></div>'">
             <div class="polaroid-text">Momen 4</div>
         </a>
 
-        <!-- STIKER x10 -->
         <div class="sticker st-1">✨</div>
         <div class="sticker st-2">💌</div>
         <div class="sticker st-3">🤫</div>
@@ -429,7 +414,6 @@
         <div class="sticker st-9">🫶</div>
         <div class="sticker st-10">🍰</div>
 
-        <!-- BOT: WEBSITE CARD -->
         <a href="suprise.html" class="s-card card-website">
             <div class="browser-topbar">
                 <div class="b-dot r"></div>
