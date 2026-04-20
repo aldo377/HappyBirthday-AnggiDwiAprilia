@@ -10,9 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================================================
-           1. CSS VARIABLES — NEO-BRUTALISM CHAOS MODE 💥
-           ========================================================================== */
         :root {
             --border-color: #111111;
             --accent-pink: #ff3d6b;
@@ -21,17 +18,15 @@
             --accent-yellow: #ffe033;
             --accent-purple: #c299fc;
             --accent-orange: #ff7a1a;
-            --accent-red: #ff2b2b;
             --border-thick: 4px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-        /* ====== BACKGROUND ====== */
         body {
             background-color: #d4e8d0;
             display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; overflow: hidden;
+            width: 100vw; height: 100vh; overflow: hidden;
             background-image:
                 radial-gradient(#333 2.5px, transparent 2.5px),
                 radial-gradient(#333 2.5px, transparent 2.5px);
@@ -40,397 +35,327 @@
             cursor: none;
         }
 
-        /* ====== CURSOR CUSTOM ====== */
         .cursor-dot {
             position: fixed; width: 14px; height: 14px;
             background: var(--accent-pink); border: 3px solid #111;
             border-radius: 50%; z-index: 99999; pointer-events: none;
-            transform: translate(-50%, -50%);
-            box-shadow: 3px 3px 0 #111;
-            transition: transform 0.05s;
+            transform: translate(-50%, -50%); box-shadow: 3px 3px 0 #111;
         }
         .cursor-spark {
             position: fixed; pointer-events: none; z-index: 99998;
-            width: 10px; height: 10px; border-radius: 50%;
-            animation: sparkFade 0.5s forwards;
-            border: 2px solid #111;
+            border-radius: 50%; animation: sparkFade 0.5s forwards; border: 2px solid #111;
         }
         @keyframes sparkFade {
-            0% { transform: scale(1) translate(-50%, -50%); opacity: 1; }
-            100% { transform: scale(0) translate(-50%, -50%); opacity: 0; }
+            0%   { transform: scale(1)   translate(-50%,-50%); opacity: 1; }
+            100% { transform: scale(0.1) translate(-50%,-50%); opacity: 0; }
         }
 
-        /* ====== MUSIC BTN ====== */
         .music-btn {
-            position: fixed; top: 20px; right: 20px; z-index: 10000;
+            position: fixed; top: 16px; right: 20px; z-index: 10000;
             background: var(--accent-yellow); border: 4px solid var(--border-color);
-            padding: 10px 20px; border-radius: 12px; font-weight: 900; font-size: 0.9rem;
+            padding: 8px 18px; border-radius: 12px; font-weight: 900; font-size: 0.85rem;
             box-shadow: 5px 5px 0 var(--border-color); cursor: none;
-            text-transform: uppercase; transition: 0.15s; color: var(--border-color);
-            letter-spacing: 1px;
+            text-transform: uppercase; transition: 0.15s; color: var(--border-color); letter-spacing: 1px;
         }
-        .music-btn:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--border-color); background: var(--accent-green); }
-        .music-btn:active { transform: translate(5px, 5px); box-shadow: 0 0 0 transparent; }
+        .music-btn:hover  { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--border-color); background: var(--accent-green); }
+        .music-btn:active { transform: translate(5px,5px);   box-shadow: 0 0 0 transparent; }
         .music-btn.playing { background: var(--accent-pink); color: #fff; }
 
-        /* ====== CANVAS & PARTICLES ====== */
-        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .floating-emojis { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: hidden; }
-        .float-emo { position: absolute; bottom: -60px; font-size: 1.8rem; opacity: 0.5; animation: floatUp linear forwards; filter: drop-shadow(3px 3px 0px #000);}
-        @keyframes floatUp { to { transform: translateY(-130vh) rotate(720deg); opacity: 0; } }
+        #bg-canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+        .floating-emojis { position: fixed; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none; overflow:hidden; }
+        .float-emo { position: absolute; bottom:-60px; font-size:1.8rem; opacity:0.45; animation: floatUp linear forwards; filter: drop-shadow(3px 3px 0 #000); }
+        @keyframes floatUp { to { transform: translateY(-130vh) rotate(720deg); opacity:0; } }
 
-        /* ==========================================================================
-           2. CONTAINER — LAPTOP ONLY, FULL LANDSCAPE
-           ========================================================================== */
+        /* ═══ CONTAINER ═══ */
         .story-container {
-            width: 96vw;
-            height: 90vh;
+            width: 96vw; height: 90vh;
             position: relative; z-index: 10;
-            overflow: hidden;
-            margin: 0 auto;
-            border-radius: 28px;
+            overflow: hidden; margin: 0 auto;
+            border-radius: 26px;
             border: 5px solid #222;
-            box-shadow: 12px 12px 0px #111, 0 0 60px rgba(0,0,0,0.4);
-            background: transparent;
+            box-shadow: 12px 12px 0 #111, 0 0 50px rgba(0,0,0,0.35);
+        }
+        .scanline {
+            position: absolute; top:0; left:0; width:100%; height:100%; z-index:2; pointer-events:none;
+            background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.025) 3px,rgba(0,0,0,0.025) 4px);
         }
 
-        /* ==========================================================================
-           3. TIGA PITA MARQUEE RUSUH
-           ========================================================================== */
+        /* ═══ TIGA PITA ═══ */
         .tape-marquee {
-            position: absolute; top: 22%; left: -15%; width: 140%;
+            position: absolute; top:24%; left:-15%; width:140%;
             background: var(--accent-yellow); color: var(--border-color);
             border-top: 5px solid var(--border-color); border-bottom: 5px solid var(--border-color);
-            font-weight: 900; font-size: 1.8rem; text-transform: uppercase;
-            padding: 12px 0; transform: rotate(-4deg); z-index: 5;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.5); white-space: nowrap; overflow: hidden;
-            pointer-events: none;
+            font-weight: 900; font-size: 1.6rem; text-transform: uppercase;
+            padding: 10px 0; transform: rotate(-3.5deg); z-index: 5;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.45); white-space: nowrap; overflow: hidden; pointer-events: none;
         }
         .tape-marquee-2 {
-            position: absolute; top: 72%; left: -15%; width: 140%;
+            position: absolute; top:73%; left:-15%; width:140%;
             background: var(--accent-pink); color: #fff;
             border-top: 5px solid var(--border-color); border-bottom: 5px solid var(--border-color);
-            font-weight: 900; font-size: 1.5rem; text-transform: uppercase;
-            padding: 10px 0; transform: rotate(3deg); z-index: 5;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.5); white-space: nowrap; overflow: hidden;
-            pointer-events: none;
+            font-weight: 900; font-size: 1.4rem; text-transform: uppercase;
+            padding: 9px 0; transform: rotate(2.5deg); z-index: 5;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.45); white-space: nowrap; overflow: hidden; pointer-events: none;
         }
         .tape-marquee-3 {
-            position: absolute; top: 47%; left: -15%; width: 140%;
+            position: absolute; top:49%; left:-15%; width:140%;
             background: var(--accent-green); color: var(--border-color);
-            border-top: 5px solid var(--border-color); border-bottom: 5px solid var(--border-color);
-            font-weight: 900; font-size: 1.3rem; text-transform: uppercase;
-            padding: 8px 0; transform: rotate(-1.5deg); z-index: 4;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4); white-space: nowrap; overflow: hidden;
-            pointer-events: none; opacity: 0.85;
+            border-top: 4px solid var(--border-color); border-bottom: 4px solid var(--border-color);
+            font-weight: 900; font-size: 1.1rem; text-transform: uppercase;
+            padding: 7px 0; transform: rotate(-1deg); z-index: 4;
+            box-shadow: 0 5px 14px rgba(0,0,0,0.35); white-space: nowrap; overflow: hidden; pointer-events: none; opacity:0.88;
         }
-        .tape-content { display: inline-block; animation: marquee 12s linear infinite; letter-spacing: 4px; }
-        .tape-content-rev { display: inline-block; animation: marqueeRev 10s linear infinite; letter-spacing: 4px; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        @keyframes marqueeRev { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+        .tape-content     { display:inline-block; animation: marquee    12s linear infinite; letter-spacing:4px; }
+        .tape-content-rev { display:inline-block; animation: marqueeRev 10s linear infinite; letter-spacing:4px; }
+        @keyframes marquee    { 0%{transform:translateX(0)}    100%{transform:translateX(-50%)} }
+        @keyframes marqueeRev { 0%{transform:translateX(-50%)} 100%{transform:translateX(0)}   }
 
-        /* ==========================================================================
-           4. KARTU-KARTU — BRUTAL SCRAPBOOK
-           ========================================================================== */
+        /* ═══ BASE KARTU ═══ */
         .s-card {
             position: absolute; background: #fff; text-decoration: none; color: var(--border-color);
             border: var(--border-thick) solid var(--border-color);
-            box-shadow: 8px 8px 0px var(--border-color); border-radius: 16px; padding: 14px;
-            animation: popIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
-                       floatAnim var(--float-dur, 3s) ease-in-out infinite alternate;
+            box-shadow: 8px 8px 0 var(--border-color); border-radius: 14px; padding: 12px;
+            animation: popIn 0.7s cubic-bezier(0.175,0.885,0.32,1.275) forwards,
+                       floatAnim var(--float-dur,3s) ease-in-out infinite alternate;
             opacity: 0; transform-origin: center; cursor: none; transition: box-shadow 0.15s, transform 0.15s;
         }
-        .s-card:hover {
-            box-shadow: 12px 12px 0px var(--border-color);
-            transform: rotate(calc(var(--rot) + 1deg)) scale(1.04) !important;
-            z-index: 200 !important;
-        }
-        .s-card:active { transform: scale(0.96) !important; box-shadow: 2px 2px 0 var(--border-color) !important; z-index: 200 !important; }
+        .s-card:hover  { box-shadow: 13px 13px 0 var(--border-color); transform: rotate(calc(var(--rot) + 1.5deg)) scale(1.05) !important; z-index: 500 !important; }
+        .s-card:active { transform: scale(0.95) !important; box-shadow: 2px 2px 0 var(--border-color) !important; }
 
         @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.3) rotate(-10deg); }
-            70% { opacity: 1; transform: scale(1.08) rotate(calc(var(--rot) * 1.2)); }
-            100% { opacity: 1; transform: scale(1) rotate(var(--rot)); }
+            0%   { opacity:0; transform:scale(0.3) rotate(-10deg); }
+            70%  { opacity:1; transform:scale(1.07) rotate(calc(var(--rot)*1.2)); }
+            100% { opacity:1; transform:scale(1) rotate(var(--rot)); }
         }
-        @keyframes floatAnim { 0% { margin-top: 0px; } 100% { margin-top: -14px; } }
-
-        /* ——— GLITCH KEYFRAME ——— */
+        @keyframes floatAnim { 0%{margin-top:0} 100%{margin-top:-13px} }
         @keyframes glitch {
-            0%, 88%, 100% { text-shadow: 2px 2px 0 #fff; transform: translate(0); clip-path: none; }
-            89% { transform: translate(-4px, 2px); text-shadow: 4px 0 var(--accent-pink), -4px 0 var(--accent-blue); }
-            90% { transform: translate(4px, -2px); text-shadow: -4px 0 var(--accent-pink), 4px 0 var(--accent-blue); }
-            91% { transform: translate(0); }
-            93% { transform: translate(-3px, 0); text-shadow: 3px 0 var(--accent-yellow); }
-            95% { transform: translate(3px, 1px); text-shadow: -3px 0 var(--accent-green); }
-            97% { transform: translate(0); text-shadow: 2px 2px 0 #fff; }
+            0%,87%,100% { text-shadow:2px 2px 0 #fff; transform:translate(0); }
+            88% { transform:translate(-4px,2px);  text-shadow: 4px 0 var(--accent-pink),  -4px 0 var(--accent-blue); }
+            90% { transform:translate(4px,-2px);  text-shadow:-4px 0 var(--accent-pink),   4px 0 var(--accent-blue); }
+            93% { transform:translate(-2px,0);    text-shadow: 2px 0 var(--accent-yellow); }
+            96% { transform:translate(2px,1px);   text-shadow:-2px 0 var(--accent-green);  }
+            97% { transform:translate(0); text-shadow:2px 2px 0 #fff; }
         }
 
-        /* ——— CARD LOGIN ——— */
+        /* ═══════════════════════════════════════════════════
+           POSISI KARTU — 5 KOLOM JELAS, TIDAK ADA YANG TIMPA
+           
+           KOLOM A : left  1%  — lebar 20%   → right batas ~21%
+           KOLOM B : left  22% — lebar 10%   → right batas ~32%
+           KOLOM C : left  33% — lebar 30%   → right batas ~63%
+           KOLOM D : right 17% — lebar 10%   → left  batas ~73%
+           KOLOM E : right 1%  — lebar 15%   → left  batas ~84%
+
+           BARIS 1 : top 4%  (kartu tinggi max ~40% dari container)
+           BARIS 2 : top 47% (kartu tinggi max ~15%)
+           BARIS 3 : top 65% (kartu tinggi max ~23%)
+           BARIS BOT: bottom 2.5%
+        ═══════════════════════════════════════════════════ */
+
+        /* [A1] LOGIN */
         .card-login {
-            top: 5%; left: 2%; width: 19%;
-            background: var(--accent-blue); --rot: -4deg; --float-dur: 3.2s; z-index: 10; animation-delay: 0.1s;
-            text-align: center; border: 5px solid var(--border-color); box-shadow: 10px 10px 0 var(--border-color);
+            top:4%; left:1%; width:20%;
+            background:var(--accent-blue); --rot:-4deg; --float-dur:3.2s; z-index:10; animation-delay:0.1s;
+            text-align:center; border:5px solid var(--border-color); box-shadow:10px 10px 0 var(--border-color);
         }
-        .card-login h1 {
-            font-size: 1rem; font-weight: 900; line-height: 1.2; text-transform: uppercase;
-            animation: glitch 5s infinite; letter-spacing: 1px;
+        .card-login h1 { font-size:0.95rem; font-weight:900; line-height:1.25; text-transform:uppercase; animation:glitch 5s infinite; letter-spacing:0.5px; }
+        .card-login p  { font-size:0.6rem; font-weight:900; color:#111; margin-top:8px; background:#fff; border:3px solid #111; border-radius:6px; display:inline-block; padding:3px 10px; box-shadow:3px 3px 0 #111; }
+
+        /* [B1] POLAROID 3 — kosong */
+        .card-polaroid3 {
+            top:3%; left:22%; width:10%;
+            background:#fff; padding:6px 6px 24px 6px; --rot:-7deg; --float-dur:4.5s; z-index:14; animation-delay:0.45s; border-radius:6px;
         }
-        .card-login p { font-size: 0.65rem; font-weight: 900; color: #111; margin-top: 8px; background: #fff; border: 3px solid #111; border-radius: 6px; display: inline-block; padding: 3px 12px; box-shadow: 3px 3px 0 #111; }
 
-        /* ——— POLAROID 1 (story1) ——— */
-        .card-polaroid1 { top: 4%; right: 2%; width: 13%; background: #fff; padding: 8px 8px 30px 8px; --rot: 11deg; --float-dur: 3.5s; z-index: 15; animation-delay: 0.35s; border-radius: 6px; }
-
-        /* ——— FLAPPY ——— */
-        .card-flappy {
-            top: 40%; left: 2%; width: 17%;
-            background: var(--accent-pink); --rot: 7deg; --float-dur: 3.8s; z-index: 12; animation-delay: 0.2s;
-            display: flex; align-items: center; gap: 10px; padding: 12px;
-        }
-        .card-flappy .icon { font-size: 2.2rem; filter: drop-shadow(3px 3px 0px #000); flex-shrink: 0; }
-        .card-flappy h3 { font-size: 0.9rem; font-weight: 900; text-transform: uppercase; line-height: 1.1; }
-        .card-flappy small { font-size: 0.65rem; display: block; font-weight: 700; opacity: 0.85; }
-
-        /* ——— 2048 ——— */
-        .card-2048 {
-            top: 66%; left: 3%; width: 17%;
-            background: var(--accent-green); --rot: -6deg; --float-dur: 4s; z-index: 11; animation-delay: 0.3s;
-            display: flex; align-items: center; gap: 10px; padding: 12px;
-        }
-        .card-2048 .icon { font-size: 2.2rem; filter: drop-shadow(3px 3px 0px #000); flex-shrink: 0; }
-        .card-2048 h3 { font-size: 0.9rem; font-weight: 900; text-transform: uppercase; line-height: 1.1; }
-        .card-2048 small { font-size: 0.65rem; display: block; font-weight: 700; opacity: 0.85; }
-
-        /* ——— CHAT CARD (BIGGER, MORE BUBBLES) ——— */
+        /* [C1] CHAT */
         .card-chat {
-            top: 8%; left: 24%; width: 40%;
-            background: #fafafa; --rot: -2deg; --float-dur: 3.6s; z-index: 20; animation-delay: 0.5s; padding: 16px;
-            border: 5px solid var(--border-color); box-shadow: 10px 10px 0 var(--border-color);
+            top:3%; left:33%; width:30%;
+            background:#fafafa; --rot:-1.5deg; --float-dur:3.6s; z-index:20; animation-delay:0.5s; padding:11px;
+            border:5px solid var(--border-color); box-shadow:10px 10px 0 var(--border-color);
         }
-        .chat-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 3px dashed #ddd; }
-        .chat-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-purple); border: 3px solid #111; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
-        .chat-header h3 { font-size: 0.8rem; font-weight: 900; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 1px; }
-        .chat-header span { font-size: 0.55rem; background: var(--accent-green); border: 2px solid #111; padding: 1px 6px; border-radius: 20px; font-weight: 900; }
-        .chat-bubbles { display: flex; flex-direction: column; gap: 6px; }
-        .chat-bubble { padding: 6px 12px; border-radius: 12px; font-size: 0.72rem; font-weight: 800; border: 2.5px solid var(--border-color); width: fit-content; max-width: 88%; line-height: 1.35; }
-        .chat-left { background: var(--accent-yellow); color: #111; border-bottom-left-radius: 0; box-shadow: 3px 3px 0 #111; }
-        .chat-right { background: #fff; align-self: flex-end; border-bottom-right-radius: 0; box-shadow: 3px 3px 0 #111; }
-        .chat-typing { display: flex; align-items: center; gap: 4px; padding: 6px 12px; background: #eee; border: 2px solid #ccc; border-radius: 20px; width: fit-content; margin-top: 2px; }
-        .dot-type { width: 7px; height: 7px; background: #999; border-radius: 50%; animation: typingBounce 1s infinite; }
-        .dot-type:nth-child(2) { animation-delay: 0.2s; }
-        .dot-type:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typingBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; } 40% { transform: scale(1.1); opacity: 1; } }
+        .chat-header { display:flex; align-items:center; gap:7px; margin-bottom:7px; padding-bottom:6px; border-bottom:3px dashed #ddd; }
+        .chat-avatar { width:26px; height:26px; border-radius:50%; background:var(--accent-purple); border:3px solid #111; display:flex; align-items:center; justify-content:center; font-size:0.85rem; flex-shrink:0; }
+        .chat-header h3  { font-size:0.68rem; font-weight:900; color:var(--accent-purple); text-transform:uppercase; letter-spacing:1px; }
+        .chat-header span{ font-size:0.48rem; background:var(--accent-green); border:2px solid #111; padding:1px 5px; border-radius:20px; font-weight:900; margin-left:auto; white-space:nowrap; }
+        .chat-bubbles { display:flex; flex-direction:column; gap:4px; }
+        .chat-bubble { padding:4px 10px; border-radius:11px; font-size:0.67rem; font-weight:800; border:2.5px solid var(--border-color); width:fit-content; max-width:88%; line-height:1.3; }
+        .chat-left  { background:var(--accent-yellow); color:#111; border-bottom-left-radius:0;  box-shadow:2px 2px 0 #111; }
+        .chat-right { background:#fff; align-self:flex-end; border-bottom-right-radius:0; box-shadow:2px 2px 0 #111; }
+        .chat-typing { display:flex; align-items:center; gap:4px; padding:4px 10px; background:#eee; border:2px solid #ccc; border-radius:20px; width:fit-content; margin-top:2px; }
+        .dot-type { width:6px; height:6px; background:#999; border-radius:50%; animation:typingBounce 1s infinite; }
+        .dot-type:nth-child(2){ animation-delay:0.2s; }
+        .dot-type:nth-child(3){ animation-delay:0.4s; }
+        @keyframes typingBounce { 0%,80%,100%{transform:scale(0.7);opacity:0.5} 40%{transform:scale(1.1);opacity:1} }
 
-        /* ——— CHAPTERS ——— */
+        /* [D1] POLAROID 5 — kosong */
+        .card-polaroid5 {
+            top:3%; right:18%; width:10%;
+            background:#fff; padding:6px 6px 24px 6px; --rot:13deg; --float-dur:5s; z-index:13; animation-delay:0.9s; border-radius:6px;
+        }
+
+        /* [E1] POLAROID 1 → story1 */
+        .card-polaroid1 {
+            top:3%; right:1%; width:15%;
+            background:#fff; padding:7px 7px 27px 7px; --rot:10deg; --float-dur:3.5s; z-index:15; animation-delay:0.35s; border-radius:6px;
+        }
+
+        /* [A2] FLAPPY */
+        .card-flappy {
+            top:46%; left:1%; width:20%;
+            background:var(--accent-pink); --rot:6deg; --float-dur:3.8s; z-index:12; animation-delay:0.2s;
+            display:flex; align-items:center; gap:9px; padding:11px;
+            border:5px solid var(--border-color); box-shadow:10px 10px 0 var(--border-color);
+        }
+        .card-flappy .icon { font-size:2rem; filter:drop-shadow(3px 3px 0 #000); flex-shrink:0; }
+        .card-flappy h3   { font-size:0.85rem; font-weight:900; text-transform:uppercase; line-height:1.1; }
+        .card-flappy small{ font-size:0.6rem; display:block; font-weight:700; opacity:0.85; }
+
+        /* [E2] POLAROID 2 (Kado) → suprise */
+        .card-polaroid2 {
+            top:39%; right:1%; width:15%;
+            background:#fff; padding:7px 7px 27px 7px; --rot:-10deg; --float-dur:3.8s; z-index:25; animation-delay:0.7s; border-radius:6px;
+        }
+
+        /* [A3] 2048 */
+        .card-2048 {
+            top:66%; left:1%; width:20%;
+            background:var(--accent-green); --rot:-5deg; --float-dur:4s; z-index:11; animation-delay:0.3s;
+            display:flex; align-items:center; gap:9px; padding:11px;
+            border:5px solid var(--border-color); box-shadow:10px 10px 0 var(--border-color);
+        }
+        .card-2048 .icon { font-size:2rem; filter:drop-shadow(3px 3px 0 #000); flex-shrink:0; }
+        .card-2048 h3   { font-size:0.85rem; font-weight:900; text-transform:uppercase; line-height:1.1; }
+        .card-2048 small{ font-size:0.6rem; display:block; font-weight:700; opacity:0.85; }
+
+        /* [BC3] CHAPTERS */
         .card-chapters {
-            top: 60%; left: 23%; width: 25%;
-            background: var(--accent-purple); --rot: 5deg; --float-dur: 4.2s; z-index: 18; animation-delay: 0.6s; text-align: center; padding: 14px;
-            border: 5px solid var(--border-color); box-shadow: 10px 10px 0 var(--border-color);
+            top:63%; left:22%; width:27%;
+            background:var(--accent-purple); --rot:4deg; --float-dur:4.2s; z-index:18; animation-delay:0.6s;
+            text-align:center; padding:12px;
+            border:5px solid var(--border-color); box-shadow:10px 10px 0 var(--border-color);
         }
-        .card-chapters h4 { font-size: 0.75rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 2px; border-bottom: 3px solid #111; padding-bottom: 5px; }
-        .ch-box { background: #fff; border: 3px solid #111; padding: 7px 10px; font-size: 0.72rem; font-weight: 900; border-radius: 8px; margin-bottom: 6px; box-shadow: 3px 3px 0 #111; transition: 0.15s; display: block; text-decoration: none; color: #111; }
-        .ch-box:hover { background: var(--accent-yellow); transform: translateX(4px) scale(1.02); box-shadow: 5px 5px 0 #111; }
+        .card-chapters h4 { font-size:0.7rem; font-weight:900; text-transform:uppercase; margin-bottom:7px; letter-spacing:2px; border-bottom:3px solid #111; padding-bottom:5px; }
+        .ch-box { background:#fff; border:3px solid #111; padding:6px 10px; font-size:0.7rem; font-weight:900; border-radius:8px; margin-bottom:5px; box-shadow:3px 3px 0 #111; transition:0.15s; display:block; text-decoration:none; color:#111; }
+        .ch-box:hover { background:var(--accent-yellow); transform:translateX(4px) scale(1.02); box-shadow:5px 5px 0 #111; }
 
-        /* ——— POLAROID 2 (suprise) ——— */
-        .card-polaroid2 { top: 38%; right: 2%; width: 14%; background: #fff; padding: 8px 8px 30px 8px; --rot: -11deg; --float-dur: 3.8s; z-index: 25; animation-delay: 0.7s; border-radius: 6px; }
-
-        /* ——— POLAROID 3 (story2) — NO IMAGE ——— */
-        .card-polaroid3 { top: 5%; left: 22%; width: 12%; background: #fff; padding: 8px 8px 28px 8px; --rot: -8deg; --float-dur: 4.5s; z-index: 14; animation-delay: 0.45s; border-radius: 6px; }
-
-        /* ——— POLAROID 4 (story3) — NO IMAGE ——— */
-        .card-polaroid4 { top: 67%; right: 3%; width: 13%; background: #fff; padding: 8px 8px 28px 8px; --rot: 9deg; --float-dur: 3.9s; z-index: 22; animation-delay: 0.75s; border-radius: 6px; }
-
-        /* ——— POLAROID 5 (suprise) — NO IMAGE ——— */
-        .card-polaroid5 { top: 3%; right: 18%; width: 11%; background: #fff; padding: 8px 8px 26px 8px; --rot: 14deg; --float-dur: 5s; z-index: 13; animation-delay: 0.9s; border-radius: 6px; }
-
-        /* ——— POLAROID SHARED STYLES ——— */
-        .card-polaroid1 img, .card-polaroid2 img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 3px solid var(--border-color); border-radius: 4px; background: #ddd; }
-        .card-polaroid2 img { aspect-ratio: 4/5; }
-        .polaroid-text { position: absolute; bottom: 5px; left: 0; width: 100%; text-align: center; font-size: 0.65rem; font-weight: 900; font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 1px; }
-        .mini-tape { position: absolute; top: -13px; left: 50%; transform: translateX(-50%) rotate(-8deg); width: 55px; height: 20px; background: rgba(255,255,255,0.9); border: 2px solid #ccc; z-index: 20; box-shadow: 2px 2px 5px rgba(0,0,0,0.15); }
-        .polaroid-tape2 { position: absolute; top: -13px; left: 50%; transform: translateX(-50%) rotate(12deg); width: 55px; height: 20px; background: rgba(204,255,0,0.9); border: 2px solid #bbb; z-index: 20; box-shadow: 2px 2px 5px rgba(0,0,0,0.15); }
-        .polaroid-tape3 { position: absolute; top: -13px; left: 50%; transform: translateX(-50%) rotate(-15deg); width: 55px; height: 20px; background: rgba(255,107,138,0.9); border: 2px solid #bbb; z-index: 20; box-shadow: 2px 2px 5px rgba(0,0,0,0.15); }
-        .polaroid-tape4 { position: absolute; top: -13px; left: 50%; transform: translateX(-50%) rotate(6deg); width: 55px; height: 20px; background: rgba(255,224,51,0.9); border: 2px solid #bbb; z-index: 20; box-shadow: 2px 2px 5px rgba(0,0,0,0.15); }
-        .polaroid-tape5 { position: absolute; top: -13px; left: 50%; transform: translateX(-50%) rotate(-10deg); width: 55px; height: 20px; background: rgba(0,180,255,0.9); border: 2px solid #bbb; z-index: 20; box-shadow: 2px 2px 5px rgba(0,0,0,0.15); }
-
-        /* ——— PLACEHOLDER POLAROID (no image) ——— */
-        .polaroid-ph {
-            width: 100%; aspect-ratio: 4/5; border: 3px dashed #bbb; border-radius: 4px;
-            background: repeating-linear-gradient(45deg, #f5f5f5, #f5f5f5 6px, #eee 6px, #eee 12px);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            gap: 5px; color: #aaa; font-size: 1.5rem;
+        /* [E3] POLAROID 4 — kosong */
+        .card-polaroid4 {
+            top:65%; right:1%; width:15%;
+            background:#fff; padding:7px 7px 27px 7px; --rot:8deg; --float-dur:3.9s; z-index:22; animation-delay:0.75s; border-radius:6px;
         }
-        .polaroid-ph span { font-size: 0.5rem; font-weight: 900; font-family: 'Space Mono', monospace; text-transform: uppercase; color: #bbb; text-align: center; }
 
-        /* ——— CARD WEBSITE (ganti NFC) ——— */
+        /* [BOT] WEBSITE CARD */
         .card-website {
-            bottom: 5%; left: 50%; transform: translateX(-50%) rotate(0deg);
-            width: 28%; background: #111; color: #fff; --rot: 0deg; --float-dur: 2.8s; z-index: 30;
-            animation-delay: 0.85s; border: 5px solid var(--accent-green);
-            box-shadow: 0 0 0 4px #111, 10px 10px 0 #111, 0 0 30px rgba(204,255,0,0.4);
-            border-radius: 16px; padding: 0; overflow: hidden;
+            bottom:2.5%; left:50%; transform:translateX(-50%) rotate(0deg);
+            width:22%; background:#111; color:#fff; --rot:0deg; --float-dur:2.8s; z-index:30;
+            animation-delay:0.85s; border:5px solid var(--accent-green);
+            box-shadow:0 0 0 4px #111, 10px 10px 0 #111, 0 0 30px rgba(204,255,0,0.4);
+            border-radius:14px; padding:0; overflow:hidden;
         }
-        .card-website:hover {
-            transform: translateX(-50%) scale(1.05) !important;
-            box-shadow: 0 0 0 4px #111, 14px 14px 0 #111, 0 0 50px rgba(204,255,0,0.6) !important;
+        .card-website:hover { transform:translateX(-50%) scale(1.06) !important; box-shadow:0 0 0 4px #111, 14px 14px 0 #111, 0 0 50px rgba(204,255,0,0.6) !important; }
+        .browser-topbar { background:#1e1e1e; padding:7px 11px; display:flex; align-items:center; gap:5px; border-bottom:3px solid var(--accent-green); }
+        .b-dot { width:10px; height:10px; border-radius:50%; border:2px solid #444; flex-shrink:0; }
+        .b-dot.r{background:#ff5f57;border-color:#ff5f57} .b-dot.y{background:#ffbd2e;border-color:#ffbd2e} .b-dot.g{background:var(--accent-green);border-color:var(--accent-green)}
+        .browser-url { flex:1; background:#2a2a2a; border:2px solid #555; border-radius:5px; padding:2px 7px; font-size:0.58rem; font-family:'Space Mono',monospace; color:#aaa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .browser-body { padding:10px 13px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+        .browser-body span { font-size:0.9rem; font-weight:900; letter-spacing:3px; text-transform:uppercase; color:#fff; }
+        .web-glow { color:var(--accent-green); font-size:1.5rem; animation:pulse 1.2s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1);filter:drop-shadow(0 0 4px var(--accent-green))} 50%{transform:scale(1.25);filter:drop-shadow(0 0 10px var(--accent-green))} }
+
+        /* ═══ POLAROID SHARED ═══ */
+        .card-polaroid1 img, .card-polaroid2 img { width:100%; aspect-ratio:1/1; object-fit:cover; border:3px solid var(--border-color); border-radius:4px; background:#ddd; }
+        .card-polaroid2 img { aspect-ratio:4/5; }
+        .polaroid-text { position:absolute; bottom:4px; left:0; width:100%; text-align:center; font-size:0.6rem; font-weight:900; font-family:'Space Mono',monospace; text-transform:uppercase; letter-spacing:1px; }
+        .mini-tape { position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(-8deg);  width:50px; height:18px; background:rgba(255,255,255,0.9); border:2px solid #ccc; z-index:20; box-shadow:2px 2px 4px rgba(0,0,0,0.15); }
+        .pol-tape2 { position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(12deg);  width:50px; height:18px; background:rgba(204,255,0,0.9);   border:2px solid #bbb; z-index:20; }
+        .pol-tape3 { position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(-15deg); width:50px; height:18px; background:rgba(255,107,138,0.9); border:2px solid #bbb; z-index:20; }
+        .pol-tape4 { position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(6deg);   width:50px; height:18px; background:rgba(255,224,51,0.9);  border:2px solid #bbb; z-index:20; }
+        .pol-tape5 { position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(-10deg); width:50px; height:18px; background:rgba(0,180,255,0.9);   border:2px solid #bbb; z-index:20; }
+        .polaroid-ph {
+            width:100%; aspect-ratio:4/5;
+            border:3px dashed #c5c5c5; border-radius:4px;
+            background:repeating-linear-gradient(45deg,#f7f7f7,#f7f7f7 5px,#eeeeee 5px,#eeeeee 10px);
+            display:flex; flex-direction:column; justify-content:center; align-items:center; gap:4px;
+            color:#bbb; font-size:1.3rem;
         }
-        .browser-topbar { background: #222; padding: 8px 12px; display: flex; align-items: center; gap: 6px; border-bottom: 3px solid var(--accent-green); }
-        .b-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #444; flex-shrink: 0; }
-        .b-dot.r { background: #ff5f57; border-color: #ff5f57; }
-        .b-dot.y { background: #ffbd2e; border-color: #ffbd2e; }
-        .b-dot.g { background: var(--accent-green); border-color: var(--accent-green); }
-        .browser-url { flex: 1; background: #333; border: 2px solid #555; border-radius: 6px; padding: 2px 8px; font-size: 0.6rem; font-family: 'Space Mono', monospace; color: #aaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .browser-body { padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-        .browser-body span { font-size: 1rem; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: #fff; }
-        .web-glow { color: var(--accent-green); font-size: 1.6rem; animation: pulse 1.2s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px var(--accent-green)); } 50% { transform: scale(1.25); filter: drop-shadow(0 0 10px var(--accent-green)); } }
+        .polaroid-ph span { font-size:0.45rem; font-weight:900; font-family:'Space Mono',monospace; text-transform:uppercase; color:#ccc; text-align:center; line-height:1.4; }
 
-        /* ——— STIKER DEKORASI ——— */
-        .sticker { position: absolute; z-index: 26; filter: drop-shadow(4px 4px 0px #000); animation: popIn 0.6s forwards, floatAnim 3s ease-in-out infinite alternate; opacity: 0; pointer-events: none; }
-        .st-1  { top: 4%;  left: 43%;  animation-delay: 0.9s;  --rot: 18deg;  --float-dur: 2.5s; font-size: 3rem; }
-        .st-2  { top: 33%; right: 18%; animation-delay: 1.0s;  --rot: -22deg; --float-dur: 3.1s; font-size: 3.5rem; }
-        .st-3  { top: 70%; left: 51%;  animation-delay: 1.1s;  --rot: 12deg;  --float-dur: 2.9s; font-size: 2.8rem; }
-        .st-4  { top: 88%; right: 20%; animation-delay: 1.2s;  --rot: -15deg; --float-dur: 2.6s; font-size: 3rem; }
-        .st-5  { top: 55%; left: 21%;  animation-delay: 1.3s;  --rot: 25deg;  --float-dur: 3.3s; font-size: 2.5rem; }
-        .st-6  { top: 16%; left: 53%;  animation-delay: 1.4s;  --rot: -10deg; --float-dur: 2.8s; font-size: 3.2rem; }
-        .st-7  { top: 82%; left: 21%;  animation-delay: 1.5s;  --rot: 8deg;   --float-dur: 3.6s; font-size: 2.7rem; }
-        .st-8  { top: 2%;  right: 33%; animation-delay: 1.6s;  --rot: -20deg; --float-dur: 3.0s; font-size: 2.5rem; }
-        .st-9  { top: 50%; right: 20%; animation-delay: 1.7s;  --rot: 16deg;  --float-dur: 2.7s; font-size: 2.9rem; }
-        .st-10 { top: 92%; left: 45%;  animation-delay: 1.8s;  --rot: -8deg;  --float-dur: 3.4s; font-size: 2.4rem; }
+        /* ═══ STIKER — di celah kosong antar kolom ═══ */
+        .sticker { position:absolute; z-index:26; filter:drop-shadow(4px 4px 0 #000); animation:popIn 0.6s forwards, floatAnim 3s ease-in-out infinite alternate; opacity:0; pointer-events:none; }
+        .st-1  { top:4%;  left:42%;        animation-delay:0.95s; --rot: 18deg; --float-dur:2.5s; font-size:2.5rem; }
+        .st-2  { top:42%; right:17%;       animation-delay:1.05s; --rot:-20deg; --float-dur:3.1s; font-size:2.8rem; }
+        .st-3  { top:60%; left:52%;        animation-delay:1.15s; --rot: 14deg; --float-dur:2.9s; font-size:2.4rem; }
+        .st-4  { top:87%; right:18%;       animation-delay:1.2s;  --rot:-14deg; --float-dur:2.6s; font-size:2.6rem; }
+        .st-5  { top:55%; left:22%;        animation-delay:1.3s;  --rot: 25deg; --float-dur:3.3s; font-size:2.2rem; }
+        .st-6  { top:14%; left:63%;        animation-delay:1.4s;  --rot:-10deg; --float-dur:2.8s; font-size:2.8rem; }
+        .st-7  { top:83%; left:22%;        animation-delay:1.5s;  --rot:  8deg; --float-dur:3.6s; font-size:2.4rem; }
+        .st-8  { top:2%;  right:34%;       animation-delay:1.6s;  --rot:-18deg; --float-dur:3.0s; font-size:2.2rem; }
+        .st-9  { top:54%; right:17%;       animation-delay:1.7s;  --rot: 16deg; --float-dur:2.7s; font-size:2.5rem; }
+        .st-10 { top:90%; left:47%;        animation-delay:1.8s;  --rot: -7deg; --float-dur:3.4s; font-size:2.2rem; }
 
-        /* ——— HINT TOP ——— */
+        .starburst { position:absolute; pointer-events:none; z-index:3; animation:spinStar 8s linear infinite; font-size:2rem; opacity:0.2; }
+        .sb-1{top:10%;left:9%;animation-duration:7s;font-size:2.2rem}
+        .sb-2{top:62%;right:9%;animation-duration:9s;font-size:1.8rem}
+        .sb-3{top:87%;left:40%;animation-duration:6s;font-size:1.6rem}
+        @keyframes spinStar{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
         .hint-text {
-            position: absolute; top: 1.5%; left: 50%; transform: translateX(-50%);
-            font-size: 0.85rem; font-weight: 900; color: #111; background: var(--accent-yellow);
-            padding: 6px 24px; border-radius: 30px; border: 4px solid #111; z-index: 100;
-            text-transform: uppercase; box-shadow: 5px 5px 0 #111; pointer-events: none;
-            animation: bounceTop 1.8s ease-in-out infinite; white-space: nowrap; letter-spacing: 2px;
+            position:absolute; top:1.2%; left:50%; transform:translateX(-50%);
+            font-size:0.8rem; font-weight:900; color:#111; background:var(--accent-yellow);
+            padding:5px 22px; border-radius:30px; border:4px solid #111; z-index:100;
+            text-transform:uppercase; box-shadow:5px 5px 0 #111; pointer-events:none;
+            animation:bounceTop 1.8s ease-in-out infinite; white-space:nowrap; letter-spacing:2px;
         }
-        @keyframes bounceTop { 0%, 100% { top: 1.5%; } 50% { top: 2.3%; } }
-
-        /* ——— STAR BURST DECO ——— */
-        .starburst {
-            position: absolute; pointer-events: none; z-index: 3;
-            animation: spinStar 8s linear infinite;
-            font-size: 2rem; opacity: 0.25;
-        }
-        .sb-1 { top: 10%; left: 9%; animation-duration: 7s; font-size: 2.5rem; }
-        .sb-2 { top: 60%; right: 9%; animation-duration: 9s; font-size: 2rem; }
-        .sb-3 { top: 85%; left: 38%; animation-duration: 6s; font-size: 1.8rem; }
-        @keyframes spinStar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* ——— SCAN LINE VIBE ——— */
-        .scanline { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px); }
-
+        @keyframes bounceTop{0%,100%{top:1.2%}50%{top:1.9%}}
     </style>
 </head>
 <body>
 
-    <!-- CURSOR -->
     <div class="cursor-dot" id="cursorDot"></div>
 
-    <!-- AUDIO -->
     <audio id="bg-audio" loop preload="auto">
         <source src="music/hbd.mp3" type="audio/mpeg" />
     </audio>
-
-    <!-- MUSIK BTN -->
     <button class="music-btn" id="musicToggle">🎵 PLAY</button>
 
-    <!-- CANVAS -->
     <canvas id="bg-canvas"></canvas>
-
-    <!-- EMOJI MELAYANG -->
     <div class="floating-emojis" id="floating-emojis"></div>
 
-    <!-- ====================================================
-         CONTAINER UTAMA — LAPTOP ONLY 🖥️
-         ==================================================== -->
     <div class="story-container">
-
         <div class="scanline"></div>
-
-        <!-- HINT -->
         <div class="hint-text">✨ KLIK KOTAK MANAPUN UNTUK BUKA ✨</div>
 
-        <!-- PITA 1 KUNING -->
+        <!-- TIGA PITA MARQUEE -->
         <div class="tape-marquee">
-            <div class="tape-content">
-                HBD PRINCESS • 200408 • A SPECIAL DAY • KLIK KOTAKNYA • HBD PRINCESS • 200408 • A SPECIAL DAY • KLIK KOTAKNYA •&nbsp;
-            </div>
+            <div class="tape-content">HBD PRINCESS • 200408 • A SPECIAL DAY • KLIK KOTAKNYA • HBD PRINCESS • 200408 • A SPECIAL DAY • KLIK KOTAKNYA •&nbsp;</div>
         </div>
-
-        <!-- PITA 2 PINK -->
         <div class="tape-marquee-2">
-            <div class="tape-content-rev">
-                SURPRISE INSIDE • MADE WITH POPOY • HAPPY BIRTHDAY ANGGI • SURPRISE INSIDE • MADE WITH POPOY • HAPPY BIRTHDAY ANGGI •&nbsp;
-            </div>
+            <div class="tape-content-rev">SURPRISE INSIDE • MADE WITH POPOY • HAPPY BIRTHDAY ANGGI • SURPRISE INSIDE • MADE WITH POPOY • HAPPY BIRTHDAY ANGGI •&nbsp;</div>
         </div>
-
-        <!-- PITA 3 HIJAU (BARU) -->
         <div class="tape-marquee-3">
-            <div class="tape-content">
-                💖 FOR YOU • WITH LOVE • 20 APRIL 2008 • SPECIAL EDITION • 💖 FOR YOU • WITH LOVE • 20 APRIL 2008 • SPECIAL EDITION •&nbsp;
-            </div>
+            <div class="tape-content">💖 FOR YOU • WITH LOVE • 20 APRIL 2008 • SPECIAL EDITION • 💖 FOR YOU • WITH LOVE • 20 APRIL 2008 •&nbsp;</div>
         </div>
 
-        <!-- STARBURST DECO -->
         <div class="starburst sb-1">✦</div>
         <div class="starburst sb-2">✦</div>
         <div class="starburst sb-3">✦</div>
 
-        <!-- ─── 1. KARTU LOGIN → index.html ─── -->
+        <!-- ROW 1 -->
         <a href="index.html" class="s-card card-login">
             <h1>Level Up Your Day With Our Website</h1>
             <p>🌐 Buka Website Utama</p>
         </a>
 
-        <!-- ─── 2. POLAROID 1 → story1.html ─── -->
-        <a href="story1.html" class="s-card card-polaroid1">
-            <div class="mini-tape"></div>
-            <img src="img/foto2.jpg" alt="Awal Ketemu"
-                 onerror="this.outerHTML='<div style=\'width:100%;aspect-ratio:1/1;background:var(--accent-orange);border:3px solid #111;display:flex;justify-content:center;align-items:center;font-size:3rem;\'>📸</div>'">
-            <div class="polaroid-text">Awal Cerita</div>
-        </a>
-
-        <!-- ─── 3. POLAROID 3 BARU (kosong) → story2.html ─── -->
         <a href="story2.html" class="s-card card-polaroid3">
-            <div class="polaroid-tape3"></div>
+            <div class="pol-tape3"></div>
             <div class="polaroid-ph">📸<span>edit foto<br>di github</span></div>
             <div class="polaroid-text">Momen 3</div>
         </a>
 
-        <!-- ─── 4. POLAROID 5 BARU (kosong) → suprise.html ─── -->
-        <a href="suprise.html" class="s-card card-polaroid5">
-            <div class="polaroid-tape5"></div>
-            <div class="polaroid-ph">📸<span>edit foto<br>di github</span></div>
-            <div class="polaroid-text">Spesial</div>
-        </a>
-
-        <!-- ─── 5. FLAPPY → flapy.html ─── -->
-        <a href="flapy.html" class="s-card card-flappy">
-            <div class="icon">🐦</div>
-            <div>
-                <h3>Flapy Anggie</h3>
-                <small>Berani coba? 😏</small>
-            </div>
-        </a>
-
-        <!-- ─── 6. 2048 → 200408.html ─── -->
-        <a href="200408.html" class="s-card card-2048">
-            <div class="icon">🧩</div>
-            <div>
-                <h3>Game 2048</h3>
-                <small>200408 🎂</small>
-            </div>
-        </a>
-
-        <!-- ─── 7. CHAT CARD (MAKIN RAME) → happybirthday.html ─── -->
         <a href="happybirthday.html" class="s-card card-chat">
             <div class="chat-header">
                 <div class="chat-avatar">🤖</div>
-                <div>
-                    <h3>💬 Chat & AI Asisten</h3>
-                </div>
+                <h3>💬 Chat & AI Asisten</h3>
                 <span>ONLINE 🟢</span>
             </div>
             <div class="chat-bubbles">
@@ -442,37 +367,57 @@
                 <div class="chat-bubble chat-right">ya iyalah, udah gede sekarang 🎉😄</div>
                 <div class="chat-bubble chat-left">hush!! 😤 semua tau gitu</div>
                 <div class="chat-typing">
-                    <div class="dot-type"></div>
-                    <div class="dot-type"></div>
-                    <div class="dot-type"></div>
+                    <div class="dot-type"></div><div class="dot-type"></div><div class="dot-type"></div>
                 </div>
             </div>
         </a>
 
-        <!-- ─── 8. POLAROID 2 (Kado) → suprise.html ─── -->
+        <a href="suprise.html" class="s-card card-polaroid5">
+            <div class="pol-tape5"></div>
+            <div class="polaroid-ph">📸<span>edit foto<br>di github</span></div>
+            <div class="polaroid-text">Spesial</div>
+        </a>
+
+        <a href="story1.html" class="s-card card-polaroid1">
+            <div class="mini-tape"></div>
+            <img src="img/foto2.jpg" alt="Awal Ketemu"
+                 onerror="this.outerHTML='<div style=\'width:100%;aspect-ratio:1/1;background:var(--accent-orange);border:3px solid #111;display:flex;justify-content:center;align-items:center;font-size:3rem;\'>📸</div>'">
+            <div class="polaroid-text">Awal Cerita</div>
+        </a>
+
+        <!-- ROW 2 -->
+        <a href="flapy.html" class="s-card card-flappy">
+            <div class="icon">🐦</div>
+            <div><h3>Flapy Anggie</h3><small>Berani coba? 😏</small></div>
+        </a>
+
         <a href="suprise.html" class="s-card card-polaroid2">
-            <div class="polaroid-tape2"></div>
+            <div class="pol-tape2"></div>
             <img src="img/ayam.jpeg" alt="Kado"
                  onerror="this.outerHTML='<div style=\'width:100%;aspect-ratio:4/5;background:var(--accent-purple);border:3px solid #111;display:flex;justify-content:center;align-items:center;font-size:3rem;\'>🎁</div>'">
             <div class="polaroid-text">KADO</div>
         </a>
 
-        <!-- ─── 9. CHAPTERS → story1/2/3.html ─── -->
+        <!-- ROW 3 -->
+        <a href="200408.html" class="s-card card-2048">
+            <div class="icon">🧩</div>
+            <div><h3>Game 2048</h3><small>200408 🎂</small></div>
+        </a>
+
         <div class="s-card card-chapters">
             <h4>📚 Our Story</h4>
             <a href="story1.html" class="ch-box">📖 CH 1: Awal</a>
             <a href="story2.html" class="ch-box">📖 CH 2: Tengah</a>
-            <a href="story3.html" class="ch-box" style="background: var(--accent-yellow);">👑 CH 3: Alasan</a>
+            <a href="story3.html" class="ch-box" style="background:var(--accent-yellow)">👑 CH 3: Alasan</a>
         </div>
 
-        <!-- ─── 10. POLAROID 4 BARU (kosong) → story3.html ─── -->
         <a href="story3.html" class="s-card card-polaroid4">
-            <div class="polaroid-tape4"></div>
+            <div class="pol-tape4"></div>
             <div class="polaroid-ph">📸<span>edit foto<br>di github</span></div>
             <div class="polaroid-text">Momen 4</div>
         </a>
 
-        <!-- STIKER HIASAN (10 stiker!!) -->
+        <!-- STIKER x10 -->
         <div class="sticker st-1">✨</div>
         <div class="sticker st-2">💌</div>
         <div class="sticker st-3">🤫</div>
@@ -484,7 +429,7 @@
         <div class="sticker st-9">🫶</div>
         <div class="sticker st-10">🍰</div>
 
-        <!-- ─── 11. WEBSITE CARD (ganti NFC/Android) → suprise.html ─── -->
+        <!-- BOT: WEBSITE CARD -->
         <a href="suprise.html" class="s-card card-website">
             <div class="browser-topbar">
                 <div class="b-dot r"></div>
@@ -497,136 +442,100 @@
                 <div class="web-glow">🌐</div>
             </div>
         </a>
-
-    </div><!-- end story-container -->
+    </div>
 
     <script>
-        // =========================================================================
-        // 1. CURSOR CUSTOM + SPARKLE TRAIL
-        // =========================================================================
+        // CURSOR
         const cursorDot = document.getElementById('cursorDot');
         const sparkColors = ['#ff3d6b','#ffe033','#00b4ff','#ccff00','#c299fc','#ff7a1a'];
         let lastSpark = 0;
-
-        document.addEventListener('mousemove', (e) => {
+        document.addEventListener('mousemove', e => {
             cursorDot.style.left = e.clientX + 'px';
             cursorDot.style.top  = e.clientY + 'px';
-
             const now = Date.now();
-            if (now - lastSpark > 60) {
+            if (now - lastSpark > 65) {
                 lastSpark = now;
-                const spark = document.createElement('div');
-                spark.className = 'cursor-spark';
-                spark.style.left = e.clientX + 'px';
-                spark.style.top  = e.clientY + 'px';
-                spark.style.background = sparkColors[Math.floor(Math.random() * sparkColors.length)];
-                spark.style.width  = (Math.random() * 10 + 5) + 'px';
-                spark.style.height = spark.style.width;
-                document.body.appendChild(spark);
-                setTimeout(() => spark.remove(), 500);
+                const s = document.createElement('div');
+                s.className = 'cursor-spark';
+                const sz = (Math.random()*9+4) + 'px';
+                s.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;background:${sparkColors[Math.floor(Math.random()*sparkColors.length)]};width:${sz};height:${sz}`;
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 500);
             }
         });
 
-        // =========================================================================
-        // 2. MUSIK
-        // =========================================================================
-        const bgAudio = document.getElementById('bg-audio');
+        // MUSIK
+        const bgAudio  = document.getElementById('bg-audio');
         const musicBtn = document.getElementById('musicToggle');
         let isMusicPlaying = false;
-
         function toggleMusic() {
-            if (isMusicPlaying) {
-                bgAudio.pause();
-                musicBtn.innerHTML = '🎵 PLAY';
-                musicBtn.classList.remove('playing');
-            } else {
-                bgAudio.volume = 0.45;
-                bgAudio.play().catch(()=>{});
-                musicBtn.innerHTML = '🎵 STOP';
-                musicBtn.classList.add('playing');
-            }
+            if (isMusicPlaying) { bgAudio.pause(); musicBtn.innerHTML='🎵 PLAY'; musicBtn.classList.remove('playing'); }
+            else { bgAudio.volume=0.45; bgAudio.play().catch(()=>{}); musicBtn.innerHTML='🎵 STOP'; musicBtn.classList.add('playing'); }
             isMusicPlaying = !isMusicPlaying;
         }
         musicBtn.addEventListener('click', toggleMusic);
-        document.body.addEventListener('click', (e) => {
+        document.body.addEventListener('click', e => {
             if (!isMusicPlaying && e.target.id !== 'musicToggle') {
-                bgAudio.volume = 0.45;
-                bgAudio.play().then(() => {
-                    isMusicPlaying = true;
-                    musicBtn.innerHTML = '🎵 STOP';
-                    musicBtn.classList.add('playing');
-                }).catch(()=>{});
+                bgAudio.volume=0.45;
+                bgAudio.play().then(()=>{ isMusicPlaying=true; musicBtn.innerHTML='🎵 STOP'; musicBtn.classList.add('playing'); }).catch(()=>{});
             }
-        }, { once: true });
+        }, { once:true });
 
-        // =========================================================================
-        // 3. CANVAS PARTICLE SYSTEM — 100 PARTIKEL, MULTI SHAPE
-        // =========================================================================
+        // CANVAS PARTIKEL
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         const pColors = ['#ff3d6b','#00b4ff','#ffe033','#ccff00','#c299fc','#ff7a1a','#fff'];
-
         class Particle {
-            constructor() { this.reset(true); }
-            reset(init) {
+            constructor(){ this.reset(true); }
+            reset(init){
                 this.x = Math.random() * canvas.width;
                 this.y = init ? Math.random() * canvas.height : canvas.height + 20;
-                this.size  = Math.random() * 12 + 4;
+                this.size   = Math.random() * 11 + 4;
                 this.speedY = Math.random() * 1 + 0.5;
                 this.speedX = (Math.random() - 0.5) * 1.5;
-                this.color = pColors[Math.floor(Math.random() * pColors.length)];
-                this.angle = Math.random() * 360;
-                this.spin  = (Math.random() - 0.5) * 4;
-                this.shape = ['rect','circle','tri'][Math.floor(Math.random() * 3)];
+                this.color  = pColors[Math.floor(Math.random() * pColors.length)];
+                this.angle  = Math.random() * 360;
+                this.spin   = (Math.random() - 0.5) * 4;
+                this.shape  = ['rect','circle','tri'][Math.floor(Math.random() * 3)];
             }
-            update() {
+            update(){
                 this.y -= this.speedY; this.x += this.speedX; this.angle += this.spin;
                 if (this.y < -20) this.reset(false);
                 if (this.x < -20) this.x = canvas.width + 20;
                 if (this.x > canvas.width + 20) this.x = -20;
             }
-            draw() {
+            draw(){
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.angle * Math.PI / 180);
-                ctx.fillStyle = this.color;
-                ctx.strokeStyle = '#111'; ctx.lineWidth = 1.5;
+                ctx.fillStyle = this.color; ctx.strokeStyle = '#111'; ctx.lineWidth = 1.5;
                 ctx.beginPath();
-                if (this.shape === 'rect') {
-                    ctx.rect(-this.size/2, -this.size/2, this.size, this.size);
-                } else if (this.shape === 'circle') {
-                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
-                } else {
-                    const s = this.size / 2;
-                    ctx.moveTo(0, -s); ctx.lineTo(s, s); ctx.lineTo(-s, s); ctx.closePath();
-                }
+                const s = this.size / 2;
+                if (this.shape==='rect')   { ctx.rect(-s,-s,this.size,this.size); }
+                else if (this.shape==='circle') { ctx.arc(0,0,s,0,Math.PI*2); }
+                else { ctx.moveTo(0,-s); ctx.lineTo(s,s); ctx.lineTo(-s,s); ctx.closePath(); }
                 ctx.fill(); ctx.stroke();
                 ctx.restore();
             }
         }
-
-        function initCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        function initCanvas(){
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             particles = [];
-            for (let i = 0; i < 100; i++) particles.push(new Particle());
+            for (let i=0;i<100;i++) particles.push(new Particle());
         }
-        function animateCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
+        function animateCanvas(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            particles.forEach(p=>{ p.update(); p.draw(); });
             requestAnimationFrame(animateCanvas);
         }
         window.addEventListener('resize', initCanvas);
         initCanvas(); animateCanvas();
 
-        // =========================================================================
-        // 4. FLOATING EMOJI — LEBIH RAME
-        // =========================================================================
+        // FLOATING EMOJI
         const floatingBg = document.getElementById('floating-emojis');
         const emos = ['❤️','✨','📸','💖','🎁','💫','🎶','🌟','🎉','🥳','💕','🔥','🎂','🍰','🎊'];
-
-        function createFloatingEmoji() {
+        function createFloatingEmoji(){
             const el = document.createElement('div');
             el.classList.add('float-emo');
             el.innerText = emos[Math.floor(Math.random() * emos.length)];
@@ -636,29 +545,21 @@
             floatingBg.appendChild(el);
             setTimeout(() => el.remove(), 8000);
         }
-        setInterval(createFloatingEmoji, 350); // Lebih cepat!
+        setInterval(createFloatingEmoji, 380);
 
-        // =========================================================================
-        // 5. KONFFETI BURST PAS LOAD
-        // =========================================================================
+        // KONFETI BURST SAAT LOAD
         window.addEventListener('load', () => {
-            for (let i = 0; i < 40; i++) {
-                setTimeout(() => {
-                    const conf = document.createElement('div');
-                    conf.className = 'cursor-spark';
-                    conf.style.left = Math.random() * window.innerWidth + 'px';
-                    conf.style.top  = Math.random() * window.innerHeight + 'px';
-                    conf.style.background = pColors[Math.floor(Math.random() * pColors.length)];
-                    const sz = Math.random() * 16 + 6;
-                    conf.style.width  = sz + 'px';
-                    conf.style.height = sz + 'px';
-                    conf.style.animationDuration = '0.9s';
-                    document.body.appendChild(conf);
-                    setTimeout(() => conf.remove(), 900);
-                }, i * 40);
+            for (let i=0;i<50;i++){
+                setTimeout(()=>{
+                    const c = document.createElement('div');
+                    c.className = 'cursor-spark';
+                    const sz = (Math.random()*14+6)+'px';
+                    c.style.cssText = `left:${Math.random()*window.innerWidth}px;top:${Math.random()*window.innerHeight}px;background:${pColors[Math.floor(Math.random()*pColors.length)]};width:${sz};height:${sz};animation-duration:1s`;
+                    document.body.appendChild(c);
+                    setTimeout(()=>c.remove(),1000);
+                }, i * 35);
             }
         });
-
     </script>
 </body>
 </html>
